@@ -152,6 +152,12 @@ a:hover {
     font-weight: 500;
 }
 
+/* NEW: Hide mobile social links by default on desktop */
+.mobile-social-links {
+    display: none;
+}
+/* END NEW */
+
 .hamburger-menu {
     display: none;
     cursor: pointer;
@@ -242,7 +248,7 @@ a:hover {
     overflow: hidden;
     display: inline-block;
     vertical-align: bottom;
-    animation: typing 3.5s steps(50, end), blink-caret .75s step-end infinite;        
+    animation: typing 3.5s steps(16, end), blink-caret .75s step-end infinite;        
 }
 
 #hero p {
@@ -667,6 +673,25 @@ footer {
         color: var(--heading-color);
     }
     /* --- END MOBILE NAVIGATION --- */
+
+    /* NEW: Show and style mobile social links */
+    .mobile-social-links {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 40px; /* Adds space above the icons */
+    }
+
+    .mobile-social-links a {
+        font-size: 2.2rem;
+        color: var(--heading-color);
+        transition: color 0.3s ease;
+    }
+
+    .mobile-social-links a:hover {
+        color: var(--accent-color);
+    }
+    /* END NEW */
 
     /* Hero buttons vertical stack */
     .hero-content .btn {
