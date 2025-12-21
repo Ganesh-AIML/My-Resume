@@ -11,6 +11,7 @@
     --font-sans: 'Inter', sans-serif;
     --shadow: 0 4px 12px rgba(0,0,0,0.08);
     --shadow-hover: 0 8px 20px rgba(0,0,0,0.12);
+    --shadow-elevated: 0 20px 40px rgba(0,90,156,0.15);
 }
 
 /* Basic Reset */
@@ -313,129 +314,358 @@ a:hover {
     font-size: 1rem;
 }
 
-/* Experience Section (Tabbed) */
-.experience-container {
-    display: flex;
-    gap: 30px;
-    min-height: 350px;
-    max-width: 900px;
+/* ========================================
+   EXPERIENCE SECTION - SPOTLIGHT TIMELINE
+   ======================================== */
+
+#experience .experience-subtitle {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+#experience .experience-subtitle p {
+    color: #666;
+    font-size: 1.1rem;
+    max-width: 600px;
     margin: 0 auto;
 }
 
-.tabs {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
+/* Spotlight Timeline Layout */
+.spotlight-timeline {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 60px;
+    position: relative;
+    min-height: 600px;
 }
 
-.tab-button {
-    padding: 15px 25px;
+/* Timeline Navigation */
+.timeline-nav {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.timeline-track {
+    position: relative;
+    padding-left: 40px;
+}
+
+.timeline-track::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--accent-color) 0%, var(--border-color) 100%);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 40px;
     cursor: pointer;
-    border: none;
-    border-left: 2px solid var(--border-color);
-    background: none;
-    font-family: var(--font-sans);
+    transition: all 0.3s ease;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -33px;
+    top: 8px;
+    width: 16px;
+    height: 16px;
+    background: var(--white);
+    border: 3px solid var(--border-color);
+    border-radius: 50%;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 2;
+}
+
+.timeline-item.active .timeline-dot {
+    width: 20px;
+    height: 20px;
+    left: -35px;
+    top: 6px;
+    border-color: var(--accent-color);
+    background: var(--accent-color);
+    box-shadow: 0 0 0 6px rgba(0, 90, 156, 0.15);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0, 90, 156, 0.4); }
+    50% { box-shadow: 0 0 0 10px rgba(0, 90, 156, 0); }
+}
+
+.timeline-label {
+    padding: 8px 0;
+    transition: all 0.3s ease;
+}
+
+.timeline-label .role {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--heading-color);
+    margin-bottom: 4px;
+    transition: color 0.3s ease;
+}
+
+.timeline-label .org {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.timeline-item:hover .timeline-label .role {
+    color: var(--accent-color);
+    transform: translateX(5px);
+}
+
+.timeline-item.active .timeline-label .role {
+    color: var(--accent-color);
+    font-size: 1rem;
+}
+
+/* Spotlight Card */
+.spotlight-card-container {
+    position: relative;
+    min-height: 400px;
+}
+
+.spotlight-card {
+    position: absolute;
+    width: 100%;
+    background: var(--white);
+    border-radius: 16px;
+    padding: 25px 30px;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+}
+
+.spotlight-card.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow: var(--shadow-elevated);
+    pointer-events: all;
+    position: relative;
+}
+
+.exp-card-header {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--accent-light);
+}
+
+.card-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 8px;
+}
+
+.card-title h3 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    color: var(--heading-color);
+    margin-bottom: 4px;
+}
+
+.highlight-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    background: linear-gradient(135deg, var(--accent-color), #0077CC);
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 90, 156, 0.3);
+}
+
+.company-name {
+    font-size: 1.15rem;
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+.date-period {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 0.95rem;
+    margin-top: 4px;
+}
+
+.date-period i {
+    color: var(--accent-color);
+}
+
+/* Impact Metrics */
+.impact-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.metric-card {
+    background: var(--accent-light);
+    padding: 15px 12px;
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 90, 156, 0.15);
+}
+
+.metric-number {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    font-family: var(--font-serif);
+    display: block;
+    margin-bottom: 3px;
+}
+
+.metric-label {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
+}
+
+/* Key Achievements */
+.achievements-section {
+    margin: 20px 0;
+}
+
+.achievements-section h4 {
     font-size: 1.1rem;
-    text-align: left;
+    color: var(--heading-color);
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.achievement-list {
+    list-style: none;
+}
+
+.achievement-list li {
+    padding-left: 28px;
+    position: relative;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.achievement-list li::before {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-size: 0.9rem;
+}
+
+/* Tech Stack */
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.tech-badge {
+    padding: 6px 14px;
+    background: var(--white);
+    border: 1.5px solid var(--border-color);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
     color: var(--text-color);
     transition: all 0.3s ease;
 }
 
-.tab-button:hover {
-    background-color: var(--accent-light);
+.tech-badge:hover {
+    border-color: var(--accent-color);
     color: var(--accent-color);
+    transform: translateY(-2px);
 }
 
-.tab-button.active {
-    border-left: 2px solid var(--accent-color);
-    background-color: var(--accent-light);
-    color: var(--accent-color);
+/* Details Toggle */
+.details-toggle {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
 }
 
-.tab-content {
-    display: none;
-    padding: 10px;
-    width: 100%;
-}
-.tab-content.active { display: block; }
-.tab-content h3 { font-size: 1.5rem; }
-.tab-content .company { color: var(--accent-color); }
-.tab-content p.date { font-size: 0.9rem; margin-bottom: 20px; }
-.tab-content ul { list-style: none; }
-.tab-content ul li {
-    padding-left: 25px;
-    position: relative;
-    margin-bottom: 10px;
-}
-.tab-content ul li::before {
-    content: "▹";
-    position: absolute;
-    left: 0px;
-    color: var(--accent-color);
-    font-weight: bold;
-}
-
-/* ACCORDION "FOCUS VIEW" STYLES */
-.accordion-item {
-    border-bottom: 1px solid var(--border-color);
-    transition: opacity 0.3s ease, max-height 0.4s ease-out, visibility 0.3s ease;
-    overflow: hidden;
-    max-height: 70px; 
-}
-.accordion-item.active {
-    max-height: 500px; 
-}
-.accordion-item:last-child {
-    border-bottom: none;
-}
-.accordion-container.is-focused .accordion-item:not(.active) {
-    opacity: 0;
-    max-height: 0 !important;
-    visibility: hidden;
-    pointer-events: none;
-    border-width: 0;
-}
-
-.accordion-header {
-    width: 100%;
+.toggle-btn {
     background: none;
     border: none;
-    padding: 20px 5px;
-    text-align: left;
-    font-family: var(--font-sans);
-    font-size: 1.1rem;
+    color: var(--accent-color);
     font-weight: 600;
+    font-size: 0.95rem;
     cursor: pointer;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    color: var(--heading-color);
-    transition: color 0.3s ease;
+    gap: 8px;
+    padding: 10px 0;
+    transition: all 0.3s ease;
 }
-.accordion-header:hover {
-    color: var(--accent-color);
+
+.toggle-btn:hover {
+    gap: 12px;
 }
-.accordion-header::after {
-    content: '\f078';
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
+
+.toggle-btn i {
     transition: transform 0.3s ease;
-    font-size: 0.9rem;
 }
-.accordion-item.active .accordion-header::after {
+
+.toggle-btn.expanded i {
     transform: rotate(180deg);
 }
-.accordion-content {
+
+.details-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease-out;
+    transition: max-height 0.4s ease;
 }
-.accordion-content p {
-    padding: 0 5px 20px;
+
+.details-content.expanded {
+    max-height: 2000px;
+    margin-top: 20px;
+}
+
+.sub-item {
+    background: #F8F9FA;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    border-left: 3px solid var(--accent-color);
+}
+
+.sub-item h5 {
     font-size: 1rem;
+    color: var(--heading-color);
+    margin-bottom: 8px;
+}
+
+.sub-item p {
+    font-size: 0.95rem;
     line-height: 1.6;
 }
+
+/* ========================================
+   END EXPERIENCE SECTION
+   ======================================== */
 
 /* Projects Section */
 .project-grid {
@@ -621,6 +851,66 @@ footer {
      #hero .name {
         font-size: clamp(40px, 12vw, 60px);
     }
+
+    /* Experience section responsive */
+    .spotlight-timeline {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .timeline-nav {
+        position: relative;
+        top: 0;
+    }
+
+    .timeline-track {
+        display: flex;
+        overflow-x: auto;
+        padding: 20px 0;
+        padding-left: 0;
+        gap: 20px;
+        scroll-snap-type: x mandatory;
+    }
+
+    .timeline-track::before {
+        display: none;
+    }
+
+    .timeline-item {
+        flex-shrink: 0;
+        scroll-snap-align: start;
+        background: var(--white);
+        padding: 15px 20px;
+        border-radius: 10px;
+        border: 2px solid var(--border-color);
+        margin-bottom: 0;
+    }
+
+    .timeline-item.active {
+        border-color: var(--accent-color);
+        background: var(--accent-light);
+    }
+
+    .timeline-dot {
+        display: none;
+    }
+
+    .timeline-label .role {
+        font-size: 0.9rem;
+    }
+
+    .spotlight-card {
+        padding: 20px;
+    }
+
+    .card-title h3 {
+        font-size: 1.5rem;
+    }
+
+    .impact-metrics {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 15px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -708,7 +998,6 @@ footer {
         animation: typing 3.5s steps(30, end), blink-caret .75s step-end infinite;
     }
     
-    .experience-container { flex-direction: column; }
     .tabs {
         flex-direction: row;
         overflow-x: auto;
@@ -729,5 +1018,38 @@ footer {
         flex-direction: column;
         align-items: flex-start;
         gap: 15px;
+    }
+}
+
+@media (max-width: 640px) {
+    .spotlight-card {
+        padding: 18px;
+    }
+
+    .card-title h3 {
+        font-size: 1.3rem;
+    }
+
+    .impact-metrics {
+        gap: 12px;
+        margin: 15px 0;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .metric-number {
+        font-size: 1.6rem;
+    }
+
+    .highlight-badge {
+        font-size: 0.7rem;
+        padding: 5px 12px;
+    }
+
+    .metric-card {
+        padding: 12px 10px;
+    }
+
+    .achievements-section {
+        margin: 15px 0;
     }
 }

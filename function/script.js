@@ -40,51 +40,58 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- Experience Section Tabs ---
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabContents = document.querySelectorAll('.tab-content');
+    // --- EXPERIENCE SECTION: Timeline navigation ---
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    const spotlightCards = document.querySelectorAll('.spotlight-card');
 
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const targetId = button.getAttribute('data-target');
-            const targetContent = document.getElementById(targetId);
+    // Animate metrics on card activation
+    const animateMetrics = () => {
+        const activeCard = document.querySelector('.spotlight-card.active');
+        if (activeCard) {
+            const metrics = activeCard.querySelectorAll('.metric-number');
+            metrics.forEach((metric, index) => {
+                setTimeout(() => {
+                    metric.style.animation = 'none';
+                    setTimeout(() => {
+                        metric.style.animation = 'fadeInUp 0.6s ease forwards';
+                    }, 10);
+                }, index * 100);
+            });
+        }
+    };
 
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabContents.forEach(content => content.classList.remove('active'));
-
-            button.classList.add('active');
-            targetContent.classList.add('active');
+    // Timeline item click handler
+    timelineItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const experienceId = item.getAttribute('data-experience');
+            
+            // Remove active states
+            timelineItems.forEach(i => i.classList.remove('active'));
+            spotlightCards.forEach(card => card.classList.remove('active'));
+            
+            // Add active state
+            item.classList.add('active');
+            const targetCard = document.querySelector(`[data-card="${experienceId}"]`);
+            if (targetCard) {
+                targetCard.classList.add('active');
+                // Re-animate metrics on timeline click
+                setTimeout(animateMetrics, 100);
+            }
         });
     });
 
-    // --- "FOCUS VIEW" ACCORDION SCRIPT ---
-    const accordionContainer = document.querySelector('.accordion-container');
-    if (accordionContainer) {
-        const accordionItems = accordionContainer.querySelectorAll('.accordion-item');
-        accordionItems.forEach(item => {
-            const header = item.querySelector('.accordion-header');
-            const content = item.querySelector('.accordion-content');
+    // Trigger animation on initial load
+    animateMetrics();
 
-            header.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-
-                if (isActive) {
-                    item.classList.remove('active');
-                    accordionContainer.classList.remove('is-focused');
-                    content.style.maxHeight = null;
-                } else {
-                    accordionItems.forEach(otherItem => {
-                        otherItem.classList.remove('active');
-                        otherItem.querySelector('.accordion-content').style.maxHeight = null;
-                    });
-
-                    item.classList.add('active');
-                    accordionContainer.classList.add('is-focused');
-                    content.style.maxHeight = content.scrollHeight + 'px';
-                }
-            });
+    // --- EXPERIENCE SECTION: Toggle details ---
+    const toggleBtns = document.querySelectorAll('.toggle-btn');
+    toggleBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const content = btn.nextElementSibling;
+            btn.classList.toggle('expanded');
+            content.classList.toggle('expanded');
         });
-    }
+    });
 
     // --- IMAGE MODAL SCRIPT ---
     const modal = document.getElementById('image-modal');
