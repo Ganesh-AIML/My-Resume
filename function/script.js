@@ -77,9 +77,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Re-animate metrics on timeline click
                 setTimeout(animateMetrics, 100);
             }
+
+            // Mobile: Smooth scroll the clicked chip into view
+            if (window.innerWidth <= 768) {
+                const timelineNav = document.querySelector('.timeline-nav');
+                const itemRect = item.getBoundingClientRect();
+                const navRect = timelineNav.getBoundingClientRect();
+                const scrollLeft = timelineNav.scrollLeft;
+                const targetScroll = scrollLeft + itemRect.left - navRect.left - (navRect.width / 2) + (itemRect.width / 2);
+                
+                timelineNav.scrollTo({
+                    left: targetScroll,
+                    behavior: 'smooth'
+                });
+            }
         });
     });
-
     // Trigger animation on initial load
     animateMetrics();
 
