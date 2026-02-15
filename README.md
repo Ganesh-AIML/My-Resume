@@ -22,7 +22,7 @@ This portfolio serves as a comprehensive digital showcase of my professional exp
 
 - 🎨 **Modern Design** - Clean, professional aesthetic with smooth animations and transitions
 - 📱 **Fully Responsive** - Seamless experience across all devices (mobile, tablet, desktop)
-- 🎭 **Interactive UI** - Engaging elements including tabbed experience sections and accordion menus
+- 🎭 **Interactive UI** - Engaging elements including spotlight timeline and accordion menus
 - 📜 **Dynamic Content** - Certificate viewer modal and smooth scroll navigation
 - ⚡ **Performance Optimized** - Fast loading times with optimized assets
 - 🔗 **Social Integration** - Direct links to GitHub, LinkedIn, and email contact
@@ -39,6 +39,7 @@ Portfolio Website
 ├── Hero Section (Landing)
 ├── About Me
 ├── Work Experience
+│   ├── DRSGA (AI & ML Intern)
 │   ├── JACOB Coaching
 │   ├── Super-AI Community
 │   ├── Junoon Foundation
@@ -53,7 +54,7 @@ Portfolio Website
 1. **Navigation Bar** - Sticky header with smooth scroll links and hamburger menu for mobile
 2. **Hero Section** - Eye-catching introduction with profile image and call-to-action buttons
 3. **About Section** - Professional summary with interactive skills grid
-4. **Experience Section** - Tabbed interface showcasing work history and achievements
+4. **Experience Section** - Spotlight timeline interface showcasing work history and achievements
 5. **Projects Gallery** - Card-based layout highlighting key projects with tech stacks
 6. **Certificates Display** - Interactive viewer with modal popup for certificate images
 7. **Contact Section** - Simple, direct communication channel
@@ -91,9 +92,16 @@ portfolio/
 ├── function/
 │   └── script.js             # JavaScript functionality
 ├── assests/                  # Images and documents
-│   ├── pic1.png    # Profile picture
-│   ├── Ganesh_Resume.pdf     # Downloadable resume
-│   └── [certificates]/       # Certificate images
+│   ├── gemini_profile.png    # Profile picture
+│   ├── Ganesh_Singh_Resume.pdf
+│   ├── Codethon.png
+│   ├── Credtech certificate.png
+│   ├── DIPEX_Certificate(1).jpeg
+│   ├── Ideathon.jpeg
+│   ├── LOR.png
+│   ├── multicon.png
+│   ├── spoken tutorial certificate.png
+│   └── we hack certificate.png
 └── README.md                 # Project documentation
 ```
 
@@ -107,7 +115,8 @@ portfolio/
 - Sticky positioning for constant access
 
 ### 2. Interactive Experience Section
-- **Tab System** - Switch between different work experiences
+- **Spotlight Timeline** - Visual timeline navigation between experiences
+- **Dynamic Cards** - Switching spotlight cards with impact metrics
 - **Accordion Menu** - Expandable sections for hackathon details
 - **Smooth Transitions** - Fade effects for content switching
 
@@ -137,11 +146,11 @@ portfolio/
 - Closes on link click
 ```
 
-### Tab Navigation
+### Spotlight Timeline Navigation
 ```javascript
-- Dynamic content switching
+- Dynamic experience switching
 - Active state management
-- Smooth fade transitions
+- Smooth card transitions
 ```
 
 ### Accordion System
@@ -212,20 +221,25 @@ http://localhost:5500
 
 ### Work Experience
 Featuring roles at:
+- **DRSGA** - AI & ML Intern (Most Recent)
 - **JACOB Coaching** - Web Development (Freelance)
-- **Super-AI Community** - Secretary
-- **Junoon Foundation** - Educational Intern
-- **National Competitions** - 7 hackathons and research presentations
+- **Super-AI Community** - Secretary (Leadership)
+- **Junoon Foundation** - Resource Intern
+- **National Competitions** - 8+ hackathons and research presentations
 
 ### Projects
 Highlighted work:
-1. **Tourist Guardian Safety Platform** - Smart India Hackathon project
-2. **Alertica** - AI-powered women's safety app
-3. **MOOC Platform** - Full-stack e-learning system
+1. **ResQ-AI** - Smart Tourist Safety System with Flutter, React, and Blockchain
+2. **Exo-Classifier** - Exoplanet Detection & Habitability Classification
+3. **Tourist Guardian Safety Platform** - Smart India Hackathon project
+4. **Alertica** - AI-powered women's safety app
 
 ### Achievements
-- 7 certificates from various competitions and training programs
+- 8 certificates from various competitions and training programs
 - Recognition from IIT Kanpur, IIT Bombay, COEP, and TCET
+- NASA Space Apps Challenge 2025 - Global Nominee (Top 13 from India)
+- CredTech Hackathon 2025 - 2nd Prize
+- DIPEX 2025 - Finalist
 
 ---
 
