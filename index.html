@@ -138,6 +138,14 @@
               <p>SQL</p>
             </div>
             <div class="skill-card">
+              <i class="fab fa-docker"></i>
+              <p>Docker</p>
+            </div>
+            <div class="skill-card">
+              <i class="fas fa-server"></i>
+              <p>Redis & Nginx</p>
+            </div>
+            <div class="skill-card">
               <i class="fas fa-mobile-alt"></i>
               <p>Flutter</p>
             </div>
@@ -167,8 +175,16 @@
           <!-- Timeline Navigation -->
           <div class="timeline-nav">
             <div class="timeline-track">
-              <!-- DRSGA - Most Recent -->
-              <div class="timeline-item active" data-experience="drsga">
+              <!-- LifeRythem - Most Recent -->
+              <div class="timeline-item active" data-experience="liferythem">
+                <div class="timeline-dot"></div>
+                <div class="timeline-label">
+                  <div class="role">Software Dev Intern</div>
+                  <div class="org">LifeRythem</div>
+                </div>
+              </div>
+              <!-- DRSGA -->
+              <div class="timeline-item" data-experience="drsga">
                 <div class="timeline-dot"></div>
                 <div class="timeline-label">
                   <div class="role">AI & ML Intern</div>
@@ -192,7 +208,7 @@
               <div class="timeline-item" data-experience="junoon">
                 <div class="timeline-dot"></div>
                 <div class="timeline-label">
-                  <div class="role">Intern</div>
+                  <div class="role">Resource Intern</div>
                   <div class="org">Junoon Foundation</div>
                 </div>
               </div>
@@ -208,8 +224,53 @@
 
           <!-- Spotlight Cards -->
           <div class="spotlight-card-container">
+            <!-- LifeRythem -->
+            <div class="spotlight-card active" data-card="liferythem">
+              <div class="exp-card-header">
+                <div class="card-title-row">
+                  <div class="card-title">
+                    <h3>Software Development Intern</h3>
+                    <div class="company-name">@ LifeRythem</div>
+                  </div>
+                  <span class="highlight-badge">Current</span>
+                </div>
+                <div class="date-period">
+                  <i class="far fa-calendar"></i>
+                  <span>March 2026 – Present</span>
+                </div>
+              </div>
+
+              <div class="impact-metrics">
+                <div class="metric-card">
+                  <span class="metric-number">90%</span>
+                  <span class="metric-label">Detection Accuracy</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-number">4+</span>
+                  <span class="metric-label">IoT Devices</span>
+                </div>
+              </div>
+
+              <div class="achievements-section">
+                <h4>Key Achievements</h4>
+                <ul class="achievement-list">
+                  <li>Building a React Native APK with Kotlin native plugins integrating 4+ IoT medical devices (stethoscope, ECG, SpO2, weight machine) into a unified, streamlined doctor workflow system</li>
+                  <li>Engineered a CNN-based ML pipeline on stethoscope .wav auscultation data, achieving 90% detection accuracy for cardiac and pulmonary anomalies and enabling AI-assisted clinical diagnostics at the edge</li>
+                </ul>
+              </div>
+
+              <div class="tech-stack">
+                <span class="tech-badge">React Native</span>
+                <span class="tech-badge">Kotlin</span>
+                <span class="tech-badge">CNN</span>
+                <span class="tech-badge">TensorFlow/Keras</span>
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">IoT</span>
+              </div>
+            </div>
+
             <!-- DRSGA -->
-            <div class="spotlight-card active" data-card="drsga">
+            <div class="spotlight-card" data-card="drsga">
               <div class="exp-card-header">
                 <div class="card-title-row">
                   <div class="card-title">
@@ -478,6 +539,26 @@
           <div class="project-card">
             <div class="card-header">
               <div class="folder-icon"><i class="far fa-folder-open"></i></div>
+            </div>
+            <div class="card-body">
+              <h3>S.C.O.P.E. — Distributed Assessment Platform</h3>
+              <p>
+                A 4-role distributed assessment platform replacing third-party tools like HackerRank for institutional placement drives. Architected with Nginx least-conn load balancing, Redis async queuing, and Dockerized Judge0 execution nodes - validated at 0% failure rate across 40,000 requests at 200 concurrent connections, supporting 1,000+ concurrent users.
+              </p>
+              <ul class="tech-list">
+                <li>React</li>
+                <li>Node.js</li>
+                <li>PostgreSQL</li>
+                <li>Redis</li>
+                <li>Nginx</li>
+                <li>Docker</li>
+                <li>Judge0</li>
+              </ul>
+            </div>
+          </div>
+          <div class="project-card">
+            <div class="card-header">
+              <div class="folder-icon"><i class="far fa-folder-open"></i></div>
               <div class="card-links">
                 <a
                   href="https://github.com/Ganesh-AIML/ResQ-AI"
@@ -610,7 +691,7 @@
           </div>
           <div class="certificate-item">
             <div>
-              <h3>CredTech Hackathon (2nd Prize)</h3>
+              <h3>CredTech Hackathon (1st Runner-up)</h3>
               <p class="issuer">IIT Kanpur</p>
             </div>
             <button
