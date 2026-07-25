@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef, useMemo } from "react"
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, animate } from "motion/react"
+import { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "motion/react"
 import "./App.css"
 import RobotAssistant from "./RobotAssistant"
 import { SKILLS, EXPERIENCES, PROJECTS, CERTIFICATES } from "./loadPortfolioData"
@@ -131,7 +131,7 @@ function Header() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * i + 0.3 }}
                 onClick={() => setMenuOpen(false)}>
-                <span className="nav-num" />{item}
+                <span className="nav-num">0{i + 1}.</span>{item}
               </motion.a>
             </li>
           ))}
@@ -202,57 +202,13 @@ function Hero() {
   )
 }
 
-function SkillCard({ skill, index, hoveredIndex, onHoverStart, cols }) {
+function SkillCard({ skill }) {
   const cardRef = useRef(null)
   const mouseX = useMotionValue(0.5)
   const mouseY = useMotionValue(0.5)
-  const wave = useMotionValue(0)
 
   const rotateX = useSpring(useTransform(mouseY, [0, 1], [-6, 6]), { stiffness: 250, damping: 25 })
   const rotateY = useSpring(useTransform(mouseX, [0, 1], [6, -6]), { stiffness: 250, damping: 25 })
-
-  const intensity = useMemo(() => {
-    if (hoveredIndex === -1 || cols === undefined) return 0
-    const hRow = Math.floor(hoveredIndex / cols)
-    const hCol = hoveredIndex % cols
-    const row = Math.floor(index / cols)
-    const col = index % cols
-    const dist = Math.sqrt((row - hRow) ** 2 + (col - hCol) ** 2)
-    return 1 / (1 + dist * 0.2)
-  }, [hoveredIndex, index, cols])
-
-  useEffect(() => {
-    if (hoveredIndex === -1 || cols === undefined) {
-      const c = animate(wave, 0, { duration: 0.3, ease: "easeOut" })
-      return () => c.stop()
-    }
-    const hRow = Math.floor(hoveredIndex / cols)
-    const hCol = hoveredIndex % cols
-    const row = Math.floor(index / cols)
-    const col = index % cols
-    const dist = Math.sqrt((row - hRow) ** 2 + (col - hCol) ** 2)
-    const delay = Math.min(dist * 0.1, 0.8)
-    wave.jump(0)
-    const c = animate(wave, 1, {
-      duration: 1.0,
-      delay,
-      ease: "easeInOut",
-    })
-    return () => c.stop()
-  }, [hoveredIndex, index, cols])
-
-  const waveY = useTransform(wave, (v) => -10 * intensity * Math.sin(v * Math.PI))
-  const waveScale = useTransform(wave, (v) => 1 + 0.03 * intensity * Math.sin(v * Math.PI))
-  const waveBorder = useTransform(wave, (v) => {
-    const alpha = intensity * Math.sin(v * Math.PI)
-    if (alpha < 0.005) return ""
-    return `rgba(0, 90, 156, ${alpha})`
-  })
-  const waveBorderWidth = useTransform(wave, (v) => {
-    const alpha = intensity * Math.sin(v * Math.PI)
-    if (alpha < 0.005) return ""
-    return `${1 + alpha * 2}px`
-  })
 
   const handleMouseMove = (e) => {
     const rect = cardRef.current.getBoundingClientRect()
@@ -271,14 +227,12 @@ function SkillCard({ skill, index, hoveredIndex, onHoverStart, cols }) {
     <motion.div ref={cardRef} className="skill-card"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onHoverStart={() => onHoverStart(index)}
       variants={{
         hidden: { opacity: 0 },
         visible: { opacity: 1, transition: { duration: 0.4 } },
-        hover: { transition: { staggerChildren: 0.06 } },
       }}
-      style={{ rotateX, rotateY, y: waveY, scale: waveScale, borderColor: waveBorder, borderWidth: waveBorderWidth }}
-      whileHover="hover">
+      style={{ rotateX, rotateY }}
+      whileHover={{ scale: 1.05 }}>
       <motion.i className={skill.icon}
         variants={{ hover: { scale: 1.15, rotate: -8 } }}
         transition={{ type: "spring", stiffness: 300, damping: 10 }} />
@@ -289,23 +243,6 @@ function SkillCard({ skill, index, hoveredIndex, onHoverStart, cols }) {
 }
 
 function About() {
-  const [hoveredIndex, setHoveredIndex] = useState(-1)
-  const gridRef = useRef(null)
-  const [cols, setCols] = useState(4)
-
-  useEffect(() => {
-    const el = gridRef.current
-    if (!el) return
-    const updateCols = () => {
-      const template = getComputedStyle(el).gridTemplateColumns
-      setCols(template.split(" ").length)
-    }
-    updateCols()
-    const ro = new ResizeObserver(updateCols)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [])
-
   return (
     <motion.section id="about"
       variants={sectionVariants}
@@ -315,8 +252,7 @@ function About() {
       <h2><span className="section-num" /> About Me</h2>
       <div className="about-content">
         <p>I am a results-driven AI & ML student with a strong foundation in both software development and data science. My hands-on experience includes building full-stack applications and developing predictive models. I am passionate about applying my skills to create innovative and effective solutions, and I excel in collaborative environments.</p>
-        <motion.div ref={gridRef} className="skills-grid"
-          onMouseLeave={() => setHoveredIndex(-1)}
+        <motion.div className="skills-grid"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -324,10 +260,8 @@ function About() {
             hidden: {},
             visible: { transition: { staggerChildren: 0.05 } },
           }}>
-          {SKILLS.map((s, i) => (
-            <SkillCard key={s.name} skill={s} index={i} cols={cols}
-              hoveredIndex={hoveredIndex}
-              onHoverStart={setHoveredIndex} />
+          {SKILLS.map((s) => (
+            <SkillCard key={s.name} skill={s} />
           ))}
         </motion.div>
       </div>
@@ -530,6 +464,8 @@ function Experience() {
                 className={`timeline-item${activeId === exp.id ? " active" : ""}`}
                 data-id={exp.id}
                 onClick={() => handleTimelineClick(exp.id)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleTimelineClick(exp.id) } }}
+                role="button" tabIndex={0}
                 whileHover={{ x: 5 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}>
                 <div className="timeline-dot" />

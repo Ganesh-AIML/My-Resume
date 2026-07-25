@@ -6,10 +6,6 @@ import { ChatEngine } from "./chatService"
 const LOTTIE_URL =
   "https://assets-v2.lottiefiles.com/a/98a5f1ec-1164-11ee-b120-e331a2c2ea3f/EpJTjpZSlN.json"
 
-const DEFAULT_SUGGESTIONS = []
-
-
-
 function formatResponse(text) {
   return text.split("\n").map((line, i) => {
     const parts = line.split(/(\*\*[^*]+\*\*)/g).map((p, j) =>
@@ -112,6 +108,7 @@ export default function RobotAssistant() {
                   <div>
                     <p className="chat-title">Assistant</p>
                     <p className="chat-status">Online</p>
+                    <p className="chat-ai-notice">AI — may be inaccurate</p>
                   </div>
                 </div>
                 <button className="chat-close" onClick={() => setChatOpen(false)}><i className="fas fa-times" /></button>

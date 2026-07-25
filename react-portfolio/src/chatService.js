@@ -5,9 +5,11 @@ const API_KEY = import.meta.env.VITE_GROQ_API_KEY
 const API_URL = "https://api.groq.com/openai/v1/chat/completions"
 const MODEL = "llama-3.1-8b-instant"
 const CACHE_TTL = 3600000
-const MAX_TOKENS = 300
+const MAX_TOKENS = 600
 
 const cache = new Map()
+const MAX_HISTORY = 6
+let conversationHistory = []
 
 function normalize(q) {
   return q.toLowerCase().trim().replace(/[^\w\s]/g, "")
@@ -15,12 +17,8 @@ function normalize(q) {
 
 function getCached(query) {
   const key = normalize(query)
-  const exact = cache.get(key)
-  if (exact && Date.now() - exact.ts < CACHE_TTL) return exact.text
-  for (const [ck, entry] of cache) {
-    if (Date.now() - entry.ts > CACHE_TTL) continue
-    if (key.includes(ck) || ck.includes(key)) return entry.text
-  }
+  const entry = cache.get(key)
+  if (entry && Date.now() - entry.ts < CACHE_TTL) return entry.text
   return null
 }
 
@@ -29,7 +27,8 @@ function setCache(query, text) {
 }
 
 function tokenize(text) {
-  return text.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean)
+  const normalized = text.replace(/(\w)\.(\w)/g, '$1$2')
+  return normalized.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean)
 }
 
 const chunks = (() => {
@@ -43,9 +42,10 @@ const chunks = (() => {
     if (subSections.length > 1) {
       for (const sub of subSections) {
         const subLines = sub.trim().split("\n")
-        const subHeading = subLines[0].replace(/^### /, "").trim()
-        const subContent = subLines.slice(1).join("\n").trim()
-        const fullHeading = `${heading} > ${subHeading}`
+        const isSub = subLines[0].startsWith("###")
+        const subHeading = isSub ? subLines[0].replace(/^### /, "").trim() : heading
+        const subContent = subLines.slice(isSub ? 1 : 0).join("\n").trim()
+        const fullHeading = isSub ? `${heading} > ${subHeading}` : heading
         result.push({ heading: fullHeading, content: subContent, tokens: tokenize(`${fullHeading} ${subContent}`) })
       }
     } else {
@@ -84,11 +84,15 @@ function findRelevantChunks(query) {
   return scored.slice(0, 2)
 }
 
-function buildSystemPrompt(query) {
+function buildSystemPrompt(query, history = []) {
   const matched = findRelevantChunks(query)
   const context = matched.length
     ? matched.map((c) => `## ${c.heading}\n${c.content}`).join("\n\n")
-    : "No specific portfolio section matched. Answer based on general knowledge from Ganesh's portfolio."
+    : "No specific portfolio section matched. Do NOT guess or make up information. State that you cannot find this information in the portfolio and suggest the user ask about a specific known topic (projects, experience, skills, certifications, education, or contact)."
+
+  const historyBlock = history.length
+    ? `## Conversation History (for context only)\n${history.map((m) => `${m.role}: ${m.text}`).join("\n")}`
+    : ""
 
   return `You are the AI assistant for Ganesh Singh's personal portfolio.
 
@@ -118,15 +122,15 @@ Speak as Ganesh's portfolio assistant. Use phrases like "According to Ganesh's p
 
 Always check: every technology and number mentioned must exist in the retrieved context. Never leave sentences incomplete.
 
+${historyBlock}
+
 ## Retrieved Context
 
 ${context}
 
-## Always Available
-
-Ganesh's skills: ${SKILLS.map((s) => s.name).join(", ")}
-
-Only mention skills if relevant to the question. Do not list all skills unless asked.`
+${query.match(/\b(skill|know|tech stack|expertise|proficient|technologies?|good at|work with|familiar|background|stack)\b/i)
+    ? `## Always Available\n\nGanesh's skills: ${SKILLS.map((s) => s.name).join(", ")}\n\nOnly mention skills if relevant to the question. Do not list all skills unless asked.`
+    : ""}`
 }
 
 async function callGroq(messages) {
@@ -139,7 +143,7 @@ async function callGroq(messages) {
     body: JSON.stringify({
       model: MODEL,
       messages,
-      temperature: 0.7,
+      temperature: 0.1,
       max_tokens: MAX_TOKENS,
     }),
   })
@@ -157,13 +161,27 @@ export async function ChatEngine(query) {
   }
 
   const cached = getCached(query)
-  if (cached) return cached
+  if (cached) {
+    conversationHistory.push({ role: "user", text: query })
+    conversationHistory.push({ role: "assistant", text: cached })
+    if (conversationHistory.length > MAX_HISTORY * 2) {
+      conversationHistory = conversationHistory.slice(-MAX_HISTORY * 2)
+    }
+    return cached
+  }
 
-  const systemPrompt = buildSystemPrompt(query)
+  const systemPrompt = buildSystemPrompt(query, conversationHistory)
   const reply = await callGroq([
     { role: "system", content: systemPrompt },
+    ...conversationHistory.map((m) => ({ role: m.role, content: m.text })),
     { role: "user", content: query },
   ])
+
+  conversationHistory.push({ role: "user", text: query })
+  conversationHistory.push({ role: "assistant", text: reply })
+  if (conversationHistory.length > MAX_HISTORY * 2) {
+    conversationHistory = conversationHistory.slice(-MAX_HISTORY * 2)
+  }
 
   setCache(query, reply)
   return reply
