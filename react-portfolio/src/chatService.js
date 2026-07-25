@@ -122,6 +122,21 @@ Speak as Ganesh's portfolio assistant. Use phrases like "According to Ganesh's p
 
 Always check: every technology and number mentioned must exist in the retrieved context. Never leave sentences incomplete.
 
+## Markdown Formatting
+
+Format your response using Markdown for readability. Use the following syntax:
+- **Bold** for emphasis: \`**text**\`
+- Bullet lists with \`-\` for unordered items
+- Numbered lists with \`1.\` for ordered items
+- \`inline code\` for technical terms, commands, or code references
+- Code blocks with triple backticks \`\`\` for multi-line code snippets
+- [links](url) for clickable references
+- Tables with pipe syntax for structured data
+- > blockquotes for quotes or callouts
+- Sections with headings when response is long (4+ sentences)
+- Horizontal rules between distinct sections when helpful
+- Use *italic* for mild emphasis sparingly
+
 ${historyBlock}
 
 ## Retrieved Context

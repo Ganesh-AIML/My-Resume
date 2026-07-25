@@ -1,20 +1,31 @@
 import { useState, useRef, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "motion/react"
 import { DotLottieReact } from "@lottiefiles/dotlottie-react"
+import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm"
 import { ChatEngine } from "./chatService"
 
 const LOTTIE_URL =
   "https://assets-v2.lottiefiles.com/a/98a5f1ec-1164-11ee-b120-e331a2c2ea3f/EpJTjpZSlN.json"
 
-function formatResponse(text) {
-  return text.split("\n").map((line, i) => {
-    const parts = line.split(/(\*\*[^*]+\*\*)/g).map((p, j) =>
-      p.startsWith("**") && p.endsWith("**") ? <strong key={j}>{p.slice(2, -2)}</strong> : p
-    )
-    if (line.trim() === "") return <br key={i} />
-    if (line.startsWith("- ")) return <li key={i} style={{ marginBottom: 6, listStyle: "none" }}>{parts}</li>
-    return <p key={i} style={{ margin: "4px 0" }}>{parts}</p>
-  })
+function MarkdownRenderer({ content }) {
+  return (
+    <div className="markdown-body">
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={{
+          a: ({ href, children }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>
+          ),
+          img: ({ src, alt }) => (
+            <img src={src} alt={alt || ""} className="markdown-img" loading="lazy" />
+          ),
+        }}
+      >
+        {content}
+      </ReactMarkdown>
+    </div>
+  )
 }
 
 function TypingDots() {
@@ -122,7 +133,7 @@ export default function RobotAssistant() {
                         <DotLottieReact src={LOTTIE_URL} autoplay loop speed={0.6} layout={{ fit: "contain", align: [0.5, 0.65] }} />
                       </div>
                     )}
-                    <div className="msg-bubble">{formatResponse(msg.text)}</div>
+                    <div className="msg-bubble">{msg.role === "bot" ? <MarkdownRenderer content={msg.text} /> : msg.text}</div>
                   </div>
                 ))}
                 {isTyping && (

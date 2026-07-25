@@ -138,7 +138,7 @@ Java, Python, Spring Boot, Machine Learning, Blockchain, Node.js, SQL, Docker, R
 
 ### Overview
 
-S.C.O.P.E. (Secure Competitive Online Platform for Examinations) is a full-stack exam platform built for the Training & Placement department at Thakur College of Engineering and Technology (TCET), Mumbai. It is a self-hosted, on-premise system that runs inside the college LAN. The platform supports 500+ concurrent students with role-based access for students, teachers, T&P faculty, and super administrators. It includes live code execution via Judge0 across 10 distributed nodes, MCQ testing with aptitude and technical sections, real-time exam monitoring via WebSockets, and anti-cheat enforcement via Safe Exam Browser (SEB). Built by Anuj Singh, Ganesh Singh, and Aniket Bhaskar.
+S.C.O.P.E. (Secure Competitive Online Platform for Examinations) is a full-stack exam platform built for the Training & Placement department at Thakur College of Engineering and Technology (TCET), Mumbai. It is a self-hosted, on-premise system that runs inside the college LAN. The platform supports 1000+ concurrent students with role-based access for students, teachers, T&P faculty, and super administrators. It includes live code execution via Judge0 across 10 distributed nodes, MCQ testing with aptitude and technical sections, real-time exam monitoring via WebSockets, and anti-cheat enforcement via Safe Exam Browser (SEB). Built by Anuj Singh, Ganesh Singh, and Aniket Bhaskar.
 
 ### Timeline
 
@@ -421,7 +421,7 @@ No explicit future improvements documented in the repository.
 
 ### GitHub
 
-- Repository: https://github.com/anujsingh3005/SCOPE
+- Repository: https://github.com/Ganesh-AIML/SCOPE.git
 - Branch: main
 - Latest commit: 014f78d — "Create README.md for SCOPE project"
 - Total commits visible: ~26
@@ -1308,7 +1308,7 @@ No future improvements or roadmap documented in the repository.
 
 ### GitHub
 
-- Repository: https://github.com/Mansi-2703/exo_classifier
+- Repository: https://github.com/Ganesh-AIML/Exoplanet-Classifier.git
 - Branch: main
 
 ---
