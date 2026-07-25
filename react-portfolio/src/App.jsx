@@ -441,7 +441,7 @@ function ExperienceCard({ exp, isActive, metricsRun, clickTick }) {
       </motion.div>
       <motion.div className="parallax-layer" style={{ x: achievementsX, y: achievementsY }}>
         <div className="achievements-section">
-          <h4>Key Achievements</h4>
+          <h4>{exp.id === "hackathons-competitions" ? "Major Highlights" : "Key Achievements"}</h4>
           <motion.ul className="achievement-list"
             initial="hidden"
             animate={isActive ? "visible" : "hidden"}
