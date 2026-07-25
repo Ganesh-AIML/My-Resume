@@ -34,12 +34,25 @@ function tokenize(text) {
 
 const chunks = (() => {
   const sections = md.split(/\n(?=## )/).slice(1)
-  return sections.map((section) => {
+  const result = []
+  for (const section of sections) {
     const lines = section.trim().split("\n")
     const heading = lines[0].replace(/^## /, "").trim()
-    const content = lines.slice(1).join("\n").trim()
-    return { heading, content, tokens: tokenize(`${heading} ${content}`) }
-  })
+    const body = lines.slice(1).join("\n").trim()
+    const subSections = body.split(/\n(?=### )/)
+    if (subSections.length > 1) {
+      for (const sub of subSections) {
+        const subLines = sub.trim().split("\n")
+        const subHeading = subLines[0].replace(/^### /, "").trim()
+        const subContent = subLines.slice(1).join("\n").trim()
+        const fullHeading = `${heading} > ${subHeading}`
+        result.push({ heading: fullHeading, content: subContent, tokens: tokenize(`${fullHeading} ${subContent}`) })
+      }
+    } else {
+      result.push({ heading, content: body, tokens: tokenize(`${heading} ${body}`) })
+    }
+  }
+  return result
 })()
 
 function bm25Score(qTokens, chunk, avgDocLen, N, df) {
