@@ -1,4 +1,5 @@
 import { SKILLS } from "./loadPortfolioData"
+import md from "./portfolio-data.md?raw"
 
 const API_KEY = import.meta.env.VITE_GROQ_API_KEY
 const API_URL = "https://api.groq.com/openai/v1/chat/completions"
@@ -32,55 +33,13 @@ function tokenize(text) {
 }
 
 const chunks = (() => {
-  const skillsText = SKILLS.map((s) => s.name).join(", ")
-
-  return [
-    {
-      heading: "Skills",
-      content: `Ganesh knows: ${skillsText}`,
-      tokens: tokenize(`skills ${skillsText}`),
-    },
-    {
-      heading: "Contact",
-      content: "Email: ganeshsingh71680@gmail.com. LinkedIn: https://linkedin.com/in/ganesh-singh-aiml. GitHub: https://github.com/Ganesh-AIML",
-      tokens: tokenize("contact email linkedin github ganeshsingh71680@gmail.com"),
-    },
-    {
-      heading: "Resume",
-      content: "Ganesh's resume is available at assests/Ganesh_Resume.pdf",
-      tokens: tokenize("resume pdf download assests/Ganesh_Resume.pdf"),
-    },
-    {
-      heading: "LifeRythem",
-      content: "Software Development Intern at LifeRythem. Period: March 2026 - Present. Technologies: React Native, Kotlin, CNN, TensorFlow/Keras, Python, IoT. Building React Native APK with Kotlin native plugins integrating 4+ IoT medical devices. Engineered CNN-based ML pipeline on stethoscope auscultation data achieving 90% detection accuracy for cardiac and pulmonary anomalies.",
-      tokens: tokenize("liferythem software development intern react native kotlin cnn tensorflow keras python iot medical stethoscope ecg spo2"),
-    },
-    {
-      heading: "DRSGA",
-      content: "AI & ML Intern at DRSGA. Period: December 2025 - January 2026. Technologies: JavaScript, Chart.js, Machine Learning, NLP, REST APIs, Python. Engineered real-time NABH compliance dashboard with Chart.js visualizing 20+ KPIs reducing manual audit time by 80%. Developed ML-based NLP sentiment analysis system exposed via REST APIs analyzing 100+ client feedback records.",
-      tokens: tokenize("drsga ai ml intern javascript chartjs machine learning nlp rest api python nabh compliance dashboard sentiment analysis"),
-    },
-    {
-      heading: "JACOB Coaching Classes",
-      content: "Web Project Developer at JACOB Coaching Classes (Freelance). Period: July 2025. Technologies: HTML5, CSS3, JavaScript, Google Apps Script. Engineered responsive web portal enabling 50+ students to access class schedules online. Delivered on time resulting in Letter of Recommendation.",
-      tokens: tokenize("jacob coaching web developer freelance html css javascript google apps script portal student"),
-    },
-    {
-      heading: "Super-AI Community",
-      content: "Secretary at Super-AI Community (Leadership). Period: July 2025 - Present. Technologies: Team Management, Documentation, Technical Workshops, Community Building. Coordinated communication across technical and creative teams. Orchestrated 15+ technical workshops increasing community engagement by 40%.",
-      tokens: tokenize("super ai community secretary leadership team management workshops technical community building engagement"),
-    },
-    {
-      heading: "Junoon Foundation",
-      content: "Resource Intern at Junoon Foundation (Social Impact). Period: May 2024 - June 2024. Technologies: Curriculum Design, Educational Content, Social Outreach. Developed academic worksheets for underprivileged students. Supported educational drives impacting 100+ students.",
-      tokens: tokenize("junoon foundation resource intern social impact curriculum educational outreach underprivileged students"),
-    },
-    {
-      heading: "Hackathons & Competitions",
-      content: "Participant & Finalist in various national competitions (2024-2025). NASA Space Apps 2025: Global Nominees Top 13 from India. Credtech Hackathon: 2nd Prize at IIT Kanpur. DIPEX 2025: Finalist. Smart India Hackathon 2025, Aavishkar Research Convention 2nd place, Ideathon 2025, Multicon Research 2024, Codethon 2024 3rd place.",
-      tokens: tokenize("hackathon competition nasa space apps global nominee top 13 india credtech iit kanpur 2nd prize dipex finalist smart india aavishkar codethon researcher"),
-    },
-  ]
+  const sections = md.split(/\n(?=## )/).slice(1)
+  return sections.map((section) => {
+    const lines = section.trim().split("\n")
+    const heading = lines[0].replace(/^## /, "").trim()
+    const content = lines.slice(1).join("\n").trim()
+    return { heading, content, tokens: tokenize(`${heading} ${content}`) }
+  })
 })()
 
 function bm25Score(qTokens, chunk, avgDocLen, N, df) {
