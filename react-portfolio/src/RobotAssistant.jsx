@@ -6,19 +6,19 @@ import { ChatEngine } from "./chatService"
 const LOTTIE_URL =
   "https://assets-v2.lottiefiles.com/a/98a5f1ec-1164-11ee-b120-e331a2c2ea3f/EpJTjpZSlN.json"
 
-const DEFAULT_SUGGESTIONS = [
-  "What skills do you have?",
-  "Tell me about your experience",
-  "What projects have you built?",
-]
+const DEFAULT_SUGGESTIONS = []
 
 
 
 function formatResponse(text) {
-  const parts = text.split(/(\*\*[^*]+\*\*)/g)
-  return parts.map((part, i) =>
-    part.startsWith("**") && part.endsWith("**") ? <strong key={i}>{part.slice(2, -2)}</strong> : part
-  )
+  return text.split("\n").map((line, i) => {
+    const parts = line.split(/(\*\*[^*]+\*\*)/g).map((p, j) =>
+      p.startsWith("**") && p.endsWith("**") ? <strong key={j}>{p.slice(2, -2)}</strong> : p
+    )
+    if (line.trim() === "") return <br key={i} />
+    if (line.startsWith("- ")) return <li key={i} style={{ marginBottom: 6, listStyle: "none" }}>{parts}</li>
+    return <p key={i} style={{ margin: "4px 0" }}>{parts}</p>
+  })
 }
 
 function TypingDots() {
@@ -36,7 +36,6 @@ export default function RobotAssistant() {
   const [messages, setMessages] = useState([])
   const [isTyping, setIsTyping] = useState(false)
   const [input, setInput] = useState("")
-  const [suggestions, setSuggestions] = useState(DEFAULT_SUGGESTIONS)
   const bodyRef = useRef(null)
   const inputRef = useRef(null)
 
@@ -48,10 +47,9 @@ export default function RobotAssistant() {
     if (chatOpen && inputRef.current) inputRef.current.focus()
   }, [chatOpen])
 
-  const addBotMessage = useCallback((text, newSugs) => {
+  const addBotMessage = useCallback((text) => {
     setIsTyping(false)
     setMessages((prev) => [...prev, { role: "bot", text }])
-    if (newSugs) setSuggestions(newSugs)
   }, [])
 
   const handleSend = useCallback(async (text) => {
@@ -62,9 +60,9 @@ export default function RobotAssistant() {
     setIsTyping(true)
     try {
       const res = await ChatEngine(msg)
-      addBotMessage(res, DEFAULT_SUGGESTIONS)
+      addBotMessage(res)
     } catch {
-      addBotMessage("Sorry, I'm having trouble connecting. Please try again later! 😊", DEFAULT_SUGGESTIONS)
+      addBotMessage("Sorry, I'm having trouble connecting. Please try again later!")
     }
   }, [input, isTyping, addBotMessage])
 
@@ -72,7 +70,7 @@ export default function RobotAssistant() {
     setChatOpen(true)
     if (messages.length === 0) {
       setIsTyping(true)
-      setTimeout(() => addBotMessage("Hey there! 👋 I'm here to help you learn about Ganesh. Ask me anything!", DEFAULT_SUGGESTIONS), 1000)
+      setTimeout(() => addBotMessage("Hey there! I'm here to help you learn about Ganesh. Ask me anything!"), 1000)
     }
   }
 
@@ -127,7 +125,7 @@ export default function RobotAssistant() {
                         <DotLottieReact src={LOTTIE_URL} autoplay loop speed={0.6} layout={{ fit: "contain", align: [0.5, 0.65] }} />
                       </div>
                     )}
-                    <div className="msg-bubble"><p>{formatResponse(msg.text)}</p></div>
+                    <div className="msg-bubble">{formatResponse(msg.text)}</div>
                   </div>
                 ))}
                 {isTyping && (
@@ -138,12 +136,6 @@ export default function RobotAssistant() {
                     <div className="msg-bubble"><TypingDots /></div>
                   </div>
                 )}
-              </div>
-
-              <div className="chat-suggestions">
-                {suggestions.slice(0, 3).map((s, i) => (
-                  <button key={i} className="suggestion-chip" onClick={() => handleSend(s)} disabled={isTyping}>{s}</button>
-                ))}
               </div>
 
               <div className="chat-footer">
