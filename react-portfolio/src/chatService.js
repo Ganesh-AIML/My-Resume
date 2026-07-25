@@ -5,7 +5,7 @@ const API_KEY = import.meta.env.VITE_GROQ_API_KEY
 const API_URL = "https://api.groq.com/openai/v1/chat/completions"
 const MODEL = "llama-3.3-70b-versatile"
 const CACHE_TTL = 3600000
-const MAX_TOKENS = 1024
+const MAX_TOKENS = 2048
 
 const cache = new Map()
 const MAX_HISTORY = 6
@@ -33,26 +33,12 @@ function tokenize(text) {
 
 const chunks = (() => {
   const sections = md.split(/\n(?=## )/).slice(1)
-  const result = []
-  for (const section of sections) {
+  return sections.map(section => {
     const lines = section.trim().split("\n")
     const heading = lines[0].replace(/^## /, "").trim()
     const body = lines.slice(1).join("\n").trim()
-    const subSections = body.split(/\n(?=### )/)
-    if (subSections.length > 1) {
-      for (const sub of subSections) {
-        const subLines = sub.trim().split("\n")
-        const isSub = subLines[0].startsWith("###")
-        const subHeading = isSub ? subLines[0].replace(/^### /, "").trim() : heading
-        const subContent = subLines.slice(isSub ? 1 : 0).join("\n").trim()
-        const fullHeading = isSub ? `${heading} > ${subHeading}` : heading
-        result.push({ heading: fullHeading, content: subContent, tokens: tokenize(`${fullHeading} ${subContent}`) })
-      }
-    } else {
-      result.push({ heading, content: body, tokens: tokenize(`${heading} ${body}`) })
-    }
-  }
-  return result
+    return { heading, content: body, tokens: tokenize(`${heading} ${body}`) }
+  })
 })()
 
 function bm25Score(qTokens, chunk, avgDocLen, N, df) {
@@ -67,44 +53,71 @@ function bm25Score(qTokens, chunk, avgDocLen, N, df) {
     const idf = Math.log(1 + (N - docFreq + 0.5) / (docFreq + 0.5))
     score += idf * ((freq * (k1 + 1)) / (freq + k1 * (1 - b + b * (docLen / avgDocLen))))
   }
-  if (chunk.heading && !chunk.heading.includes('>')) {
-    score *= 2
-  }
   return score
 }
 
-function enrichQuery(query, history) {
-  const qTokens = tokenize(query)
-  const projectRoots = chunks.filter(c => !c.heading.includes('>'))
-  const hasProjectToken = qTokens.some(t =>
-    projectRoots.some(c => c.heading.toLowerCase().includes(t))
-  )
-  if (hasProjectToken || qTokens.length === 0) return query
-
-  for (let i = history.length - 1; i >= 0; i--) {
-    if (history[i].role === 'assistant') {
-      const lastReply = history[i].text.toLowerCase()
-      for (const c of projectRoots) {
-        const projectName = c.heading.replace(/^Project: /i, '').trim().toLowerCase()
-        if (lastReply.includes(projectName)) {
-          return `${query} ${c.heading}`
-        }
-      }
+function preprocessQuery(query, history) {
+  const rawTokens = tokenize(query)
+  const tokens = [...rawTokens]
+  for (const t of rawTokens) {
+    if (t.endsWith('s') && t.length > 3 && t !== 'this' && t !== 'that') {
+      const s = t.slice(0, -1)
+      if (!tokens.includes(s)) tokens.push(s)
     }
   }
-  return query
+
+  const projectRoots = chunks.filter(c => /^Project: /i.test(c.heading))
+  const specificTokens = tokens.filter(t => t !== 'project' && t !== 'projects')
+  const hasSpecificProject = specificTokens.some(t =>
+    projectRoots.some(c => c.heading.toLowerCase().replace(/^project: /i, '').includes(t))
+  )
+
+  const hasProjectsPlural = /\bprojects\b/i.test(query)
+  const hasProjectGeneric = /\bprojects?\b/i.test(query)
+
+  const queryType = hasProjectsPlural && !hasSpecificProject ? 'list_all'
+    : hasProjectGeneric && !hasSpecificProject ? 'project_generic'
+    : 'general'
+
+  let projectHint = null
+  if (!hasSpecificProject) {
+    for (let i = history.length - 1; i >= 0; i--) {
+      const msg = history[i].text.toLowerCase()
+      for (const c of projectRoots) {
+        const pn = c.heading.replace(/^Project: /i, '').trim()
+        const pnClean = pn.replace(/\./g, '')
+        if (msg.includes(pn.toLowerCase()) || msg.includes(pnClean.toLowerCase())) {
+          projectHint = c.heading
+          break
+        }
+      }
+      if (projectHint) break
+    }
+  }
+
+  return { tokens, queryType, projectHint }
 }
 
 function findRelevantChunks(query, history = []) {
-  const enriched = enrichQuery(query, history)
-  const qTokens = tokenize(enriched)
-  if (qTokens.length === 0) return []
+  const pp = preprocessQuery(query, history)
+
+  if (pp.queryType === 'list_all') {
+    return chunks.filter(c => /^Project: /i.test(c.heading))
+  }
+
+  const searchTokens = [...pp.tokens]
+  if (pp.projectHint) {
+    searchTokens.push(...tokenize(pp.projectHint))
+  }
+
+  if (searchTokens.length === 0) return []
+
   const N = chunks.length
   const avgDocLen = chunks.reduce((s, c) => s + c.tokens.length, 0) / N
   const df = new Map()
-  for (const qt of qTokens) df.set(qt, chunks.filter((c) => c.tokens.includes(qt)).length)
+  for (const qt of searchTokens) df.set(qt, chunks.filter((c) => c.tokens.includes(qt)).length)
   const scored = chunks
-    .map((c) => ({ ...c, score: bm25Score(qTokens, c, avgDocLen, N, df) }))
+    .map((c) => ({ ...c, score: bm25Score(searchTokens, c, avgDocLen, N, df) }))
     .filter((c) => c.score > 0)
     .sort((a, b) => b.score - a.score)
 
