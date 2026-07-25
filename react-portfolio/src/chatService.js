@@ -27,8 +27,8 @@ function setCache(query, text) {
 }
 
 function tokenize(text) {
-  const normalized = text.replace(/(\w)\.(\w)/g, '$1$2')
-  return normalized.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean)
+  const cleaned = text.replace(/([A-Za-z])\.(?=[A-Za-z])/g, '$1')
+  return cleaned.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean)
 }
 
 const chunks = (() => {
@@ -66,6 +66,9 @@ function bm25Score(qTokens, chunk, avgDocLen, N, df) {
     const docFreq = df.get(qt) || 0
     const idf = Math.log(1 + (N - docFreq + 0.5) / (docFreq + 0.5))
     score += idf * ((freq * (k1 + 1)) / (freq + k1 * (1 - b + b * (docLen / avgDocLen))))
+  }
+  if (chunk.heading && !chunk.heading.includes('>')) {
+    score *= 2
   }
   return score
 }
