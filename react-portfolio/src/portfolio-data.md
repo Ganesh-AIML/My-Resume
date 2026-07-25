@@ -40,11 +40,11 @@ Java, Python, Spring Boot, Machine Learning, Blockchain, Node.js, SQL, Docker, R
 
 ## Experience: LifeRythem
 
-- Role: Full Stack AI Engineer Intern
+- Role: Software Development Intern
 - Company: LifeRythem
 - Location: Mumbai, India
 - Badge: Current
-- Period: February 2026 – June 2026
+- Period: March 2026 – Present
 - Technologies: React Native, Kotlin, CNN, TensorFlow/Keras, Python, IoT
 - Metrics: Detection Accuracy 90% | IoT Devices 4+
 - Achievements:
@@ -117,12 +117,11 @@ Java, Python, Spring Boot, Machine Learning, Blockchain, Node.js, SQL, Docker, R
 - Badge: Achievements
 - Period: 2024 – 2025
 - Technologies: Machine Learning, Flutter, React, Blockchain, Python, Spring Boot, Agentic AI
-- Metrics: Competitions 8+ | NASA Global Top 13 | IIT Kanpur 1st Runner-up
+- Metrics: Competitions 8+ | Top 13 NASA Global | 2nd IIT Kanpur
 - Achievements:
-  - Global Nominee: NASA Space Apps Challenge 2025 among 114,000+ global participants across 167 countries
-  - 1st Runner-up: IIT Kanpur CredTech 2025 National Hackathon
-  - 2nd Runner-up: TCET Codethon 2024
-  - Finalist: DIPEX 2025
+  - **NASA Space Apps 2025:** Global Nominees - Top 13 from India out of 1,290+ projects worldwide for exoplanet detection using AI.
+  - **Credtech Hackathon:** 2nd Prize at a Credathon organized by IIT Kanpur for a credit assessment tool with an explainable AI dashboard.
+  - **DIPEX 2025:** Finalists for AI-powered women's safety application with offline capabilities
 - Sub-events:
   - Smart India Hackathon 2025: Engineered an integrated safety ecosystem with Flutter app, React dashboard, and blockchain backend featuring AI-powered anomaly detection and automated e-FIR generation
   - 20th Aavishkar Research Convention 2025-26: Ranked 2nd in the Institute Round out of 48 selected project groups. Represented the college at the Zonal level, reaching the final round with the ResQ AI: Smart Tourist Safety System
@@ -133,6 +132,9 @@ Java, Python, Spring Boot, Machine Learning, Blockchain, Node.js, SQL, Docker, R
 ---
 
 ## Project: S.C.O.P.E.
+
+- Description: A 4-role distributed assessment platform replacing third-party tools like HackerRank for institutional placement drives. Architected with Nginx least-conn load balancing, Redis async queuing, and Dockerized Judge0 execution nodes — validated at 0% failure rate across 40,000 requests at 200 concurrent connections, supporting 1,000+ concurrent users.
+- Technologies: React, Node.js, PostgreSQL, Linux, Redis, Nginx, Docker, Judge0
 
 ### Overview
 
@@ -428,30 +430,699 @@ No explicit future improvements documented in the repository.
 
 ## Project: Tourist Guardian Safety Platform
 
-- Description: A comprehensive safety ecosystem designed for the Smart India Hackathon, featuring a tourist mobile app and a police dashboard. The system uses an AI engine for real-time anomaly detection and an agentic system to auto-generate e-FIRs, all verified through a secure blockchain backend
+- Description: A comprehensive safety ecosystem designed for the Smart India Hackathon, featuring a tourist mobile app and a police dashboard. The system uses an AI engine for real-time anomaly detection and an agentic system to auto-generate e-FIRs, all verified through a secure blockchain backend.
 - Technologies: Flutter, React, Node.js, Blockchain, Python
 - GitHub: https://github.com/Ganesh-AIML/ResQ-AI
+
+### Overview
+
+An end-to-end tourist safety ecosystem developed for the Smart Indian Hackathon 2025 by Team Synergy. The system combines a Flutter cross-platform tourist mobile app with AI-powered anomaly detection (Python/IsolationForest), blockchain digital identity (Ethereum/Solidity), agentic AI e-FIR generation (LangGraph/LangChain), a React/TypeScript police dashboard, and IoT wearable integration (ESP32). The project is a research prototype currently under construction; certain advanced integrations are simulated for demonstration.
+
+### Problem Statement
+
+The system targets critical gaps in tourist safety infrastructure in Northeast India, including delayed incident reporting, lack of real-time tourist monitoring, inefficient manual FIR processes, and absence of tamper-proof identity verification.
+
+### Target Users
+
+- Tourists traveling in Northeast India, including domestic and foreign/NRI travelers
+- Law enforcement / Police personnel monitoring tourist safety via dashboard
+- Emergency contacts of registered tourists
+
+### User Roles
+
+- **Tourist**: Registers via app, plans itinerary, shares location, triggers SOS, interacts with chatbot
+- **Police Officer**: Monitors incidents via dashboard, acknowledges alerts, deploys rescue, manages cases
+- **Emergency Contact**: Receives notifications about tourist's safety status
+
+### Features
+
+#### Core Features (Implemented)
+
+- Multi-language support: 10 languages (English, Hindi, Marathi, Assamese, Manipuri/Meiteilon, Mizo, Khasi, Kokborok, Nyishi, Konyak) via ARB localization files
+- Language switching via dropdown on login screen with LocaleProvider (ChangeNotifier + Provider)
+- DigiLocker-style multi-step verification flow (phone → MPIN → OTP → Aadhaar details display) using local JSON mock data
+- Manual trip registration form (nickname, duration, emergency contacts, group/band toggles)
+- Google Maps-based itinerary planner with place search and geocoding (tap-to-add and text search)
+- Bottom navigation hub (Basic Info, Stats, Map tabs) with SOS button and chat button
+- Basic info display page (hardcoded mock data: tourist ID, group ID, emergency contacts, places, band ID, battery level)
+- Safety score visualization page with fl_chart pie chart and 5 category scores (hardcoded mock data)
+- Google Maps safety zone view with Red/Yellow/Grey zone circles (hardcoded coordinates and radii)
+- Tourist attraction markers and hospital/police station markers on map with custom bitmap icons (23 police stations, 3 hospitals, 4 tourist markers)
+- Rule-based pattern-matching chatbot "Radha" (Eliza-style algorithm, regex pairs + reflections)
+- Speech-to-text input for chatbot
+- Google Translate API integration for multilingual chatbot responses
+- Emergency keyword detection in chatbot (English + Marathi)
+- External police station proximity lookup via investigationcamp.com/map.php
+
+#### AI / ML (Described in README, separate repos)
+
+- Real-time anomaly detection using IsolationForest algorithm (unsupervised ML)
+- Monitors: GPS route deviation (>2km), group separation (>500m), red zone entry, extended stationary (>3h), speed anomaly (>120km/h), communication loss (>30min)
+- Event triage with severity scoring: Critical (9-10), High (7-8), Medium (4-6), Low (1-3)
+- Scoring factors: deviation magnitude (30%), zone risk (25%), time of day (15%), historical incidents (15%), group status (10%), communication status (5%)
+
+#### Security (Described in README, separate repos)
+
+- Blockchain digital identity via Ethereum smart contracts (tamper-proof tourist ID)
+- Privacy-first design: personal data stays off-chain, only SHA-256 hashes stored on-chain
+- Multi-signature emergency contact management
+- Immutable blockchain audit trail for all incidents
+- End-to-end encryption
+
+#### Admin (Described in README, separate repos)
+
+- Police dashboard (React/TypeScript/Vite) with real-time incident feed
+- Interactive map view showing active tourists, risk zones, distressed tourist trajectories
+- Case management: view/download AI-generated e-FIRs, update status, assign officers
+- Analytics: heatmaps, tourist inflow vs. incident rate, average response time metrics
+
+#### Infrastructure
+
+- Firebase backend (Authentication, Firestore Database, Cloud Storage)
+- IoT wearable device: ESP32 WROOM + Quectel EC200U 4G LTE + NEO-6M GPS + tactile SOS button + 3.7V LiPo battery with TP4056 charger
+- Agentic e-FIR generation via LangGraph agent workflow with LLM (GPT-4) and ChromaDB vector database
+
+### Tech Stack
+
+**Implemented (this repository)**:
+
+- **Language**: Dart ^3.8.0-220.0.dev
+- **Frontend**: Flutter SDK ^3.8.0-220.0.dev, Provider ^6.1.2
+- **Maps**: google_maps_flutter ^2.12.3
+- **Location**: geolocator ^10.0.1, geocoding ^3.0.0
+- **Charts**: fl_chart ^0.63.0
+- **Speech**: speech_to_text ^7.3.0
+- **Translation**: translator ^1.0.0 (Google Translate)
+- **HTTP**: http ^1.2.1
+- **SVG**: flutter_svg ^2.0.10+1
+- **Localization**: flutter_localizations, intl 0.20.2
+- **Platforms**: Android, iOS, Linux, macOS, Windows, Web
+
+**Described in README (separate repositories)**:
+
+- **AI/ML**: Python, scikit-learn (IsolationForest), HuggingFace, Pandas, NumPy, TensorFlow
+- **Blockchain**: Solidity, Hardhat, Ethereum, Web3.js, Node.js
+- **e-FIR Agent**: LangGraph, LangChain, ChromaDB, LLM (GPT-4)
+- **Police Dashboard**: React, TypeScript, Vite, Google Maps React, Socket.io
+- **IoT Hardware**: ESP32 WROOM, Quectel EC200U, NEO-6M GPS, TP4056, LiPo
+- **Backend**: Node.js, Firebase (Auth, Firestore, Cloud Storage)
+
+### Architecture
+
+Multi-component distributed system with event-driven communication between independent modules.
+
+**Components**:
+1. Tourist Mobile App (Flutter/Dart) — this repository
+2. Firebase Backend — Authentication, Firestore, Cloud Storage
+3. Blockchain Backend — Ethereum network with Solidity smart contracts
+4. AI Anomaly Detection Engine — Python/IsolationForest with geo-fencing rules
+5. Agentic e-FIR System — LangGraph/LangChain agent with LLM + ChromaDB
+6. Police Dashboard — React/TypeScript/Vite with Socket.io real-time alerts
+7. IoT Wearable — ESP32-based band with GPS, 4G LTE, SOS
+
+#### Request Flow (Per README Architecture)
+
+```
+Tourist interacts with Flutter App
+  ↓
+Firebase Backend (Auth, Firestore, Cloud Storage)
+  ↓
+Multi-Source Data Collection (GPS, itinerary, group, zone, IoT)
+  ↓
+AI Anomaly Detection Engine (IsolationForest + Geo-Fencing Rules)
+  ↓ (if anomaly detected with confidence > 80%)
+Event Triage & Severity Scoring
+  ↓ (if Critical/High)
+Blockchain Identity Verification
+  ↓
+Agentic e-FIR Generation (LangGraph agent → LLM → ChromaDB)
+  ↓
+Police Dashboard Alert (real-time via Socket.io)
+  ↓
+Police Response Initiated → Continuous Monitoring → Case Resolved
+  ↓
+Blockchain Audit Trail Updated
+```
+
+### Database
+
+Not implemented in this repository. Described in README: Firebase Firestore collections for tourist profiles, trip data, location updates, incident records, zone data. The codebase contains only `assets/data/users.json` with 4 mock users for offline UI testing.
+
+### APIs
+
+Not implemented in this repository. The only external call is to `investigationcamp.com/map.php` for police station lookup.
+
+### AI/ML
+
+**Described in README (not in this repository)**:
+
+- **Algorithm**: IsolationForest (unsupervised anomaly detection from scikit-learn)
+- **Training**: Trained on historical tourist behavior patterns
+- **Inference**: Real-time scoring; anomaly score = -1 indicates anomaly
+- **Input features**: GPS lat/lng, route deviation, time at location, speed, group distance, zone risk
+- **Pipeline**: Multi-source data ingestion → feature extraction → IsolationForest scoring → event triage → severity assignment
+- **Threshold**: Confidence > 80% triggers alert; contamination = 0.1
+- **Libraries**: Python, scikit-learn, Pandas, NumPy, HuggingFace, TensorFlow
+
+### Security
+
+**Described in README**: Blockchain identity with SHA-256 hashing (only hashes on-chain), multi-signature emergency contacts, immutable audit trail, end-to-end encryption, DigiLocker government document verification.
+
+**In this repository**: No security mechanisms. flutter_secure_storage listed as dependency but unused.
+
+### Deployment
+
+Per README: Firebase backend, Ethereum (Sepolia testnet) for blockchain. No deployment config exists in this repository (no Docker, CI/CD, nginx, hosting config).
+
+### Metrics
+
+All metrics from README claims (not verifiable from code):
+
+| Metric | Claimed |
+|--------|---------|
+| App Cold Start | 2.3s |
+| Location Update | Configurable 15-60s |
+| Anomaly Detection Latency | 3.7s |
+| Emergency Alert Dispatch | 8.2s |
+| e-FIR Generation Time | 42s |
+| Blockchain Transaction | 18s (Sepolia) |
+| API Response Time | 145ms avg |
+| Battery Usage (Background) | 7.5%/hr |
+
+### Limitations
+
+1. **Prototype status**: Proof-of-concept, not production-ready
+2. **Simulated integrations**: AI, blockchain, dashboard, IoT integrations are simulated
+3. **No backend in this repo**: Contains only Flutter frontend
+4. All safety scores, tourist data, zone data are hardcoded mock values
+5. DigiLocker flow uses local JSON; no real DigiLocker API
+6. SOS button only shows snackbar; no actual alert dispatch
+7. IoT band battery level hardcoded; no device communication
+8. Chatbot "Radha" is rule-based (regex), not AI/LLM
+9. OTP hardcoded as "123456" for all users
+10. Foreign/NRI Login button is intentionally no-op
+11. Single widget test only
+12. Data focused on Northeast India region
+
+### GitHub
+
+- Repository: https://github.com/Ganesh-AIML/ResQ-AI
+- Developer: @Ganesh-AIML | Team Synergy | Smart Indian Hackathon 2025
 
 ---
 
 ## Project: Alertica — AI Women's Safety App
 
-- Description: A personal safety application providing immediate assistance in emergencies. It actively monitors the user's environment using voice anomaly detection to identify distress signals and features silent SOS activation, geofencing for safe-zone alerts, and emergency API integration
+- Description: A personal safety application providing immediate assistance in emergencies. It actively monitors the user's environment using voice anomaly detection to identify distress signals and features silent SOS activation, geofencing for safe-zone alerts, and emergency API integration.
 - Technologies: Flutter, Firebase, Node.js, REST APIs
 - GitHub: https://github.com/Ganesh-AIML/Alertica-AI-Powered-Women-Safety-APK
+
+### Overview
+
+A Flutter-based cross-platform mobile application that provides women's safety through AI-powered voice detection, real-time emergency response via SMS/call/image/audio, Twilio IVR verification, and crime zone mapping. The app uses Firebase as its backend (Authentication, Firestore, Storage, Cloud Functions) and includes a separate Python ML script for audio-based emergency detection. The app disguises itself as a calculator on the homescreen, requiring a secret code (987456321) to unlock the safety dashboard and another (7415963) for the SOS page.
+
+### Problem Statement
+
+Women's safety in public and private spaces. The app aims to provide instant emergency response through multi-modal alerts (SMS, voice calls with IVR, automatic image capture, and audio recording), AI-powered voice detection for distress keywords, and crime zone awareness through Google Maps integration.
+
+### Target Users
+
+Women, safety-conscious individuals, and community volunteers who provide peer-to-peer emergency support.
+
+### User Roles
+
+- **End User**: Primary user who activates SOS, configures emergency contacts, uses voice detection and crime zone mapping
+- **Emergency Contact**: Pre-configured contacts who receive SMS alerts during emergencies
+- **Community Volunteer**: Fictional volunteer profiles displayed in the Volunteers page with names, designations, and contact numbers
+
+### Features
+
+#### Core Features
+
+- Emergency SOS activation with 10-second countdown timer
+- Multi-channel emergency alerts: SMS with Google Maps location link, automatic front/back camera image capture uploaded to Firebase Storage, audio recording (AAC) uploaded to Firebase Storage
+- Emergency contact management — add/edit/delete contacts stored in Firestore
+- Twilio IVR call system: automated voice call with "Press 1 if safe, 0 if need help" + PIN verification
+- Crime zone mapping with Google Maps, hard-coded zones (Kandivali Station, Borivali Station, Malad West, Goregaon East, etc.) with risk levels, radius, and incident counts
+- Geofencing alerts when user enters a high-risk zone
+- Location simulation mode for testing zone entry
+- App disguised as a scientific calculator with secret code entry to access safety features
+
+#### AI Features
+
+- Real-time speech-to-text voice detection for emergency keywords: "help", "stop", "emergency", "police" using speech_to_text Flutter package
+- Continuous background listening with automatic restart on error
+- Server notification when keyword detected via HTTP POST to Firebase Cloud Function
+- Python-based audio analysis using MFCC feature extraction and scream detection via librosa
+- Python speech recognition for emergency word detection using Google Speech Recognition API
+- MFCC similarity matching against pre-loaded help samples
+- Scream detection via RMS loudness and spectral centroid analysis
+
+#### Security Features
+
+- Firebase Authentication with Email/Password and Google Sign-In
+- User registration with name, DOB, email, password, phone, two emergency contacts, and a 4-digit PIN
+- PIN-based identity verification during IVR calls
+- Camera and microphone runtime permission handling
+
+#### Community Features
+
+- Success Stories page with 10 fictional narratives
+- Volunteers page with 10 fictional profiles
+- FAQ page with Anomaly Detection, Audio/Video, and FAQ feature cards
+- News section fetching women safety articles from GNews API
+- News article interactions: like, comment, share via share_plus
+- Safety dashboard with Syncfusion column charts comparing Population Density, Criminal Background, and Lighting against city averages
+- Self-defense tutorials link, incident reporting link
+
+#### Infrastructure Features
+
+- Firebase Cloud Functions (Node.js/Express.js) serving Twilio IVR endpoints
+- Firebase Firestore for user data storage
+- Firebase Storage for emergency images and audio recordings
+- Firebase Authentication for user management
+- Python Flask backend with ngrok tunnel for local Twilio call handling
+- ngrok integration for exposing local Flask server to Twilio
+
+### Tech Stack
+
+- **Languages**: Dart 3.8+, Python 3, JavaScript (Node.js 20)
+- **Frontend**: Flutter SDK ^3.8.0, Material Design
+- **Backend**: Firebase Cloud Functions, Express.js, Flask (Python)
+- **Database**: Cloud Firestore (NoSQL)
+- **Flutter Libraries**: firebase_core 3.12.1, firebase_auth 5.5.1, google_sign_in 6.3.0, cloud_firestore 5.6.5, firebase_storage 12.4.5, google_maps_flutter 2.12.0, speech_to_text 7.0.0, flutter_sound 9.28.0, camera 0.11.1, location 8.0.0, geolocator 13.0.4, permission_handler 11.4.0, syncfusion_flutter_charts 29.1.33, share_plus 10.1.4, http 1.3.0, url_launcher 6.3.1, math_expressions 2.7.0
+- **Python Libraries**: flask, twilio, librosa, soundfile, speech_recognition, pydub, numpy, pyngrok
+- **Node.js Libraries**: twilio, express, body-parser, firebase-admin, firebase-functions
+- **AI Libraries**: speech_to_text (Flutter), librosa (Python), speech_recognition (Python — Google Web Speech API)
+- **ML Models**: None trained. Uses MFCC similarity matching against hard-coded audio samples and threshold-based scream detection.
+- **Authentication**: Firebase Authentication (Email/Password, Google Sign-In)
+- **Cloud**: Firebase (Firestore, Storage, Authentication, Cloud Functions), Google Cloud Platform
+- **DevOps**: Firebase CLI, ESLint
+- **Third-party APIs**: Twilio (Voice, SMS), Google Maps, GNews API, Google Speech Recognition
+
+### Architecture
+
+Mobile App → Backend-as-a-Service (Firebase) → Serverless Functions → Third-party Services (Twilio)
+
+Layered architecture:
+- **Presentation Layer**: Flutter UI (pages, widgets)
+- **Service Layer**: Flutter services (SOS handler, audio recorder, SMS service, Firebase services)
+- **Backend Layer**: Firebase Cloud Functions running Express.js, Python Flask server
+- **External Layer**: Twilio for voice/SMS, Google Maps for mapping, GNews for news, Google Speech Recognition for STT
+
+The app uses a calculator disguise pattern where CalculatorScreen is the initial route (/) and the actual safety app is unlocked via secret code entry.
+
+#### Request Flow — SOS Activation
+
+```
+User taps SOS button (or secret code entered)
+  → calculator_screen.dart checks secret codes
+  → SOSPage opens with 10-second countdown
+  → Timer expires → EmergencyHandler.sendEmergency()
+  → SMSService.sendSOSMessage(): gets GPS location via Geolocator,
+    launches SMS intent with Google Maps link to hard-coded contacts
+  → EmergencyService.captureEmergencyImages(): initializes front/back cameras,
+    takes photos, uploads to Firebase Storage under CapturedImages/
+  → AudioRecorder.startRecording(): records 10 seconds AAC audio,
+    saves to device and uploads to Firebase Storage under recordings/
+  → HTTP POST to Firebase Cloud Function /trigger endpoint
+  → Cloud Function creates Twilio voice call to user's phone
+  → User receives IVR: "Press 1 if safe, Press 0 if need help"
+  → Press 1: asks for 4-digit PIN → /check_pin validates against server PIN
+  → Press 0: emergency alert message
+  → No response (5-30s timeout): emergency alert activated
+```
+
+#### Request Flow — Voice Detection
+
+```
+App open → HomePage._initializeVoiceDetection()
+  → speech_to_text continuous listening with 60s listen window, 5s pause gap
+  → On each result: checks transcription against buzz words ["help", "stop", "emergency", "police"]
+  → Match found: HTTP POST { transcription } to Firebase Cloud Function /trigger
+  → Cloud Function initiates Twilio voice call
+```
+
+#### Request Flow — Python ML (local, standalone)
+
+```
+main.py starts → ngrok tunnel to localhost:5000
+  → Thread: listen_continuously() using speech_recognition + microphone
+  → Loads help_samples/ audio files, extracts MFCC features via librosa
+  → For each audio capture:
+    1. Google Speech Recognition → check for emergency words
+    2. MFCC match against help samples (similarity threshold < 50)
+    3. Scream detection via RMS > 0.05 and spectral centroid > 3000 Hz
+  → Any match: Twilio REST API call to user phone
+  → Flask server handles Twilio IVR webhooks
+```
+
+### Database
+
+- **Engine**: Cloud Firestore (NoSQL, Firebase)
+- **Collections**: users/ — documents keyed by Firebase Auth UID
+- **User Fields**: name, dateOfBirth, email, phoneNumber, emergencyContacts (array of {name, phone}), pin (4-digit), createdAt (server timestamp)
+- **Security Issue**: PIN stored as plain text
+
+### APIs
+
+**Firebase Cloud Functions** (Express.js):
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| /trigger | POST | Initiates Twilio call. Returns {status, call_sid} |
+| /voice | GET/POST | Returns TwiML prompting: "Press 1 if safe, 0 if need help" |
+| /verify_response | POST | Processes DTMF digit. 1 → ask PIN. 0 → emergency |
+| /check_pin | POST | Validates 4-digit PIN against server PIN |
+| /status_callback | POST | Handles call status events (no-answer, failed, busy, completed) |
+
+**Python Flask Server** (local):
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| /voice | GET/POST | TwiML: "Press 1 if safe, 0 if need help" |
+| /verify_response | POST | Processes digit, routes to PIN or emergency |
+| /check_pin | POST | Validates PIN from in-memory dict |
+| /status_callback | POST | Logs call status, triggers emergency on no-answer/failed/busy |
+
+**External APIs**: Twilio REST API, Google Speech Recognition API, Google Maps SDK, GNews API
+
+### AI/ML
+
+**Flutter (on-device)**:
+- speech_to_text package (wraps platform-specific ASR, Google Speech Recognition on Android, Apple speech on iOS)
+- Live microphone → speech_to_text.listen() → onResult callback → substring match against "help", "stop", "emergency", "police"
+- 60s listen window, 5s pause gap
+
+**Python (local)**:
+- librosa for MFCC, RMS, spectral centroid
+- speech_recognition for Google STT
+- Emergency word detection via Google STT → lowercase check against 5 keywords
+- MFCC matching against 6 pre-recorded help sample audio files (threshold: similarity < 50)
+- Scream detection: RMS > 0.05 AND spectral centroid > 3000 Hz
+- Real-time, single-threaded, blocking loop. No model training — uses pre-recorded samples as reference.
+
+### Security
+
+**Verified**: Firebase Auth (Email/Password + Google Sign-In), runtime permission handling, PIN-based IVR verification, Facebook Auth package imported
+
+**Issues**: Hard-coded Twilio credentials (SID, token, phone) in source code, hard-coded emergency contact numbers, hard-coded PIN ("1234"), empty API keys in firebase_options.dart, hard-coded GNews API key, PIN stored as plain text in Firestore, no Helmet/CSRF/CORS, no input sanitization
+
+### Performance
+
+- No benchmarks or performance profiling code found in repository
+- README claims (not verified): cold start < 3s, emergency activation < 1s, location accuracy ±10m, voice detection latency < 500ms, battery usage < 5%/hour, API response < 200ms, Twilio call connection < 3s, SMS delivery < 5s
+- Python threading.Thread for concurrent speech recognition + Flask server
+
+### Deployment
+
+- **Firebase project**: alertica-2
+- **Firebase services**: Authentication, Firestore, Storage, Cloud Functions
+- **Cloud Functions runtime**: Node.js 20
+- **Deployment**: firebase deploy --only functions
+- **Platform**: Android (API 21+), iOS (12.0+), macOS; Web explicitly unsupported
+- **Python server**: Runs locally on port 5000 with optional ngrok tunnel
+- **Containerization**: None. **CI/CD**: None.
+
+### Metrics
+
+- Lines of Dart code: ~3,500 (17 Dart files)
+- Lines of Python: 249 (main.py)
+- Lines of JavaScript: 154 (functions/index.js)
+- Flutter dependencies: 23
+- Firebase Cloud Functions: 1 (exports.api)
+- Flask routes: 4
+- Crime zones: 7 (3 commented out)
+- Emergency keywords: 4 (Flutter), 5 (Python)
+- Hard-coded emergency contacts: 3
+- Help sample audio files: 6 (help_samples/)
+- App version: 1.0.0+1
+- Git commits: 2 (Oct 18, 2025 – Nov 29, 2025)
+
+### Limitations
+
+- Hard-coded credentials throughout codebase (Twilio SID/token/phone, user phone, emergency contacts, PINs, API keys)
+- Calculator disguise may confuse users
+- Facebook Auth dependency declared but not implemented
+- Empty Twilio config in Cloud Functions (non-functional without modification)
+- Duplicate files (community_section.dart and faq_1.dart are nearly identical)
+- PDF files inside lib/pages/ directory (thesis defense PDF, AI PDF)
+- Only 1 widget test — checks for text not visible in UI
+- PIN stored as plain text in Firestore
+- No server-side validation (all client-side)
+- Python and Flutter systems are disconnected — no integration between them
+- Firebase options have empty API keys
+- Race condition in voice detection (_isListening flag management)
+- No offline mode despite README claim
+- Web explicitly unsupported
+
+### Future Scope
+
+From README Roadmap:
+- **Phase 2 (In Progress)**: Wearable device integration (smartwatch), live video streaming during emergency, AI-powered risk prediction, multi-language support
+- **Phase 3 (Planned)**: Emergency service direct connect, insurance integration, legal assistance network, mental health support chat
+
+### GitHub
+
+- Repository: https://github.com/Ganesh-AIML/Alertica-AI-Powered-Women-Safety-APK
+- Developer: Ganesh Singh (ganeshsingh71680@gmail.com)
+- License: MIT (claimed, no LICENSE file found)
+- Commits: 2 (Oct 18, 2025 – Nov 29, 2025)
 
 ---
 
 ## Project: LearnSphere
 
-- Timeline: August 2025 – December 2025
-- Description: Designed a college-first Learning Management System (LMS) with role-based Student, Teacher, and Admin portals, supporting course management, assessments, discussions, certifications, and remedial learning workflows. Architected AI-ready microservices for automated quiz generation, personalized course recommendations, sentiment analysis, abuse detection, and at-risk student identification, integrated with a secure Spring Boot backend using JWT-based RBAC.
-- Technologies: Java, Spring Boot, Spring Security, Angular, PostgreSQL, NLP, Scikit-learn
+- Description: A secure Learning Management System with REST APIs for course management, student enrollment, and assessments. Features include role-based authentication (Student/Instructor/Admin), modular course content organization, automated quiz engine with MCQ and text questions, progress tracking, discussion forums, and course feedback. Built with Spring Boot, JWT security, and JPA for reliable data persistence.
+- Technologies: Spring Boot, PostgreSQL, REST APIs
 - GitHub: https://github.com/Ganesh-AIML/Learnshere
+
+### Overview
+
+LearnSphere is a backend-only Learning Management System (LMS) built with Spring Boot 4.0.2 and Java 21. It provides REST APIs for user authentication, course management, module/content organization, enrollment tracking, assessments (MCQ/Text/True-False), discussion forums, feedback/ratings, leaderboards, and progress tracking. The system uses PostgreSQL for persistence with JPA/Hibernate ORM and stateless JWT-based authentication.
+
+### Timeline
+
+August 2025 – December 2025
+
+### Problem Statement
+
+Educational institutions lack a centralized, secure, and scalable backend platform for managing courses, assessments, student progress, and collaborative discussions.
+
+### Target Users
+
+- Students — enroll in courses, take assessments, participate in discussions
+- Instructors — create and manage courses, modules, content, tests, and questions
+- Administrators — manage users, departments, and system-wide configuration
+
+### User Roles
+
+- **STUDENT**: Enrolled learner who consumes course content, takes tests, submits answers, posts in forums, and provides feedback
+- **INSTRUCTOR**: Course creator who manages course structure (modules, content items), creates tests and questions, and participates in discussions
+- **ADMIN**: System administrator who manages users and departments
+
+### Features
+
+#### Core Features
+
+- User registration and login with JWT token generation
+- Department management (create departments)
+- Course CRUD with title, description, department, and creator
+- Course publishing workflow (isPublished flag)
+- Module management ordered by position within courses
+- Content item management (VIDEO, PDF, QUIZ types) with file path, duration, and position
+- Enrollment management (enroll users in courses with role)
+- Test creation with duration and scheduling
+- Question bank (MCQ, TEXT, TRUE_FALSE types) with marks and correct answers
+- Test attempt lifecycle (start IN_PROGRESS → submit COMPLETED)
+- Student answer recording per attempt per question
+- Discussion threads per course with title and content
+- Hierarchical posts (replies via parentPost reference)
+- Course feedback with rating and message
+- Progress tracking per user per content item (progress percentage, seconds watched)
+
+#### Advanced Features
+
+- Ordered module retrieval (by position ascending)
+- Ordered content retrieval (by position ascending)
+- Unique constraints on user+course+role enrollment, user+content progress, user+role assignment
+- Auto-timestamp via @PrePersist lifecycle hooks
+- Leaderboard with global rank and department rank per course
+
+#### Security Features
+
+- JWT-based stateless authentication (HS256 with HMAC-SHA key)
+- BCrypt password hashing
+- Role-based access via ROLE_ prefix in Spring Security authorities
+- Global exception handler for DataIntegrityViolation (409) and general errors (500)
+- CSRF protection disabled
+
+#### Developer Features
+
+- Spring Boot DevTools for hot reload
+- Lombok for boilerplate reduction
+- Maven wrapper for reproducible builds
+- Spring Boot Actuator health endpoint referenced in README
+
+### Tech Stack
+
+- **Language**: Java 21
+- **Backend**: Spring Boot 4.0.2, Spring Data JPA, Spring Security, Spring Web, Spring Validation
+- **Database**: PostgreSQL
+- **ORM**: Hibernate (via Spring Data JPA)
+- **Build**: Maven (3.x+) with Maven Wrapper
+- **Testing**: Spring Boot Test, Spring Security Test, Spring Validation Test, Spring WebMVC Test, JUnit 5
+- **Authentication**: JWT (stateless, Bearer token, HS256), BCrypt password encoding
+- **Libraries**: Lombok, JJWT 0.11.5 (api, impl, jackson), Jackson
+- **Frontend**: None (backend only)
+
+### Architecture
+
+Monolithic, layered architecture following standard Spring Boot conventions:
+
+- **Controller Layer**: REST API endpoints (9 controllers)
+- **Repository Layer**: Spring Data JPA repositories (15 interfaces)
+- **Entity Layer**: JPA domain models (17 entity classes)
+- **Security Layer**: JWT filter, security config, user details service, exception handler
+
+No service layer present — controllers directly call repositories.
+
+#### Request Flow
+
+```
+Client (HTTP Request)
+  ↓
+SecurityConfig / JwtFilter (JWT validation for authenticated endpoints)
+  ↓
+Controller (e.g., CourseController)
+  ↓
+Repository (Spring Data JPA interface)
+  ↓
+JPA/Hibernate (ORM)
+  ↓
+PostgreSQL Database
+  ↓
+Response (JSON) → Client
+```
+
+- Public endpoints (`/api/auth/**`) bypass JWT filter
+- All other endpoints require `Authorization: Bearer <token>` header
+
+### Database
+
+- **Engine**: PostgreSQL (jdbc:postgresql://localhost:5432/learnsphere_db)
+- **DDL Strategy**: `spring.jpa.hibernate.ddl-auto=update` (auto-generated schema, no migration scripts)
+- **Tables**: 17 entities — role, user_account, user_role, department, course, module, course_content, enrollment, test, question, test_attempt, student_answer, discussion_thread, post, feedback, user_progress, leaderboard
+- **Key Relationships**:
+  - UserAccount → Department (ManyToOne)
+  - Course → Module → CourseContent (cascade)
+  - Course → Test → Question (cascade)
+  - Test → TestAttempt → StudentAnswer (cascade)
+  - Course → DiscussionThread → Post (self-referencing)
+  - Course → Enrollment (unique constraint on user+course+role)
+  - CourseContent → UserProgress (unique constraint on user+content)
+- **Indexes**: None beyond JPA defaults and unique constraints
+
+### APIs
+
+9 controllers with the following routes:
+
+| Controller | Route | Methods |
+|------------|-------|---------|
+| AuthController | /api/auth/register, /api/auth/login | POST |
+| UserController | /api/users | GET, POST |
+| UserController | /api/users/{id} | GET |
+| DepartmentController | /api/departments | POST |
+| CourseController | /api/courses, /api/courses/published | GET, POST |
+| ContentController | /api/content/module, /api/content/module/course/{courseId}, /api/content/item, /api/content/item/module/{moduleId} | GET, POST |
+| DiscussionController | /api/discussions/thread, /api/discussions/course/{courseId}, /api/discussions/post, /api/discussions/thread/{threadId}/posts | GET, POST |
+| EnrollmentController | /api/enrollments, /api/enrollments/user/{userId}, /api/enrollments/course/{courseId} | GET, POST |
+| FeedbackController | /api/feedback, /api/feedback/course/{courseId} | GET, POST |
+| TestController | /api/tests, /api/tests/course/{courseId}, /api/tests/question, /api/tests/{testId}/questions, /api/tests/attempt, /api/tests/attempt/{attemptId}/submit, /api/tests/answer | GET, POST, PUT |
+
+**Authentication**: JWT Bearer token via Authorization header. CSRF disabled.
+
+**Authorization**: Role string embedded in JWT claim, set as Spring Security authority with ROLE_ prefix, but no method-level or URL-level role enforcement in source code (no @PreAuthorize, @Secured, or .hasRole() checks).
+
+**Validation**: spring-boot-starter-validation dependency present but no @Valid annotations used in controllers.
+
+**Error Handling**: GlobalExceptionHandler for DataIntegrityViolationException (409) and generic Exception (500). Login returns plain string error messages.
+
+### AI/ML
+
+None verified. No AI models, ML libraries, or inference code found in the source code.
+
+### Security
+
+- JWT: HS256 with HMAC-SHA key, 1-hour expiration, stateless
+- Password hashing: BCrypt via BCryptPasswordEncoder
+- CSRF: Explicitly disabled
+- SQL Injection: Mitigated via JPA/Hibernate parameterized queries
+- Hardcoded JWT secret in JwtUtil.java (plaintext string)
+- Database password stored in plaintext in application.properties
+- No CORS configuration
+- No method-level authorization enforcement (roles extracted but not checked)
+- No IDOR protection — any authenticated user can access any user's enrollments
+- No rate limiting
+
+### Deployment
+
+- Docker: None. CI/CD: None. Hosting: None.
+- Database credentials hardcoded in application.properties.
+- No environment variable configuration.
+
+### Metrics
+
+| Metric | Value |
+|--------|-------|
+| Java version | 21 |
+| Spring Boot parent | 4.0.2 |
+| Server port | 8080 |
+| JWT expiration | 1 hour |
+| Database | PostgreSQL |
+| Entities | 17 |
+| Repositories | 15 |
+| Controllers | 9 |
+| Security classes | 5 |
+| Test classes | 1 (context loads) |
+| Dependencies | 6 Spring starters + 4 libraries |
+
+### Limitations
+
+- No service layer — business logic mixed in controllers
+- No method-level authorization enforcement (roles extracted but not checked)
+- JWT secret hardcoded in source code
+- Database password hardcoded in application.properties
+- No input validation on request bodies (@Valid not used)
+- No pagination on list endpoints
+- No file upload implementation (filePath is a text field only)
+- No role-specific endpoints for Leaderboard or UserProgress (entities exist but no controllers)
+- No CORS configuration
+- Login returns plain string error messages (not JSON)
+- Some endpoints return null instead of 404
+- README response format (success/error wrapper) not implemented in code
+- Only one test class with context-loads test
+- No migration scripts (DDL auto-update)
+- No caching, no rate limiting, no background workers
+
+### Future Scope
+
+- JaCoCo for test coverage (referenced in README, not in pom.xml)
+- Spring Boot Actuator health endpoint (referenced in README, not in source)
+- Real-Time Analytics and Dynamic leaderboards described in README (Leaderboard entity exists but no endpoint exposed)
+
+### GitHub
+
+- Repository: https://github.com/Ganesh-AIML/Learnshere
+- Developer: Ganesh Singh
 
 ---
 
-## Project: Exoplanet Detection & Habitability Classification (Exo-Detect)
+## Project: Exoplanet Detection & Habitability Classifier
+
+- Description: An AI/ML-powered system utilizing NASA's Kepler & TESS datasets to detect and classify potentially habitable exoplanets. Features include an interactive Flask dashboard, dynamic visualizations of orbital metrics, and model interpretability using SHAP.
+- Technologies: Python (Flask), XGBoost, Scikit-Learn, Plotly
+- GitHub: https://github.com/Ganesh-AIML/Exoplanet-Classifier
 
 ### Overview
 
