@@ -3,9 +3,9 @@ import md from "./portfolio-data.md?raw"
 
 const API_KEY = import.meta.env.VITE_GROQ_API_KEY
 const API_URL = "https://api.groq.com/openai/v1/chat/completions"
-const MODEL = "llama-3.1-8b-instant"
+const MODEL = "llama-3.3-70b-versatile"
 const CACHE_TTL = 3600000
-const MAX_TOKENS = 800
+const MAX_TOKENS = 1024
 
 const cache = new Map()
 const MAX_HISTORY = 6
@@ -73,8 +73,31 @@ function bm25Score(qTokens, chunk, avgDocLen, N, df) {
   return score
 }
 
-function findRelevantChunks(query) {
+function enrichQuery(query, history) {
   const qTokens = tokenize(query)
+  const projectRoots = chunks.filter(c => !c.heading.includes('>'))
+  const hasProjectToken = qTokens.some(t =>
+    projectRoots.some(c => c.heading.toLowerCase().includes(t))
+  )
+  if (hasProjectToken || qTokens.length === 0) return query
+
+  for (let i = history.length - 1; i >= 0; i--) {
+    if (history[i].role === 'assistant') {
+      const lastReply = history[i].text.toLowerCase()
+      for (const c of projectRoots) {
+        const projectName = c.heading.replace(/^Project: /i, '').trim().toLowerCase()
+        if (lastReply.includes(projectName)) {
+          return `${query} ${c.heading}`
+        }
+      }
+    }
+  }
+  return query
+}
+
+function findRelevantChunks(query, history = []) {
+  const enriched = enrichQuery(query, history)
+  const qTokens = tokenize(enriched)
   if (qTokens.length === 0) return []
   const N = chunks.length
   const avgDocLen = chunks.reduce((s, c) => s + c.tokens.length, 0) / N
@@ -84,17 +107,20 @@ function findRelevantChunks(query) {
     .map((c) => ({ ...c, score: bm25Score(qTokens, c, avgDocLen, N, df) }))
     .filter((c) => c.score > 0)
     .sort((a, b) => b.score - a.score)
-  return scored.slice(0, 2)
+
+  const isListQuery = /\b(list|all|every|each|name|show|what are)\b/i.test(query)
+  const topN = isListQuery ? 5 : 2
+  return scored.slice(0, topN)
 }
 
 function buildSystemPrompt(query, history = []) {
-  const matched = findRelevantChunks(query)
+  const matched = findRelevantChunks(query, history)
   const context = matched.length
     ? matched.map((c) => `## ${c.heading}\n${c.content}`).join("\n\n")
-    : "I couldn't find verified information about that in Ganesh's portfolio."
+    : "No specific portfolio section matched. If the user is asking about a project, experience, skill, certificate, or education topic, suggest they ask about a specific topic from Ganesh's portfolio."
 
   const historyBlock = history.length
-    ? `## Conversation History (for context only — do NOT rely on it for facts)\n${history.map((m) => `${m.role}: ${m.text}`).join("\n")}`
+    ? `## Conversation History (for reference)\n${history.map((m) => `${m.role}: ${m.text}`).join("\n")}`
     : ""
 
   const skillsBlock = query.match(/\b(skill|know|tech stack|expertise|proficient|technologies?|good at|work with|familiar|background|stack)\b/i)
@@ -107,31 +133,14 @@ function buildSystemPrompt(query, history = []) {
 
 ${context}
 
-## Truthfulness Policy — MANDATORY
+## Truthfulness Policy
 
-Never invent, infer, assume, or guess information. Only answer using information present in the Retrieved Context above.
-
-### Project Isolation Rule
-
-The Retrieved Context belongs to a SINGLE project. You MUST:
-1. ONLY use information from that project's section.
-2. NEVER combine information from multiple projects or from your general knowledge.
-3. For project TECHNOLOGIES: verify each one exists verbatim in the context.
+Never invent or guess information. Only answer using information present in the Retrieved Context above. If information is incomplete or partially available, share what you know and acknowledge the gaps — do not infer or make up details.
 
 ### Response Rules
-
-1. Every technology you name must appear VERBATIM in the Retrieved Context.
-2. Every number or metric must appear VERBATIM in the Retrieved Context.
-3. If the context has no technologies section, DO NOT list any technologies.
-4. If the context has no metrics section, DO NOT provide any numbers.
-
-### Missing Information
-
-If the Retrieved Context does NOT contain the specific information requested, respond with this EXACT sentence:
-
-"I couldn't find verified information about that in Ganesh's portfolio."
-
-DO NOT add explanations, suggestions, or general knowledge.
+1. Every technology or number you mention must appear in the Retrieved Context.
+2. If a project's context shows its technologies, you can list them.
+3. If information about a specific topic is missing, say so simply.
 
 ${skillsBlock}
 
@@ -139,7 +148,7 @@ ${historyBlock}
 
 ## Response Style
 
-Be friendly, professional, and conversational. Default to 2-5 sentences. Use bullet points when listing items.
+Be friendly, professional, and conversational. Use 2-5 sentences. Use bullet points for listing items.
 
 Speak as Ganesh's portfolio assistant. Use phrases like "According to Ganesh's portfolio..." instead of "I built...". Never impersonate Ganesh.
 
