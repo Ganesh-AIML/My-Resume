@@ -451,12 +451,194 @@ No explicit future improvements documented in the repository.
 
 ---
 
-## Project: Exo-Classifier
+## Project: Exoplanet Detection & Habitability Classification (Exo-Detect)
 
-- Timeline: October 2025 – November 2025
-- Description: Processed 11,436 NASA Kepler KOI observations across 11 stellar and orbital features for binary habitability classification using Python and Pandas. Built an XGBoost classification model integrating SHAP and LIME for interpretability, achieving 75% accuracy on confirmed planet vs. false positive detection. Features include an interactive Flask dashboard and dynamic visualizations of orbital metrics.
-- Technologies: Python, XGBoost, Flask, Scikit-learn, Pandas, NumPy, SHAP, LIME
-- GitHub: https://github.com/Ganesh-AIML/Exoplanet-Classifier
+### Overview
+
+An AI/ML-powered web application that classifies exoplanet candidates from NASA Kepler (KOI) and TESS (TOI) datasets as habitable or non-habitable, with an interactive dashboard for visualization and analysis. The system uses a Random Forest classifier served through a Flask backend with Plotly-based visualizations.
+
+### Timeline
+
+October 2025 – November 2025
+
+### Problem Statement
+
+Bridge the gap between complex astronomical data from NASA exoplanet missions and public interpretability by providing an automated detection and visualization platform.
+
+### Target Users
+
+- Students
+- Researchers
+- Astronomy enthusiasts
+- General public interested in exoplanet discovery
+
+### User Roles
+
+- **End User**: Uploads CSV data or uses sample data, views predictions and visualizations through the web dashboard. No authentication or role-based access is implemented.
+
+### Features
+
+#### Core Features
+
+- Exoplanet candidate classification using Random Forest model
+- Binary classification: candidate (1) or non-candidate (0)
+- Habitability classification using rule-based stellar and planetary parameter thresholds
+- CSV file upload for custom data analysis
+- Sample data analysis using pre-loaded Kepler dataset
+- Results download as CSV
+- Data preview modal
+
+#### Visualization Features
+
+- Goldilocks Zone Plot (temperature vs. insolation flux with habitable zone overlay)
+- Temperature-Insolation Habitability Heatmap (KDE-based probability density)
+- Planetary Profile Radar Comparison (up to 5 candidates compared to Earth)
+- Orbit Map (polar scatter plot based on orbital period, color-coded by habitability)
+- Feature Importance bar chart (illustrative/hardcoded values)
+- Planetary Profile Radar (illustrative/hardcoded comparison)
+- SHAP Explainability bar chart (illustrative/hardcoded values)
+- Galactic Map with Habitability Zones (RA/Dec sky coordinates, color-coded by temperature zone)
+- Feature Pair Explorer (custom scatter plot of any two numeric features)
+
+#### Performance Features
+
+- Sample data capped at 3000 points for galactic map rendering
+
+#### Infrastructure Features
+
+- Deployed on Render using gunicorn WSGI server
+
+### Tech Stack
+
+- **Languages**: Python
+- **Frontend**: HTML5, CSS3, Tailwind CSS (CDN), Plotly.js (CDN)
+- **Backend**: Flask 3.1.2
+- **Database**: None (CSV file-based data storage)
+- **ML Libraries**: scikit-learn 1.7.2, xgboost 3.0.5, joblib 1.5.2
+- **Data Libraries**: pandas 2.3.3, numpy 2.3.3, scipy 1.16.2
+- **Visualization**: plotly 6.3.1
+- **Web Server**: gunicorn 21.2.0
+- **DevOps**: render.yaml (Render deployment config)
+- **Version Control**: Git
+
+### Architecture
+
+Monolithic Flask application. A single Flask app serves both frontend (rendered HTML template) and backend (REST API endpoints). The ML model is loaded at startup from a pickled file and used for on-demand predictions.
+
+**Pipeline**: Data Ingestion → CSV Parsing → Feature Engineering → Model Prediction → Habitability Classification → JSON Response → Client-side Plotly Visualization
+
+#### Request Flow
+
+```
+User uploads CSV / clicks "Analyze Sample Data"
+       ↓
+Frontend sends POST/GET request to Flask API
+       ↓
+Flask reads CSV via pandas
+       ↓
+engineer_features() creates derived columns
+       ↓
+Model pipeline predicts disposition (0/1)
+       ↓
+apply_habitability_classification() applies rule-based check
+       ↓
+JSON response with all columns + disposition + habitable
+       ↓
+Frontend renders 9 Plotly visualizations
+```
+
+### Database
+
+No database. Data is stored in CSV files:
+
+- `data/final_dataset.csv` — 11,436 rows, 11 columns (sample data used for prediction)
+- Original Kepler dataset (not in repo) had 49 columns, 6,314 rows (per notebook)
+
+**Dataset Columns**: orbital_period_days, transit_duration_hours, transit_depth_ppm, planetary_radius_earth_radii, insolation_flux_earth_flux, equilibrium_temperature_k, stellar_effective_temperature_k, stellar_surface_gravity_log10_cm_s2, stellar_radius_solar_radii, right_ascension_decimal_degrees, declination_decimal_degrees
+
+No indexes, constraints, relationships, or migrations.
+
+### APIs
+
+All endpoints served from Flask at port 5000 (or Render production URL).
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| / | GET | Serve HTML frontend |
+| /predict | POST | Upload CSV, run prediction, return JSON |
+| /predict_sample | GET | Predict using final_dataset.csv |
+| /sample_data | GET | Return first 10 rows of sample data |
+| /heatmap_data | POST | Generate KDE heatmap Plotly figure |
+| /generate_radar | POST | Generate radar comparison Plotly figure |
+| /generate_galactic_map | POST | Generate galactic scatter map Plotly JSON |
+| /download_results | POST | Return predictions CSV for download |
+
+Authentication: None. Authorization: None. Rate Limiting: None.
+
+### AI/ML
+
+- **Model Type**: scikit-learn Pipeline (StandardScaler + RandomForestClassifier)
+- **Training**: Not included in repository. Only serialized `models/random_forest_model.pkl` present.
+- **Inference**: Model loaded via pickle.load(), used with model.predict()
+- **Feature Engineering**: luminosity_proxy, habitable_zone_proxy, size_ratio derived before prediction
+- **Habitability Classification**: Rule-based (NOT from ML model) — stellar classification (F/G/K/M), planet radius 0.5–5.0 Earth radii, temperature 175–270 K, insolation flux 0.32–1.77 Earth flux
+- **Illustrative Visualizations** (hardcoded example data, not computed from model): Feature Importance bar chart, Planetary Profile Radar, SHAP Explainability bar chart
+- **Libraries**: scikit-learn, xgboost, numpy, scipy
+
+### Security
+
+- CORS: Enabled via flask_cors (CORS(app))
+- No password hashing, encryption, JWT, OAuth, RBAC, CSRF, Helmet, XSS protection, input sanitization, or rate limiting
+- SQL injection: Not applicable (no database)
+
+### Performance
+
+- No caching, Redis, queues, workers, threading, load balancing, lazy loading, or compression
+- No database indexes
+
+### Deployment
+
+- **Platform**: Render (web service, Python 3.11.0)
+- **Build**: pip install -r requirements.txt
+- **Start**: gunicorn app:app
+- **Production URL**: https://exo-classifier.onrender.com
+- **Containerization**: None (no Dockerfile)
+- **CI/CD**: None
+
+### Metrics
+
+- Dataset rows (final): 11,436
+- Dataset columns: 11
+- Original dataset rows: 6,314 (49 columns, per notebook)
+- API endpoints: 8
+- Visualizations: 9
+- Lines of code (app.py): 579
+- Lines of code (index.html): 590
+- Model file format: pickle (.pkl)
+- Model training script: Not included in repository
+- Tests: None
+
+### Limitations
+
+- No authentication or user management
+- No database — all data is CSV file-based
+- No persistent storage for user uploads or results
+- SHAP explainability, feature importance, and planetary profile radar visualizations are illustrative/hardcoded, not computed from actual model
+- No model training script in repository (only serialized .pkl)
+- No test suite, no CI/CD pipeline
+- No input sanitization, no rate limiting
+- Model accuracy metrics not available in repository
+- No error monitoring or logging framework beyond print statements
+- env-example.txt is empty
+
+### Future Scope
+
+No future improvements or roadmap documented in the repository.
+
+### GitHub
+
+- Repository: https://github.com/Mansi-2703/exo_classifier
+- Branch: main
 
 ---
 
