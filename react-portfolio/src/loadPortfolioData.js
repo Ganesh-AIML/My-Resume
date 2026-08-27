@@ -16,11 +16,50 @@ export const SKILLS = [
 
 export const EXPERIENCES = [
   {
+    id: "lias",
+    role: "Forward Deployed AI Engineer",
+    company: "LIAS",
+    badge: "Freelance",
+    period: "June 2026 – July 2026",
+    location: "Remote (London-based)",
+    metrics: [
+      { target: 99, suffix: "%", label: "Proctoring Accuracy" },
+      { target: 3, suffix: "+", label: "Security Layers" },
+      { target: 0, suffix: "", label: "Video Stream Leaks" },
+      { target: 12, suffix: "", label: "MongoDB Collections" },
+    ],
+    achievements: [
+      "Built a full-stack AI-proctored examination platform (React 19 + FastAPI + MongoDB) for secure remote assessments",
+      "Implemented client-side AI proctoring using TensorFlow.js COCO-SSD and MediaPipe FaceLandmarker for real-time face, object, and environment detection — zero video streams sent to server",
+      "Designed secure exam lifecycle with JWT-bound sessions, start/end password gates, and auto-revocation at 3 violations",
+      "Developed faculty evaluation workflow with module-scoped access, admin context switching, and legacy fallback",
+      "Architected MongoDB-only data layer with repository abstraction, transactional exam CRUD, and 150-test pytest suite",
+    ],
+    tech: ["React 19", "FastAPI", "MongoDB", "Python", "Tailwind CSS", "JWT", "TensorFlow.js", "Socket.IO", "MediaPipe", "Monaco Editor", "TipTap"],
+  },
+  {
+    id: "super-ai",
+    role: "Secretary",
+    company: "Super-AI Community",
+    badge: "Leadership",
+    period: "July 2025 – July 2026",
+    metrics: [
+      { target: 15, suffix: "+", label: "Workshops Led" },
+      { target: 40, suffix: "%", label: "Engagement Boost" },
+      { target: 4, suffix: "", label: "Teams Managed" },
+    ],
+    achievements: [
+      "Coordinated communication and documentation across technical and creative teams",
+      "Orchestrated 15+ technical workshops and webinars, increasing community engagement by 40%",
+    ],
+    tech: ["Team Management", "Documentation", "Technical Workshops", "Community Building"],
+  },
+  {
     id: "liferythem",
     role: "Software Development Intern",
     company: "LifeRythem",
-    badge: "Current",
-    period: "March 2026 – Present",
+    badge: "Internship",
+    period: "February 2026 – June 2026",
     metrics: [
       { target: 90, suffix: "%", label: "Detection Accuracy" },
       { target: 4, suffix: "+", label: "IoT Devices" },
@@ -65,39 +104,6 @@ export const EXPERIENCES = [
     tech: ["HTML5", "CSS3", "JavaScript", "Google Apps Script"],
   },
   {
-    id: "super-ai",
-    role: "Secretary",
-    company: "Super-AI Community",
-    badge: "Leadership",
-    period: "July 2025 – Present",
-    metrics: [
-      { target: 15, suffix: "+", label: "Workshops Led" },
-      { target: 40, suffix: "%", label: "Engagement Boost" },
-      { target: 4, suffix: "", label: "Teams Managed" },
-    ],
-    achievements: [
-      "Coordinated communication and documentation across technical and creative teams",
-      "Orchestrated 15+ technical workshops and webinars, increasing community engagement by 40%",
-    ],
-    tech: ["Team Management", "Documentation", "Technical Workshops", "Community Building"],
-  },
-  {
-    id: "junoon",
-    role: "Resource Intern",
-    company: "Junoon Foundation",
-    badge: "Social Impact",
-    period: "May 2024 – June 2024",
-    metrics: [
-      { target: 100, suffix: "+", label: "Students Reached" },
-      { target: 30, suffix: "%", label: "Accessibility ↑" },
-    ],
-    achievements: [
-      "Developed and delivered academic worksheets for underprivileged students",
-      "Supported educational drives impacting 100+ students and improved learning accessibility",
-    ],
-    tech: ["Curriculum Design", "Educational Content", "Social Outreach"],
-  },
-  {
     id: "hackathons-competitions",
     role: "Participant & Finalist",
     company: "Various National Competitions",
@@ -121,6 +127,22 @@ export const EXPERIENCES = [
       { title: "Multicon Research 2024", desc: "Written a research on \"Artificial Intelligence in Preventing Environmental Issues\" exploring predictive analytics for environmental monitoring." },
       { title: "Codethon 2024", desc: "3rd place in 90-minute competitive programming event on HackerRank, solving complex algorithmic challenges." },
     ],
+  },
+  {
+    id: "junoon",
+    role: "Resource Intern",
+    company: "Junoon Foundation",
+    badge: "Social Impact",
+    period: "May 2024 – June 2024",
+    metrics: [
+      { target: 100, suffix: "+", label: "Students Reached" },
+      { target: 30, suffix: "%", label: "Accessibility ↑" },
+    ],
+    achievements: [
+      "Developed and delivered academic worksheets for underprivileged students",
+      "Supported educational drives impacting 100+ students and improved learning accessibility",
+    ],
+    tech: ["Curriculum Design", "Educational Content", "Social Outreach"],
   },
 ]
 

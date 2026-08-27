@@ -221,7 +221,7 @@ a:hover { color: var(--heading-color); }
 .achievement-list li::before { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 0; color: var(--accent-color); font-size: 0.9rem; }
 
 .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-.tech-badge { padding: 6px 14px; background: var(--white); border: 1.5px solid var(--border-color); border-radius: 20px; font-size: 0.85rem; font-weight: 500; color: var(--text-color); cursor: default; transition: all 0.3s var(--ease-smooth); }
+.tech-badge { padding: 6px 14px; background: var(--white); border: 1.5px solid var(--border-color); border-radius: 20px; font-size: 0.85rem; font-weight: 500; color: var(--text-color); cursor: default; transition: border-color 0.3s var(--ease-smooth), color 0.3s var(--ease-smooth), background 0.3s var(--ease-smooth); }
 .tech-badge:hover { border-color: var(--accent-color); color: var(--accent-color); background: var(--accent-light); }
 
 .details-toggle { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); }

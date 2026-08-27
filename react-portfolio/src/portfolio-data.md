@@ -45,13 +45,31 @@ Ganesh has built the following projects:
 
 ---
 
+## Experience: LIAS
+
+- Role: Forward Deployed AI Engineer
+- Company: LIAS
+- Location: Remote (London-based)
+- Badge: Freelance
+- Period: June 2026 – July 2026
+- Technologies: React 19, FastAPI, MongoDB, Python, Tailwind CSS, JWT, TensorFlow.js, Socket.IO, MediaPipe, Monaco Editor, TipTap
+- Metrics: Proctoring Accuracy 99% | Security Layers 3+ | Video Stream Leaks 0 | MongoDB Collections 12
+- Achievements:
+  - Built a full-stack AI-proctored examination platform (React 19 + FastAPI + MongoDB) for secure remote assessments
+  - Implemented client-side AI proctoring using TensorFlow.js COCO-SSD and MediaPipe FaceLandmarker for real-time face, object, and environment detection — zero video streams sent to server
+  - Designed secure exam lifecycle with JWT-bound sessions, start/end password gates, and auto-revocation at 3 violations
+  - Developed faculty evaluation workflow with module-scoped access, admin context switching, and legacy fallback
+  - Architected MongoDB-only data layer with repository abstraction, transactional exam CRUD, and 150-test pytest suite
+
+---
+
 ## Experience: LifeRythem
 
 - Role: Software Development Intern
 - Company: LifeRythem
 - Location: Mumbai, India
-- Badge: Current
-- Period: March 2026 – Present
+- Badge: Internship
+- Period: February 2026 – June 2026
 - Technologies: React Native, Kotlin, CNN, TensorFlow/Keras, Python, IoT
 - Metrics: Detection Accuracy 90% | IoT Devices 4+
 - Achievements:
@@ -60,41 +78,12 @@ Ganesh has built the following projects:
 
 ---
 
-## Experience: DRSGA
-
-- Role: AI & ML Intern
-- Company: DRSGA
-- Location: Mumbai, India
-- Badge: Technical
-- Period: December 2025 – January 2026
-- Technologies: JavaScript, Chart.js, Machine Learning, NLP, REST APIs, Python
-- Metrics: Time Saved 80% | KPIs Tracked 20+ | Feedbacks Analyzed 100+
-- Achievements:
-  - Developed a real-time NABH compliance dashboard using JavaScript and Chart.js, visualizing 20+ KPIs and reducing manual audit time by 80% via automated PDF generation
-  - Developed an ML-based NLP sentiment analysis system exposed via REST APIs, analyzing 100+ client feedback records to generate actionable insights for data-driven decision-making
-
----
-
-## Experience: JACOB Coaching Classes
-
-- Role: Web Project Developer
-- Company: JACOB Coaching Classes
-- Badge: Freelance
-- Period: July 2025
-- Technologies: HTML5, CSS3, JavaScript, Google Apps Script
-- Metrics: Active Users 50+ | On-Time Delivery 100%
-- Achievements:
-  - Engineered a responsive web portal using HTML, CSS, JavaScript, and Google Apps Script, enabling over 50 students to seamlessly access class schedules and information online
-  - Delivered the project on time, resulting in a formal Letter of Recommendation (LOR) that validated the quality of work
-
----
-
 ## Experience: Super-AI Community
 
 - Role: Secretary
 - Company: Super-AI Community
 - Badge: Leadership
-- Period: July 2025 – Present
+- Period: July 2025 – July 2026
 - Technologies: Team Management, Documentation, Technical Workshops, Community Building
 - Metrics: Workshops Led 15+ | Engagement Boost 40% | Teams Managed 4
 - Achievements:

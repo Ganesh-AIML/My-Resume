@@ -414,14 +414,17 @@ function ExperienceCard({ exp, isActive, metricsRun, clickTick }) {
           </div>
         )}
         <motion.div className="tech-stack"
-          variants={{ hover: { transition: { staggerChildren: 0.1 } } }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut", staggerChildren: 0.06 }}
+          variants={{ hover: { transition: { staggerChildren: 0.04 } } }}
           whileHover="hover">
           {exp.tech.map((t) => (
-            <motion.span key={t} className="tech-badge"
-              variants={{ hover: { rotateY: 360 } }}
-              transition={{ type: "spring", stiffness: 200, damping: 16 }}>
+            <span key={t} className="tech-badge"
+              variants={{ hover: { scale: 1.08, y: -2 } }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}>
               {t}
-            </motion.span>
+            </span>
           ))}
         </motion.div>
       </motion.div>
