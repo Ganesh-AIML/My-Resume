@@ -18,7 +18,8 @@
 - Degree: Bachelor of Technology in Artificial Intelligence & Machine Learning
 - Location: Mumbai, India
 - Expected: June 2027
-- CGPA: 9.7 / 10.0
+- CGPA: 9.74 / 10.0
+- Offer: TCS Prime (Tata Consultancy Services)
 
 ---
 
@@ -37,11 +38,30 @@
 
 Ganesh has built the following projects:
 
-1. **S.C.O.P.E. (Secure Competitive Online Platform for Examinations)** — A 4-role distributed assessment platform replacing third-party tools like HackerRank for institutional placement drives. Technologies: React, Node.js, PostgreSQL, Linux, Redis, Nginx, Docker, Judge0. Timeline: March 2026 – April 2026.
+1. **S.C.O.P.E. (Secure Competitive Online Platform for Examinations)** — Ganesh's final-year project, used by TCET to run online exams for all students with 1,000+ concurrent users. A 4-role distributed assessment platform replacing third-party tools like HackerRank for institutional placement drives. Technologies: React, Node.js, PostgreSQL, Linux, Redis, Nginx, Docker, Judge0. Timeline: March 2026 – April 2026.
 2. **Tourist Guardian Safety Platform (ResQ AI)** — A comprehensive safety ecosystem for the Smart India Hackathon, featuring a tourist mobile app and a police dashboard with AI anomaly detection and blockchain backend. Technologies: Flutter, React, Node.js, Blockchain, Python. Timeline: Smart India Hackathon 2025.
 3. **Alertica — AI Women's Safety App** — A personal safety application providing immediate assistance in emergencies using voice anomaly detection, silent SOS activation, geofencing, and emergency API integration. Technologies: Flutter, Firebase, Node.js, REST APIs. Timeline: October 2025 – November 2025.
 4. **LearnSphere** — A secure Learning Management System with REST APIs for course management, student enrollment, and assessments with role-based authentication. Technologies: Spring Boot, PostgreSQL, REST APIs. Timeline: August 2025 – December 2025.
+6. **IntervAI** — A voice-first AI interview platform built during the Boomlet internship: résumé parsing, a real-time voice interviewer and transcript-based evaluation for HR. Technologies: React, TypeScript, Java 21, Spring Boot, FastAPI, MongoDB, Firebase Auth, Deepgram Voice Agent, LLM APIs. Timeline: August – September 2026.
+7. **College RAG Assistant** — A private, fully local retrieval-augmented assistant that answers college staff questions from internal documents. Technologies: Python, FastAPI, LangChain, LlamaIndex, ChromaDB, BM25, BGE-M3 embeddings, BGE reranker, Ollama (Llama 3.1 8B, Mistral 7B). Timeline: March 2026.
 5. **Exoplanet Detection & Habitability Classifier** — An AI/ML-powered system using NASA's Kepler & TESS datasets to detect and classify potentially habitable exoplanets. Technologies: Python (Flask), XGBoost, Scikit-Learn, Plotly. Timeline: October 2025 – November 2025.
+
+---
+
+## Experience: Boomlet
+
+- Role: Software Developer Intern
+- Company: Boomlet
+- Location: Mumbai, India
+- Badge: Internship
+- Period: July 2026 – September 2026
+- Technologies: Java 21, Spring Boot, FastAPI, React, TypeScript, PHP, MySQL, MongoDB, Firebase Auth, Deepgram Voice Agent, LLM APIs, WebSockets
+- Achievements:
+  - Built IntervAI, an end-to-end voice-first AI interview platform: résumé parsing, a real-time conversational voice interviewer, and transcript-based evaluation that checks answers against the résumé, with an HR review dashboard. Took it from research to an MVP demo in five days and then to a production release.
+  - Built core modules of an internal operations and productivity suite: Kanban and table task views with nested subtasks and drag-and-drop buckets, milestone tracking, team spaces and OKR integration.
+  - Built an organisation-wide messenger with slash commands to update tasks from chat, a three-channel notification engine (email, in-app, webhook) and HR ticketing.
+  - Added an RBAC-aware AI middleware that enforces role context before prompts reach the LLM, and hardened RBAC/ABAC access control across modules.
+  - Removed N+1 query bottlenecks with batched loading, reducing database round-trips by over 60%.
 
 ---
 
@@ -66,7 +86,7 @@ Ganesh has built the following projects:
 ## Experience: LifeRythem
 
 - Role: Software Development Intern
-- Company: LifeRythem
+- Company: LifeRythem Healthcare Platform
 - Location: Mumbai, India
 - Badge: Internship
 - Period: February 2026 – June 2026
@@ -78,12 +98,39 @@ Ganesh has built the following projects:
 
 ---
 
+## Experience: DRSGA
+
+- Role: AI & ML Intern
+- Company: DRSGA
+- Location: Mumbai, India
+- Badge: Internship
+- Period: December 2025 – January 2026
+- Technologies: JavaScript, Chart.js, Python, Machine Learning, NLP, REST APIs
+- Achievements:
+  - Built a real-time NABH compliance dashboard visualising 20+ KPIs with automated PDF report generation, reducing manual audit time by 80%
+  - Developed an ML-based NLP sentiment analysis system exposed via REST APIs, processing 100+ client feedback records for data-driven decisions
+
+---
+
+## Experience: Jacob Classes
+
+- Role: Web Developer (Freelance)
+- Company: Jacob Classes (coaching institute, Mumbai)
+- Badge: Freelance
+- Period: July 2025
+- Technologies: HTML, CSS, JavaScript
+- Achievements:
+  - Built the institute website with a small team for students from Std 8 to 12; owned the Toppers page and coordinated with teammates
+  - Received a Letter of Recommendation from the Head of Institute
+
+---
+
 ## Experience: Super-AI Community
 
 - Role: Secretary
 - Company: Super-AI Community
 - Badge: Leadership
-- Period: July 2025 – July 2026
+- Period: July 2025 – June 2026 (Secretary); August 2024 – August 2025 (Core Committee Member – Technical)
 - Technologies: Team Management, Documentation, Technical Workshops, Community Building
 - Metrics: Workshops Led 15+ | Engagement Boost 40% | Teams Managed 4
 - Achievements:
@@ -97,7 +144,7 @@ Ganesh has built the following projects:
 - Role: Resource Intern
 - Company: Junoon Foundation
 - Badge: Social Impact
-- Period: May 2024 – June 2024
+- Period: May 2024
 - Technologies: Curriculum Design, Educational Content, Social Outreach
 - Metrics: Students Reached 100+ | Accessibility Increased 30%
 - Achievements:
@@ -117,7 +164,7 @@ Ganesh has built the following projects:
 - Achievements:
   - **NASA Space Apps 2025:** Global Nominees - Top 13 from India out of 1,290+ projects worldwide for exoplanet detection using AI.
   - **Credtech Hackathon:** 2nd Prize at a Credathon organized by IIT Kanpur for a credit assessment tool with an explainable AI dashboard.
-  - **DIPEX 2025:** Finalists for AI-powered women's safety application with offline capabilities
+  - **DIPEX 2025:** State-level finalist (COEP Pune) with Alertica, the AI-powered women's safety app — cleared 3 rounds to reach the final.
 - Sub-events:
   - Smart India Hackathon 2025: Engineered an integrated safety ecosystem with Flutter app, React dashboard, and blockchain backend featuring AI-powered anomaly detection and automated e-FIR generation
   - 20th Aavishkar Research Convention 2025-26: Ranked 2nd in the Institute Round out of 48 selected project groups. Represented the college at the Zonal level, reaching the final round with the ResQ AI: Smart Tourist Safety System
@@ -129,7 +176,7 @@ Ganesh has built the following projects:
 
 ## Project: S.C.O.P.E. — Overview
 
-S.C.O.P.E. (Secure Competitive Online Platform for Examinations) is a full-stack exam platform built for the Training & Placement department at Thakur College of Engineering and Technology (TCET), Mumbai. It is a self-hosted, on-premise system that runs inside the college LAN. The platform supports 1000+ concurrent students with role-based access for students, teachers, T&P faculty, and super administrators. It includes live code execution via Judge0 across 10 distributed nodes, MCQ testing with aptitude and technical sections, real-time exam monitoring via WebSockets, and anti-cheat enforcement via Safe Exam Browser (SEB). Built by Anuj Singh, Ganesh Singh, and Aniket Bhaskar.
+S.C.O.P.E. (Secure Competitive Online Platform for Examinations) is Ganesh's final-year project and a full-stack exam platform built for the Training & Placement department at Thakur College of Engineering and Technology (TCET), Mumbai. It is a self-hosted, on-premise system that runs inside the college LAN. TCET uses it to conduct online exams for all its students at scale; the platform supports 1,000+ concurrent students with role-based access for students, teachers, T&P faculty, and super administrators. It includes live code execution via Judge0 across 10 distributed nodes, MCQ testing with aptitude and technical sections, real-time exam monitoring via WebSockets, and anti-cheat enforcement via Safe Exam Browser (SEB). Built by Anuj Singh, Ganesh Singh, and Aniket Bhaskar.
 
 - Project Name: S.C.O.P.E.
 - Full Name: Secure Competitive Online Platform for Examinations
@@ -326,7 +373,7 @@ This section describes the metrics and APIs of S.C.O.P.E. (Secure Competitive On
 
 ### Metrics
 
-- Concurrent students: 500+
+- Concurrent students: 1,000+
 - Database connections: max 200 PostgreSQL, pool 40 Prisma
 - Judge0 nodes: 10 child nodes, 4 workers each (40 total)
 - Telemetry polling interval: 5 seconds
@@ -347,16 +394,6 @@ This section describes the metrics and APIs of S.C.O.P.E. (Secure Competitive On
 - **TNP** (/api/tnp): schedule test, list all tests, test details, archive test, student performance, update-password, sync-time, test analytics, ZIP problem upload
 - **Admin** (/api/admin): list pending/all users, approve/delete user, reset password, bulk reset staff
 - **System** (/api): telemetry, health check, timesync, remove-target-user
-
-### Limitations
-
-- No automated test suite
-- No AI/ML features
-- No Docker or containerization configuration in repository
-- No CI/CD configuration
-- No Helmet middleware for security headers
-- No rate limiting
-- No TypeScript (plain JavaScript throughout)
 
 ### Planned Improvements
 
@@ -508,15 +545,6 @@ This section describes the tech stack and metrics of the Tourist Guardian Safety
 | Blockchain Transaction | 18s (Sepolia) |
 | API Response Time | 145ms avg |
 
-### Limitations
-
-1. **Prototype status**: Proof-of-concept, not production-ready
-2. **Simulated integrations**: AI, blockchain, dashboard, IoT integrations are simulated
-3. **No backend in Flutter repo**: Contains only Flutter frontend
-4. All safety scores, tourist data, zone data are hardcoded mock values
-5. Chatbot "Radha" is rule-based (regex), not AI/LLM
-6. Data focused on Northeast India region
-
 ### Planned Improvements
 
 From README Roadmap:
@@ -532,7 +560,7 @@ From README Roadmap:
 
 ## Project: Alertica — Overview
 
-Alertica is a Flutter-based cross-platform mobile application that provides women's safety through AI-powered voice detection, real-time emergency response via SMS/call/image/audio, Twilio IVR verification, and crime zone mapping. The app uses Firebase as its backend (Authentication, Firestore, Storage, Cloud Functions) and includes a separate Python ML script for audio-based emergency detection. The app disguises itself as a calculator on the homescreen, requiring a secret code (987456321) to unlock the safety dashboard.
+Alertica is a Flutter-based cross-platform mobile application that provides women's safety through AI-powered voice detection, real-time emergency response via SMS/call/image/audio, Twilio IVR verification, and crime zone mapping. The app uses Firebase as its backend (Authentication, Firestore, Storage, Cloud Functions) and includes a separate Python ML script for audio-based emergency detection. The app disguises itself as a calculator on the homescreen, unlocked with a secret code to reveal the safety dashboard.
 
 - Project Name: Alertica
 - Full Name: Alertica — AI Women's Safety App
@@ -628,14 +656,6 @@ This section describes the tech stack and metrics of Alertica — AI Women's Saf
 - Flutter dependencies: 23
 - Crime zones: 7
 - Emergency keywords: 4 (Flutter), 5 (Python)
-
-### Limitations
-
-- Hard-coded credentials throughout codebase (Twilio SID/token/phone)
-- Calculator disguise may confuse users
-- Python and Flutter systems are disconnected — no integration between them
-- No offline mode despite README claim
-- Prototype status, not production-ready
 
 ### Planned Improvements
 
@@ -770,15 +790,6 @@ This section describes the tech stack and metrics of LearnSphere LMS.
 
 9 controllers with routes covering: AuthController, UserController, DepartmentController, CourseController, ContentController, DiscussionController, EnrollmentController, FeedbackController, TestController.
 
-### Limitations
-
-- No service layer — business logic mixed in controllers
-- No method-level authorization enforcement
-- JWT secret hardcoded in source code
-- No input validation on request bodies
-- No pagination on list endpoints
-- Only one test class with context-loads test
-
 ### GitHub
 
 - Repository: https://github.com/Ganesh-AIML/Learnshere
@@ -788,7 +799,7 @@ This section describes the tech stack and metrics of LearnSphere LMS.
 
 ## Project: Exoplanet Classifier — Overview
 
-The Exoplanet Detection & Habitability Classifier is an AI/ML-powered web application that classifies exoplanet candidates from NASA Kepler (KOI) and TESS (TOI) datasets as habitable or non-habitable, with an interactive dashboard for visualization and analysis. The system uses a Random Forest classifier served through a Flask backend with Plotly-based visualizations.
+The Exoplanet Detection & Habitability Classifier is an AI/ML-powered web application that classifies exoplanet candidates from NASA Kepler (KOI) and TESS (TOI) datasets as habitable or non-habitable, with an interactive dashboard for visualization and analysis. The system uses an XGBoost classifier (95% accuracy) with SHAP and LIME explanations, served through a Flask backend with Plotly-based visualizations.
 
 - Project Name: Exoplanet Detection & Habitability Classifier
 - Also Known As: Exoplanet Classifier
@@ -817,7 +828,7 @@ This section describes the features and architecture of the Exoplanet Detection 
 
 ### Core Features
 
-- Exoplanet candidate classification using Random Forest model
+- Exoplanet candidate classification using an XGBoost model (95% accuracy)
 - Binary classification: candidate (1) or non-candidate (0)
 - Habitability classification using rule-based stellar and planetary parameter thresholds
 - CSV file upload for custom data analysis
@@ -835,7 +846,7 @@ This section describes the features and architecture of the Exoplanet Detection 
 
 ### AI/ML Pipeline
 
-- **Model Type**: scikit-learn Pipeline (StandardScaler + RandomForestClassifier)
+- **Model Type**: scikit-learn Pipeline (StandardScaler + SelectKBest + XGBClassifier); explainability with SHAP and LIME
 - **Inference**: Model loaded via pickle.load(), used with model.predict()
 - **Feature Engineering**: luminosity_proxy, habitable_zone_proxy, size_ratio derived before prediction
 - **Habitability Classification**: Rule-based (NOT from ML model) — stellar classification (F/G/K/M), planet radius 0.5–5.0 Earth radii, temperature 175–270 K, insolation flux 0.32–1.77 Earth flux
@@ -882,16 +893,37 @@ This section describes the tech stack and metrics of the Exoplanet Detection & H
 - **Start**: gunicorn app:app
 - **Production URL**: https://exo-classifier.onrender.com
 
-### Limitations
-
-- SHAP explainability visualizations are illustrative/hardcoded, not computed from actual model
-- No model training script in repository (only serialized .pkl)
-- No test suite, no CI/CD pipeline
-
 ### GitHub
 
 - Repository: https://github.com/Ganesh-AIML/Exoplanet-Classifier.git
 - Branch: main
+
+---
+
+## Project: IntervAI — Overview
+
+IntervAI is a voice-first AI interview platform Ganesh built end to end during his software developer internship at Boomlet (July – September 2026). Candidates sign in, upload a résumé for a role, and take a timed, real-time voice interview with an AI interviewer. Afterwards the system evaluates the transcript — scoring answers, checking them against the résumé, noting evidence and contradictions — and gives HR a review dashboard with pass/fail decisions and interview configuration.
+
+- Project Name: IntervAI
+- Context: Boomlet internship (company project; code is private)
+- Technologies: React, TypeScript, Java 21, Spring Boot 3, FastAPI, MongoDB Atlas, Firebase Authentication, Deepgram Voice Agent, OpenAI-compatible LLM
+- Architecture: React frontend · Spring Boot API with a WebSocket voice proxy · FastAPI AI service for résumé parsing and evaluation · MongoDB
+- Highlights: real-time voice over WebSockets with API keys and prompts kept server-side; résumé-aware interviews; mid-session resume after a dropped connection; admin-configurable interview length; transcript-first evaluation; CI with GitHub Actions; deployed on Vercel and Render
+- Timeline: research to MVP demo in five days (August 2026), production release September 2026
+
+---
+
+## Project: College RAG Assistant — Overview
+
+The College RAG Assistant is a private AI assistant that answers college staff questions from internal documents, running entirely on local open models so that documents never leave college servers. Ganesh designed and built it on his own.
+
+- Project Name: College RAG Assistant
+- Technologies: Python, FastAPI, LangChain, LlamaIndex, ChromaDB, rank-BM25, sentence-transformers (BGE-M3 embeddings), BGE cross-encoder reranker, Ollama (Llama 3.1 8B, Mistral 7B), PyMuPDF
+- Retrieval: hybrid search combining BM25 keyword search and vector search, merged and reranked with a cross-encoder; top results passed to the LLM
+- Safety: confidence threshold so the assistant declines instead of guessing
+- Features: streaming answers, session memory, query cache, staff and admin document uploads, admin statistics, web chat interface
+- Timeline: March 2026
+- Code: private
 
 ---
 
@@ -951,4 +983,6 @@ This section describes the tech stack and metrics of the Exoplanet Detection & H
 - Global Nominee: NASA Space Apps Challenge 2025 — among 114,000+ global participants across 167 countries
 - 1st Runner-up: IIT Kanpur CredTech 2025 National Hackathon
 - 2nd Runner-up: TCET Codethon 2024
-- Finalist: DIPEX 2025
+- Finalist: DIPEX 2025 (state level, COEP Pune) — cleared 3 rounds with Alertica
+- Research: paper on S.C.O.P.E. as a multimodal AI proctoring ecosystem, under review at ICICN 2026
+- Offer: TCS Prime

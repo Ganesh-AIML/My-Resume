@@ -1,0 +1,258 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  background: var(--ink);
+  scroll-padding-top: calc(var(--nav-h) + 12px);
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ink);
+  color: var(--paper-2);
+  font-family: var(--f-sans);
+  font-size: var(--t-base);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd,
+figure,
+blockquote {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: var(--red);
+  color: var(--on-red);
+}
+
+:focus-visible {
+  outline: 2px solid var(--red-hi);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: 12px;
+  z-index: 100;
+  padding: 10px 14px;
+  background: var(--red);
+  color: var(--on-red);
+  font-weight: 600;
+  transform: translateY(-160%);
+  transition: transform 0.2s;
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.wrap {
+  width: min(100% - 2 * var(--gutter), var(--maxw));
+  margin-inline: auto;
+}
+
+/* Typography ------------------------------------------------------------ */
+
+.display {
+  font-family: var(--f-sans);
+  font-stretch: 62%;
+  font-weight: 850;
+  text-transform: uppercase;
+  line-height: 0.88;
+  letter-spacing: -0.004em;
+  color: var(--paper);
+}
+
+/* Two-line headline: second line in red, closing full stop in red. */
+.headline {
+  font-size: var(--t-section);
+}
+
+.headline > span {
+  display: block;
+}
+
+.headline .is-red {
+  color: var(--red);
+}
+
+.dot {
+  color: var(--red);
+}
+
+/* Chapter label: "01 / Selected work" */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  font-size: var(--t-xs);
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper-2);
+}
+
+.eyebrow b {
+  color: var(--red-hi);
+  font-weight: 700;
+}
+
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 48px;
+}
+
+.section-note {
+  max-width: 38ch;
+  font-size: var(--t-sm);
+  color: var(--mute);
+  text-wrap: pretty;
+}
+
+.script {
+  font-family: var(--f-script);
+  font-weight: 400;
+  text-transform: none;
+}
+
+/* Buttons --------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-s);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: none;
+  transition:
+    background 0.25s,
+    border-color 0.25s,
+    color 0.25s;
+}
+
+.btn--red {
+  background: var(--red);
+  color: var(--on-red);
+}
+
+.btn--red:hover {
+  background: var(--red-hi);
+}
+
+.btn--line {
+  border-color: var(--line-2);
+  color: var(--paper);
+}
+
+.btn--line:hover {
+  border-color: var(--paper-2);
+}
+
+.magnetic {
+  display: inline-block;
+}
+
+/* Roll text (nav, CTA) */
+.roll {
+  display: inline-flex;
+}
+
+.roll-ch {
+  display: inline-block;
+  height: 1.2em;
+  overflow: hidden;
+  line-height: 1.2;
+}
+
+.roll-track {
+  display: flex;
+  flex-direction: column;
+}
+
+.roll-track > span {
+  display: block;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chips li {
+  padding: 4px 10px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius-s);
+  font-size: 0.78rem;
+  color: var(--paper-2);
+}

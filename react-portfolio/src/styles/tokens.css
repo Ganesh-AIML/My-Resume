@@ -1,0 +1,48 @@
+/* ------------------------------------------------------------------
+   Design tokens — black & red cinematic theme (primary reference:
+   the "RENANDO" reel). The red rim light in the portrait sets the accent.
+   --red       content accent for large type, fills, buttons
+   --red-hi    red for small text (AA on black)
+   --signal    construction layer drawn by the agents (frames, guides)
+------------------------------------------------------------------- */
+:root {
+  /* colour */
+  --ink: #060607;
+  --ink-2: #0e0e11;
+  --ink-3: #17171c;
+  --line: #1f1f25;
+  --line-2: #2e2e36;
+  --paper: #f4f2ef;
+  --paper-2: #b9b8bf;
+  --mute: #84838d;
+  --red: #e3242f;
+  --red-hi: #ff3a44;
+  --red-deep: #7a0c13;
+  --on-red: #ffffff;
+  --signal: #ff3a44;
+  --signal-ink: #c81b26;
+  --inspect: #f4f2ef;
+
+  /* type */
+  --f-sans: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --f-script: "Kaushan Script", "Brush Script MT", cursive;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --t-xs: 0.75rem;
+  --t-sm: 0.875rem;
+  --t-base: 1.0625rem;
+  --t-lg: 1.25rem;
+  --t-xl: clamp(1.35rem, 2vw, 1.7rem);
+  --t-section: clamp(3.2rem, 8.4vw, 8rem);
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* layout */
+  --gutter: clamp(16px, 4vw, 56px);
+  --maxw: 1440px;
+  --nav-h: 64px;
+  --section-y: clamp(96px, 12vw, 176px);
+  --radius-s: 3px;
+  --radius-m: 6px;
+}

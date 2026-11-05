@@ -1,19 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Ganesh Singh — AI & ML Engineer</title>
+    <meta name="description" content="Portfolio of Ganesh Singh, AI & ML engineer — projects, experience and recognition." />
+    <meta name="theme-color" content="#060607" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23060607'/%3E%3Cpath d='M9 6 L25 13.6 L17.6 15.6 L14.8 23 Z' fill='%23e3242f'/%3E%3C/svg%3E"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Blocking on purpose (1 kB): agents measure text boxes, so the font must be known before the build. -->
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Kaushan+Script&family=JetBrains+Mono:wght@500&display=swap"
     />
+    <link rel="preload" as="image" href="assests/portrait-hero.webp" type="image/webp" fetchpriority="high" />
+    <script>
+      // Hide buildable layers before first paint so the agents can build them.
+      // Skipped for reduced motion or when the visitor turned agents off.
+      // Failsafe: if the app has not taken over within 4s, show everything.
+      ;(function () {
+        try {
+          var d = document.documentElement
+          var rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          var off = localStorage.getItem("agents:off") === "1"
+          if (rm || off) return
+          d.classList.add("agents-boot")
+          setTimeout(function () {
+            if (!d.classList.contains("agents-ready")) d.classList.remove("agents-boot")
+          }, 4000)
+        } catch (e) {}
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

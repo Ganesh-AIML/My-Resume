@@ -1,1 +1,5 @@
 .opencode/
+docs/reference-frames/
+
+# Private owner notes (phone, repo audit, confidentiality rules) — never publish
+docs/PORTFOLIO_PERSONAL_INFORMATION.md

@@ -5,28 +5,27 @@
 ![Motion](https://img.shields.io/badge/Motion-11-0055FF)
 ![Status](https://img.shields.io/badge/Status-Live-success)
 
-> **AI & ML Engineer portfolio built with React, featuring an interactive robot assistant powered by Groq LLM.**
+> **AI & ML Engineer portfolio, built live on screen by a crew of simulated cursor agents — with a Groq-powered assistant that answers questions about the work.**
 
 ---
 
 ## Tech Stack
 
 - **React 19** + **Vite 6** — fast dev server and optimized builds
-- **Motion 11** — declarative animations and gestures
-- **Lottie + DotLottie** — lightweight vector animations for the robot assistant
+- **Motion 11** (Framer Motion) — UI animation, layout transitions, scroll-linked effects
+- **Custom agent director** — one requestAnimationFrame loop that choreographs the multi-cursor build
 - **Groq API** (`llama-3.1-8b-instant`) — LLM-powered chat with portfolio context
 
 ---
 
 ## Features
 
-- **Interactive Robot Assistant** — Lottie-animated FAB that opens a chat panel
-- **AI-Powered Q&A** — Groq LLM answers questions about skills, experience, projects, and certificates using portfolio data as RAG context
-- **Intelligent Caching** — in-memory cache with 1-hour TTL and fuzzy matching for frequently asked questions
-- **Spotlight Timeline** — interactive experience section with parallax cards and animated metrics
-- **Project Showcase** — tilt-enabled cards with live GitHub links
-- **Certificate Viewer** — modal-based image viewer
-- **Fully Responsive** — mobile, tablet, and desktop layouts
+- **Multi-cursor build** — 14 simulated agents (6 on phones) stream in, orbit the monogram, then frame, type and place every section as it scrolls into view. Selection boxes, blueprint guides, stamped trails, multi-agent corner holds, inspections and a finale ring around the contact card. The cursors are a choreographed animation and the UI says so.
+- **Status dock** — agents, layers built, Tour (opt-in auto-scroll), speed, Skip, Replay, turn off (remembered), and the assistant.
+- **Accessible by default** — reduced motion shows everything immediately; content is in the DOM for screen readers; focusing an unbuilt element reveals it; the agent layer never intercepts pointer input.
+- **AI assistant** — Groq LLM with portfolio data as RAG context, lazy-loaded on first open.
+
+See `docs/REDESIGN_NOTES.md` for the architecture and `docs/PORTFOLIO_REFERENCE_ANALYSIS.md` for the reference study.
 
 ---
 
@@ -67,17 +66,19 @@ npm run preview
 
 ```
 react-portfolio/
-├── assests/                # Static images and resume PDF
+├── public/assests/          # Portrait, certificates, résumé PDF
 ├── src/
-│   ├── App.jsx             # Main app with all section components
-│   ├── App.css             # Global styles
-│   ├── RobotAssistant.jsx  # Robot FAB + chat panel UI
-│   ├── chatService.js      # Groq API client + cache + RAG context
-│   └── main.jsx            # Entry point
-├── .env.example            # Environment variable template
+│   ├── agents/              # Director engine, provider/Layer, dock, agent CSS
+│   ├── assistant/           # Lazy-loaded chat panel
+│   ├── components/          # Page sections, generated artwork, icons
+│   ├── content/site.js      # All page copy (placeholders for now)
+│   ├── motion/primitives.jsx# Shared easing, variants, RollText, Magnetic
+│   ├── styles/              # tokens.css, base.css, sections.css
+│   ├── chatService.js       # Groq client + cache + RAG retrieval
+│   ├── loadPortfolioData.js # Structured portfolio data (used by the assistant)
+│   └── portfolio-data.md    # RAG source document
 ├── index.html
-├── vite.config.js
-└── package.json
+└── vite.config.js
 ```
 
 ---

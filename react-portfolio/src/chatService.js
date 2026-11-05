@@ -24,7 +24,9 @@ const PROJECT_ALIASES = {
   "Tourist Guardian Safety Platform": ["tourist guardian", "resq ai", "tourist safety", "safety platform", "sih", "smart india hackathon"],
   "Alertica": ["alertica", "women safety", "womens safety", "calculator app", "sos app"],
   "LearnSphere": ["learnsphere", "learning management", "lms", "spring boot lms"],
-  "Exoplanet Classifier": ["exoplanet", "habitability", "kepler", "tess", "exo classifier", "exoplanet classifier"]
+  "Exoplanet Classifier": ["exoplanet", "habitability", "kepler", "tess", "exo classifier", "exoplanet classifier"],
+  "IntervAI": ["intervai", "interv ai", "ai interview", "interview platform", "voice interview", "voice agent", "boomlet project"],
+  "College RAG Assistant": ["college rag", "rag assistant", "college assistant", "college ai assistant", "local llm", "ollama"]
 }
 
 function normalizeQueryKey(q) {
@@ -123,7 +125,7 @@ function classifyQuery(query) {
   }
 
   // 3. Tutorial / how-to / walkthrough request check (not portfolio related)
-  const mentionsPortfolio = /\b(ganesh|portfolio|project|scope|resq|alertica|learnsphere|exoplanet|tourist|guardian|experience|resume|skill|tcet|liferythem)\b/i.test(q)
+  const mentionsPortfolio = /\b(ganesh|portfolio|project|scope|resq|alertica|learnsphere|exoplanet|tourist|guardian|experience|resume|skill|tcet|liferythem|boomlet|intervai|lias|drsga|rag|internship)\b/i.test(q)
 
   const isTutorialQuery = /\b(how (to|do|can|would|is)|tutorial|guide|walkthrough|step.?by.?step)\b/i.test(q)
   if (isTutorialQuery && !mentionsPortfolio) {
