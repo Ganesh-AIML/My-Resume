@@ -1,5 +1,3 @@
-import { useState } from "react"
-import { AnimatePresence, motion } from "motion/react"
 import { Layer } from "../agents/AgentProvider"
 import { contact, person } from "../content/site"
 import { Magnetic } from "../motion/primitives"
@@ -8,34 +6,11 @@ import { Eyebrow, Headline } from "./Headline"
 import { Icon } from "./Icon"
 
 const ROWS = [
-  { icon: "mail", label: "Email", value: person.email, href: `mailto:${person.email}`, copy: true },
+  { icon: "mail", label: "Email", value: person.email, href: `mailto:${person.email}` },
   { icon: "linkedin", label: "LinkedIn", value: "ganesh-singh-aiml", href: person.linkedin, external: true },
   { icon: "github", label: "GitHub", value: "Ganesh-AIML", href: person.github, external: true },
   { icon: "file", label: "Résumé", value: "PDF download", href: person.resume, download: true },
 ]
-
-function CopyEmail() {
-  const [copied, setCopied] = useState(false)
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(person.email)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 1800)
-    } catch {
-      window.location.href = `mailto:${person.email}`
-    }
-  }
-  return (
-    <button type="button" className="copy-btn" onClick={copy} aria-label={copied ? "Email address copied" : "Copy email address"}>
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.span key={copied ? "y" : "n"} initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -10, opacity: 0 }} transition={{ duration: 0.2 }}>
-          <Icon name={copied ? "check" : "copy"} size={14} />
-          {copied ? "Copied" : "Copy"}
-        </motion.span>
-      </AnimatePresence>
-    </button>
-  )
-}
 
 export function Contact({ onAsk }) {
   return (
@@ -75,7 +50,6 @@ export function Contact({ onAsk }) {
                 </span>
                 <Icon name="arrowUpRight" size={16} className="contact-arrow" />
               </a>
-              {r.copy && <CopyEmail />}
             </Layer>
           ))}
         </ul>

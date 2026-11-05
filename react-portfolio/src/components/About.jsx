@@ -16,9 +16,6 @@ export function About() {
         <Eyebrow index="06">Behind the code</Eyebrow>
         <div className="section-head about-head">
           <Headline lines={[{ text: "Not just models", dot: true }, { text: "Systems that", tail: "ship." }]} />
-          <Layer as="p" kind="block" label="Statement" className="about-statement">
-            {about.statement}
-          </Layer>
         </div>
 
         <div className="about-grid">
@@ -80,6 +77,7 @@ export function About() {
               {about.quote.map((l, i) => (
                 <span key={i} className={i < 2 ? "is-dim" : undefined}>
                   {l}
+                  {i === about.quote.length - 1 && <span className="quote-close">”</span>}
                 </span>
               ))}
             </blockquote>

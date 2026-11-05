@@ -225,11 +225,8 @@ export const awards = {
 }
 
 export const about = {
-  statement:
-    "I like building software people depend on — exams that can't be gamed, interviews that can't drop mid-sentence, dashboards that don't lag. I start with the architecture, build in clean modules, audit before I merge and fix the slow paths before I call it done.",
   education: [
     { title: "B.Tech, Artificial Intelligence & Machine Learning", detail: "Thakur College of Engineering & Technology · 2023 — 2027 · CGPA 9.74" },
-    { title: "Offer — TCS Prime", detail: "Tata Consultancy Services" },
   ],
   toolkit: [
     { label: "Daily drivers", items: ["Python", "JavaScript", "React", "Node.js", "Java · Spring Boot", "PostgreSQL"] },

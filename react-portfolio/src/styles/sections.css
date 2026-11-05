@@ -1062,11 +1062,6 @@ main > .hero {
   margin-bottom: clamp(40px, 6vw, 80px);
 }
 
-.about-statement {
-  max-width: 40ch;
-  font-size: 0.95rem;
-}
-
 .about-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -1214,6 +1209,12 @@ main > .hero {
 
 .quote-text span {
   display: block;
+}
+
+/* Closing mark sits inline after the last word. */
+.quote-text .quote-close {
+  display: inline;
+  margin-left: 0.04em;
 }
 
 .quote-text .is-dim {
@@ -1535,24 +1536,6 @@ main > .hero {
 .contact-row:focus-visible .contact-arrow {
   color: var(--red-hi);
   transform: rotate(45deg);
-}
-
-.copy-btn {
-  flex: none;
-  height: 28px;
-  padding: 0 9px;
-  border: 1px solid var(--line-2);
-  border-radius: var(--radius-s);
-  background: none;
-  font-size: 0.72rem;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-.copy-btn > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
 }
 
 .contact-card {
@@ -1932,161 +1915,6 @@ main > .hero {
   margin-bottom: clamp(40px, 6vw, 72px);
 }
 
-.arch-flow {
-  position: relative;
-}
-
-.arch-line {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 7px;
-  height: 2px;
-  background: var(--line-2);
-  overflow: hidden;
-}
-
-.arch-fill {
-  position: absolute;
-  inset: 0;
-  background: var(--red);
-  transform-origin: left;
-}
-
-.arch-pulse {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 80px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #fff, transparent);
-  animation: arch-pulse 2.6s linear infinite;
-}
-
-@keyframes arch-pulse {
-  from {
-    transform: translateX(-80px);
-  }
-  to {
-    transform: translateX(100vw);
-  }
-}
-
-.arch-steps {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.arch-step {
-  display: grid;
-  justify-items: start;
-  gap: 10px;
-  width: 100%;
-  padding: 0 0 18px;
-  border: 0;
-  background: none;
-  text-align: left;
-  cursor: pointer;
-}
-
-.arch-node {
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--line-2);
-  border-radius: 50%;
-  background: var(--ink);
-  transition:
-    border-color 0.3s,
-    background 0.3s,
-    transform 0.3s var(--ease-out);
-}
-
-.arch-step.is-done .arch-node {
-  border-color: var(--red);
-}
-
-.arch-step.is-active .arch-node {
-  border-color: var(--red);
-  background: var(--red);
-  transform: scale(1.25);
-  box-shadow: 0 0 0 6px rgba(227, 36, 47, 0.2);
-}
-
-.arch-num {
-  font-size: var(--t-xs);
-  font-weight: 700;
-  color: var(--mute);
-}
-
-.arch-title {
-  font-size: clamp(1.1rem, 1.7vw, 1.5rem);
-  font-weight: 850;
-  font-stretch: 62%;
-  text-transform: uppercase;
-  line-height: 1;
-  color: var(--paper-2);
-  transition: color 0.3s;
-}
-
-.arch-step.is-active .arch-title,
-.arch-step:hover .arch-title {
-  color: var(--paper);
-}
-
-.arch-step.is-active .arch-num {
-  color: var(--red-hi);
-}
-
-.arch-detail {
-  min-height: 120px;
-  margin-top: clamp(28px, 4vw, 48px);
-  padding-top: 28px;
-  border-top: 1px solid var(--line);
-}
-
-.arch-detail-inner {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: start;
-  gap: clamp(18px, 3vw, 40px);
-}
-
-.arch-detail-num {
-  font-size: clamp(3.4rem, 7vw, 6rem);
-  line-height: 0.8;
-  color: var(--red);
-}
-
-.arch-detail-title {
-  font-size: var(--t-xl);
-  font-weight: 700;
-  color: var(--paper);
-}
-
-.arch-detail-text {
-  max-width: 56ch;
-  margin-top: 6px;
-}
-
-@media (max-width: 860px) {
-  .arch-line {
-    display: none;
-  }
-
-  .arch-steps {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    row-gap: 4px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .arch-pulse {
-    display: none;
-  }
-}
-
 /* ====================================================== AWARDS — CERTS */
 
 .ledger-cert {
@@ -2250,10 +2078,6 @@ main > .hero {
 
 .arch-stage-inner {
   height: 100%;
-}
-
-.arch-explain {
-  margin-top: clamp(48px, 7vw, 96px);
 }
 
 .sc {
