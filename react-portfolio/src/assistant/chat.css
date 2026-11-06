@@ -12,7 +12,7 @@
   bottom: 12px;
   z-index: 81;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr auto auto;
   width: min(440px, calc(100vw - 24px));
   border: 1px solid var(--line-2);
   border-radius: 14px;
@@ -44,7 +44,53 @@
   color: var(--mute);
 }
 
-.chat-close {
+.chat-id {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chat-avatar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--red);
+  color: var(--on-red);
+  font: 850 1.25rem/1 var(--f-sans);
+  font-stretch: 62%;
+}
+
+.chat-avatar span {
+  color: var(--ink);
+}
+
+.chat-sub {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chat-live {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #35d07f;
+  box-shadow: 0 0 0 3px rgba(53, 208, 127, 0.18);
+}
+
+.chat-live.is-off {
+  background: var(--mute);
+  box-shadow: none;
+}
+
+.chat-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.chat-icon {
   display: grid;
   place-items: center;
   width: 36px;
@@ -52,7 +98,22 @@
   border: 1px solid var(--line-2);
   border-radius: 50%;
   background: none;
+  color: var(--paper);
   cursor: pointer;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.chat-icon:hover {
+  border-color: var(--red-hi);
+  color: var(--red-hi);
+}
+
+.chat-icon svg,
+.chat-form button svg {
+  flex: none;
+  max-width: none;
 }
 
 .chat-body {
@@ -84,6 +145,24 @@
   background: var(--red);
   color: var(--on-red);
   border-top-right-radius: 4px;
+}
+
+/* Streaming caret after the last character while a reply arrives. */
+.msg.is-live .md > :last-child::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 1em;
+  margin-left: 3px;
+  vertical-align: -0.15em;
+  background: var(--red-hi);
+  animation: caret 0.9s steps(2) infinite;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
 }
 
 .msg--thinking {
@@ -224,4 +303,26 @@
 .chat-form button:disabled {
   opacity: 0.4;
   cursor: default;
+}
+
+.chat-form button.is-stop {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.chat-form {
+  padding-bottom: 8px;
+}
+
+.chat-note {
+  padding: 0 16px 12px;
+  font-size: 0.72rem;
+  text-align: center;
+  color: var(--mute);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .msg.is-live .md > :last-child::after {
+    animation: none;
+  }
 }

@@ -34,6 +34,7 @@ const PATHS = {
   ),
   check: <path d="m5 12 5 5 9-10" />,
   send: <path d="M4 12 20 4l-6 16-3-7z" />,
+  stop: <rect x="7" y="7" width="10" height="10" rx="2" fill="currentColor" />,
   replay: (
     <>
       <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />

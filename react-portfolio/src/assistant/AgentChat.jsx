@@ -2,13 +2,14 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion } from "motion/react"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
-import { ChatEngine } from "../chatService"
+import { ChatEngine, isConfigured, resetChat } from "../chatService"
 import { Icon } from "../components/Icon"
 import { ease } from "../motion/primitives"
 import "./chat.css"
 
-const GREETING = "Hi! I answer questions about Ganesh's projects, experience and skills using his portfolio data. What would you like to know?"
-const SUGGESTIONS = ["What did he build at Boomlet?", "How does S.C.O.P.E. handle 1,000+ users?", "Tell me about the College RAG Assistant"]
+const GREETING = "Hey 👋 I'm Ganesh's AI sidekick. Ask me anything about his work and I'll keep it short. Promise."
+const SUGGESTIONS = ["Why should I hire Ganesh?", "What's the coolest thing he's built?", "What did he do at Boomlet?", "Is he open to work?"]
+const FAIL = "Lost the connection for a sec. Try again, or email Ganesh at **ganeshsingh71680@gmail.com**."
 
 function Markdown({ content }) {
   return (
@@ -30,21 +31,27 @@ function Markdown({ content }) {
   )
 }
 
+const fresh = () => [{ id: 0, role: "bot", text: GREETING }]
+
 /**
- * Chat panel for the portfolio assistant (Groq RAG via chatService.js).
+ * Chat panel for the portfolio assistant (Gemini via chatService.js).
+ * Replies stream in token by token; Stop cancels, New chat clears memory.
  * Lazy-loaded: react-markdown and the portfolio data only download on first open.
  */
 export default function AgentChat({ open, onClose }) {
-  const [messages, setMessages] = useState([{ role: "bot", text: GREETING }])
+  const [messages, setMessages] = useState(fresh)
   const [input, setInput] = useState("")
-  const [thinking, setThinking] = useState(false)
+  const [busy, setBusy] = useState(false) // waiting or streaming
   const bodyRef = useRef(null)
   const inputRef = useRef(null)
   const lastFocus = useRef(null)
+  const abortRef = useRef(null)
+  const idRef = useRef(1)
 
   useEffect(() => {
-    if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight
-  }, [messages, thinking])
+    const el = bodyRef.current
+    if (el) el.scrollTop = el.scrollHeight
+  }, [messages, busy])
 
   useEffect(() => {
     if (!open) return
@@ -59,24 +66,56 @@ export default function AgentChat({ open, onClose }) {
     }
   }, [open, onClose])
 
+  // Cancel an in-flight reply if the panel unmounts.
+  useEffect(() => () => abortRef.current?.abort(), [])
+
   const send = useCallback(
     async (text) => {
       const msg = (text ?? input).trim()
-      if (!msg || thinking) return
-      setMessages((m) => [...m, { role: "user", text: msg }])
+      if (!msg || busy) return
+      const botId = idRef.current++
+      setMessages((m) => [...m, { id: idRef.current++, role: "user", text: msg }])
       setInput("")
-      setThinking(true)
+      setBusy(true)
+      const ctrl = new AbortController()
+      abortRef.current = ctrl
+      const write = (t, extra = {}) =>
+        setMessages((m) => {
+          const i = m.findIndex((x) => x.id === botId)
+          if (i < 0) return [...m, { id: botId, role: "bot", text: t, ...extra }]
+          const next = m.slice()
+          next[i] = { ...next[i], text: t, ...extra }
+          return next
+        })
       try {
-        const res = await ChatEngine(msg)
-        setMessages((m) => [...m, { role: "bot", text: res }])
+        const reply = await ChatEngine(msg, { signal: ctrl.signal, onText: (t) => write(t, { live: true }) })
+        write(reply, { live: false })
       } catch {
-        setMessages((m) => [...m, { role: "bot", text: "The assistant could not be reached. Check your connection and try again, or email Ganesh directly." }])
+        if (ctrl.signal.aborted) {
+          setMessages((m) => m.map((x) => (x.id === botId ? { ...x, live: false, text: x.text ? `${x.text} …` : "Stopped." } : x)))
+        } else {
+          write(FAIL, { live: false })
+        }
       } finally {
-        setThinking(false)
+        abortRef.current = null
+        setBusy(false)
+        inputRef.current?.focus()
       }
     },
-    [input, thinking],
+    [input, busy],
   )
+
+  const stop = () => abortRef.current?.abort()
+
+  const newChat = () => {
+    abortRef.current?.abort()
+    resetChat()
+    setMessages(fresh())
+    setInput("")
+    inputRef.current?.focus()
+  }
+
+  const waiting = busy && !messages.some((m) => m.live)
 
   return (
     <AnimatePresence>
@@ -94,22 +133,37 @@ export default function AgentChat({ open, onClose }) {
             transition={{ duration: 0.55, ease: ease.out }}
           >
             <header className="chat-head">
-              <div>
-                <p id="chat-title" className="chat-title">
-                  Ask about Ganesh
-                </p>
-                <p className="chat-sub">AI answers from portfolio data. They can be wrong.</p>
+              <div className="chat-id">
+                <span className="chat-avatar" aria-hidden="true">
+                  G<span>.</span>
+                </span>
+                <div>
+                  <p id="chat-title" className="chat-title">
+                    Ask about Ganesh
+                  </p>
+                  <p className="chat-sub">
+                    <span className={`chat-live${isConfigured ? "" : " is-off"}`} aria-hidden="true" />
+                    {isConfigured ? "Gemini · grounded in his portfolio" : "Offline"}
+                  </p>
+                </div>
               </div>
-              <button type="button" className="chat-close" onClick={onClose} aria-label="Close assistant">
-                <Icon name="close" size={18} />
-              </button>
+              <div className="chat-actions">
+                {messages.length > 1 && (
+                  <button type="button" className="chat-icon" onClick={newChat} aria-label="Start a new chat" title="New chat">
+                    <Icon name="replay" size={16} />
+                  </button>
+                )}
+                <button type="button" className="chat-icon" onClick={onClose} aria-label="Close assistant">
+                  <Icon name="close" size={18} />
+                </button>
+              </div>
             </header>
 
             <div className="chat-body" ref={bodyRef} aria-live="polite">
-              {messages.map((m, i) => (
+              {messages.map((m) => (
                 <motion.div
-                  key={i}
-                  className={`msg msg--${m.role}`}
+                  key={m.id}
+                  className={`msg msg--${m.role}${m.live ? " is-live" : ""}`}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, ease: ease.out }}
@@ -117,7 +171,7 @@ export default function AgentChat({ open, onClose }) {
                   {m.role === "bot" ? <Markdown content={m.text} /> : m.text}
                 </motion.div>
               ))}
-              {thinking && (
+              {waiting && (
                 <div className="msg msg--bot msg--thinking" aria-label="Assistant is typing">
                   <span />
                   <span />
@@ -139,7 +193,8 @@ export default function AgentChat({ open, onClose }) {
               className="chat-form"
               onSubmit={(e) => {
                 e.preventDefault()
-                send()
+                if (busy) stop()
+                else send()
               }}
             >
               <label htmlFor="chat-input" className="sr-only">
@@ -150,15 +205,22 @@ export default function AgentChat({ open, onClose }) {
                 ref={inputRef}
                 type="text"
                 autoComplete="off"
-                placeholder="Ask a question…"
+                maxLength={500}
+                placeholder={busy ? "Thinking…" : "Ask anything about Ganesh…"}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                disabled={thinking}
               />
-              <button type="submit" disabled={!input.trim() || thinking} aria-label="Send question">
-                <Icon name="send" size={18} />
-              </button>
+              {busy ? (
+                <button type="submit" className="is-stop" aria-label="Stop the reply">
+                  <Icon name="stop" size={16} />
+                </button>
+              ) : (
+                <button type="submit" disabled={!input.trim()} aria-label="Send question">
+                  <Icon name="send" size={18} />
+                </button>
+              )}
             </form>
+            <p className="chat-note">AI can slip. For anything important, email Ganesh.</p>
           </motion.aside>
         </>
       )}
