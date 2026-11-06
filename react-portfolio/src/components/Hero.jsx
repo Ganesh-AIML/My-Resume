@@ -10,7 +10,7 @@ import { Icon } from "./Icon"
  * light on the portrait carries the theme), name and role on the left,
  * numbers rail on the right.
  */
-export function Hero({ onAsk }) {
+export function Hero() {
   const ref = useRef(null)
   const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] })
@@ -110,17 +110,6 @@ export function Hero({ onAsk }) {
             ))}
           </ul>
         </aside>
-
-        <div className="hero-foot">
-          <Layer kind="block" label="Assistant" className="hero-foot-ask">
-            <button type="button" className="hero-ask" onClick={onAsk}>
-              <span className="hero-ask-ring">
-                <Icon name="chat" size={16} />
-              </span>
-              <span>Ask the AI assistant</span>
-            </button>
-          </Layer>
-        </div>
       </motion.div>
 
       {/* Dashed red outline of the backdrop word, drawn over the name where they overlap. */}

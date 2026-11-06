@@ -141,60 +141,90 @@ html.agents-boot [data-layer]:not([data-state="built"]):not([data-state="buildin
   transform: none;
 }
 
-.agent-monogram {
+.agent-wordmark {
   position: absolute;
-  width: 54px;
-  height: 54px;
-  margin: -27px 0 0 -27px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line-2);
-  border-radius: 12px;
-  background: var(--ink-2);
-  color: var(--paper);
-  font: 800 18px/1 var(--f-sans);
-  font-stretch: 70%;
-  letter-spacing: 0.02em;
-  animation: mono-in 0.5s var(--ease-out) both;
+  z-index: 2;
+  translate: -50% -50%;
+  display: flex;
+  align-items: flex-end;
+  font-size: clamp(2.7rem, 8.4vw, 8.4rem);
+  line-height: 0.84;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: wm-in 0.9s var(--ease-out) backwards;
   transition:
-    opacity 0.4s,
-    transform 0.5s var(--ease-out);
+    opacity 0.6s var(--ease-out),
+    transform 0.7s var(--ease-out),
+    filter 0.6s var(--ease-out);
 }
 
-.agent-monogram::after {
-  content: "";
-  position: absolute;
-  inset: -7px;
-  border-radius: 16px;
-  border: 1px solid var(--signal);
+/* The gleam is a bright band in the text fill that travels left to right. */
+.wm-name {
+  background: linear-gradient(
+      100deg,
+      var(--paper) 0 38%,
+      #ffffff 44%,
+      #ff8a90 48.5%,
+      #ffffff 50%,
+      #ff8a90 51.5%,
+      #ffffff 56%,
+      var(--paper) 62% 100%
+    )
+    100% 0 / 300% 100% no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.wm-dot {
+  color: var(--red);
+}
+
+.agent-wordmark.is-live .wm-name {
+  animation:
+    wm-gleam 1.6s var(--ease-io) 0.1s both,
+    wm-bloom 1.6s var(--ease-io) 0.1s both;
+}
+
+.agent-wordmark.is-out {
   opacity: 0;
+  transform: scale(1.06);
+  filter: blur(10px);
 }
 
-.agent-monogram.is-live::after {
-  animation: mono-ping 1s var(--ease-out) infinite;
-}
-
-.agent-monogram.is-out {
-  opacity: 0;
-  transform: scale(0.6);
-}
-
-@keyframes mono-in {
+@keyframes wm-in {
   from {
     opacity: 0;
-    transform: scale(0.7);
+    transform: translateY(14px) scale(0.97);
+    filter: blur(14px);
   }
 }
 
-@keyframes mono-ping {
-  0% {
-    opacity: 0.9;
-    transform: scale(0.9);
-  }
+@keyframes wm-bloom {
+  0%,
   100% {
-    opacity: 0;
-    transform: scale(1.35);
+    filter: drop-shadow(0 0 0 rgba(255, 60, 70, 0));
   }
+
+  50% {
+    filter: drop-shadow(0 0 18px rgba(255, 60, 70, 0.4));
+  }
+}
+
+@keyframes wm-gleam {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: 0 0;
+  }
+}
+
+/* Depth while orbiting: the director sets --depth per cursor. */
+.agent-glyph {
+  scale: var(--depth, 1);
+  transform-origin: 3px 2px;
 }
 
 /* Selection boxes ------------------------------------------------------ */
@@ -304,7 +334,7 @@ html.agents-boot [data-layer]:not([data-state="built"]):not([data-state="buildin
   opacity: 0;
 }
 
-/* Dock ----------------------------------------------------------------- */
+/* Dock: Tour · Motion · Ask ---------------------------------------------- */
 
 .dock {
   position: fixed;
@@ -316,7 +346,7 @@ html.agents-boot [data-layer]:not([data-state="built"]):not([data-state="buildin
   align-items: center;
   gap: 6px;
   max-width: calc(100vw - 24px);
-  padding: 6px 6px 6px 12px;
+  padding: 6px;
   border: 1px solid var(--line-2);
   border-radius: 14px;
   background: rgba(14, 14, 17, 0.88);
@@ -326,106 +356,24 @@ html.agents-boot [data-layer]:not([data-state="built"]):not([data-state="buildin
     0 18px 40px -18px rgba(0, 0, 0, 0.8),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
   color: var(--paper-2);
-  font: 500 12.5px/1 var(--f-sans);
+  font: 600 13px/1 var(--f-sans);
   white-space: nowrap;
 }
 
-.dock-row,
-.dock-tail {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.dock-tail {
-  gap: 4px;
-  padding-left: 6px;
-  border-left: 1px solid var(--line);
-}
-
-.dock-avatars {
+/* Wrapper that lets the Tour button collapse out when motion is off. */
+.dock-slot {
   display: inline-flex;
-}
-
-.dock-avatars span {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid var(--ink-2);
-}
-
-.dock-avatars span + span {
-  margin-left: -5px;
-}
-
-.dock-text b {
-  color: var(--paper);
-  font-weight: 650;
-  font-variant-numeric: tabular-nums;
-}
-
-.dock-count {
-  font-variant-numeric: tabular-nums;
-}
-
-.dock-dim {
-  color: var(--mute);
-}
-
-.dock-sep {
-  width: 1px;
-  height: 14px;
-  background: var(--line-2);
-}
-
-.dock-bar {
-  position: relative;
-  width: 72px;
-  height: 3px;
-  border-radius: 3px;
-  background: var(--line-2);
   overflow: hidden;
 }
 
-.dock-bar > span {
-  position: absolute;
-  inset: 0;
-  background: var(--red);
-  transform-origin: left;
-  transition: transform 0.35s var(--ease-out);
-}
-
-.dock-bar.is-full > span {
-  transform: none;
-}
-
-.dock-bar--scan::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  width: 40%;
-  background: var(--signal);
-  animation: dock-scan 1.1s var(--ease-io) infinite;
-}
-
-@keyframes dock-scan {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(250%);
-  }
-}
-
-.dock-btn,
-.dock-icon {
+.dock-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 30px;
-  padding: 0 10px;
+  gap: 7px;
+  height: 34px;
+  padding: 0 13px;
   border: 0;
-  border-radius: 8px;
+  border-radius: 9px;
   background: var(--ink-3);
   color: var(--paper);
   font: inherit;
@@ -435,14 +383,45 @@ html.agents-boot [data-layer]:not([data-state="built"]):not([data-state="buildin
     color 0.2s;
 }
 
-.dock-btn:hover,
-.dock-icon:hover {
+.dock-btn svg {
+  flex: none;
+  max-width: none;
+}
+
+.dock-btn:hover {
   background: var(--line-2);
 }
 
+.dock-btn:focus-visible {
+  outline: 2px solid var(--red-hi);
+  outline-offset: 2px;
+}
+
 .dock-btn.is-on {
-  background: var(--signal);
-  color: #fff;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.dock-pill {
+  display: inline-grid;
+  place-items: center;
+  min-width: 30px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 9px;
+  background: var(--line-2);
+  color: var(--mute);
+  font: 700 10px/1 var(--f-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition:
+    background 0.25s,
+    color 0.25s;
+}
+
+.dock-switch.is-active .dock-pill {
+  background: rgba(227, 36, 47, 0.18);
+  color: var(--red-hi);
 }
 
 .dock-btn--ask {
@@ -454,46 +433,15 @@ html.agents-boot [data-layer]:not([data-state="built"]):not([data-state="buildin
   background: var(--red-hi);
 }
 
-.dock-btn--plain {
-  background: transparent;
-  padding-left: 0;
-}
-
-.dock-mono {
-  font: 500 12px/1 var(--f-mono);
-  min-width: 40px;
-  justify-content: center;
-}
-
-.dock-icon {
-  width: 30px;
-  padding: 0;
-  justify-content: center;
-  background: transparent;
-  color: var(--mute);
-}
-
 @media (max-width: 720px) {
   .dock {
-    font-size: 12px;
     gap: 4px;
-    padding: 5px 5px 5px 10px;
+    padding: 5px;
+    font-size: 12.5px;
   }
 
-  .dock-row {
-    gap: 8px;
-  }
-
-  .dock-wide {
-    display: none;
-  }
-
-  .dock-bar {
-    width: 40px;
-  }
-
-  .dock-sep {
-    display: none;
+  .dock-btn {
+    padding: 0 11px;
   }
 
   .agent-tag {
@@ -502,11 +450,5 @@ html.agents-boot [data-layer]:not([data-state="built"]):not([data-state="buildin
 
   .sel-tag {
     display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .dock-bar--scan::after {
-    animation: none;
   }
 }

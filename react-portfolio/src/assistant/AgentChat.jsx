@@ -7,7 +7,7 @@ import { Icon } from "../components/Icon"
 import { ease } from "../motion/primitives"
 import "./chat.css"
 
-const GREETING = "Hi — I answer questions about Ganesh's projects, experience and skills using his portfolio data. What would you like to know?"
+const GREETING = "Hi! I answer questions about Ganesh's projects, experience and skills using his portfolio data. What would you like to know?"
 const SUGGESTIONS = ["What did he build at Boomlet?", "How does S.C.O.P.E. handle 1,000+ users?", "Tell me about the College RAG Assistant"]
 
 function Markdown({ content }) {

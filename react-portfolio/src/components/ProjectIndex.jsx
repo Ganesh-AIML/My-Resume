@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "motion/react"
 import { Layer } from "../agents/AgentProvider"
 import { projects } from "../content/site"
 import { ease } from "../motion/primitives"
-import { Art } from "./Art"
+import { IndexArt } from "./IndexArt"
 import { Eyebrow, Headline } from "./Headline"
 import { Icon } from "./Icon"
 
@@ -46,6 +46,7 @@ export function ProjectIndex({ onAsk }) {
                   type="button"
                   className={`index-row${i === active ? " is-active" : ""}`}
                   aria-expanded={i === active}
+                  aria-controls={`index-desc-${p.id}`}
                   onPointerEnter={() => setActive(i)}
                   onFocus={() => setActive(i)}
                   onClick={() => setActive(i)}
@@ -59,12 +60,16 @@ export function ProjectIndex({ onAsk }) {
                   </span>
                   <Icon name="arrowUpRight" size={22} className="index-arrow" />
                 </button>
-                {i === active && (
-                  <div className="index-inline">
+                <div
+                  id={`index-desc-${p.id}`}
+                  className={`index-inline${i === active ? " is-open" : ""}`}
+                  inert={i !== active}
+                >
+                  <div className="index-inline-body">
                     <p>{p.text}</p>
                     <ProjectLink p={p} onAsk={onAsk} />
                   </div>
-                )}
+                </div>
               </Layer>
             ))}
           </ul>
@@ -81,17 +86,10 @@ export function ProjectIndex({ onAsk }) {
                 exit={{ opacity: 0, transition: { duration: 0.3, delay: 0.2 } }}
                 transition={{ duration: 0.6, ease: ease.out }}
               >
-                <Art seed={current.art} letter={current.title.slice(0, 1)} label={current.category} />
+                <IndexArt id={current.id} seed={current.art} label={`${current.title} diagram: ${current.text}`} />
               </motion.div>
             </AnimatePresence>
           </Layer>
-          <div className="index-detail" aria-live="polite">
-            <p className="index-caption">
-              {current.title} <span>{current.year}</span>
-            </p>
-            <p className="index-text">{current.text}</p>
-            <ProjectLink p={current} onAsk={onAsk} />
-          </div>
         </div>
       </div>
     </section>

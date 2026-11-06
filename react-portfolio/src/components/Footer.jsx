@@ -50,7 +50,7 @@ export function Footer() {
       </p>
       <div className="wrap footer-base">
         <span>© {new Date().getFullYear()} {word}</span>
-        <span>The cursors on this page are simulated agents — a choreographed animation, not other visitors.</span>
+        <span>The cursors on this page are simulated agents. It's a choreographed animation, not other visitors.</span>
         <span>Built with React and Motion</span>
       </div>
     </footer>

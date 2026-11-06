@@ -24,6 +24,7 @@
  */
 import { frame, cancelFrame } from "motion/react"
 import { ROSTER, GLYPHS } from "./roster"
+import { person } from "../content/site"
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v))
 const rand = (a, b) => a + Math.random() * (b - a)
@@ -887,61 +888,95 @@ export class Director {
     const cx = v.x + v.w / 2
     const cy = v.y + v.h * 0.46
 
+    // Fonts first (max 0.8 s): the wordmark is measured to size the orbit,
+    // and layers are measured from the build onwards.
+    if (document.fonts?.status !== "loaded") {
+      await Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 800))])
+      if (!ok()) return
+    }
+
+    // Wordmark: the name, set like the hero, centred in the viewport.
     const mono = document.createElement("div")
-    mono.className = "agent-monogram"
-    mono.textContent = "G"
+    mono.className = "agent-wordmark display"
+    mono.setAttribute("aria-hidden", "true")
+    const name = document.createElement("span")
+    name.className = "wm-name"
+    name.textContent = `${person.first} ${person.last}`
+    const dot = document.createElement("span")
+    dot.className = "wm-dot"
+    dot.textContent = "."
+    mono.append(name, dot)
     mono.style.left = `${cx}px`
     mono.style.top = `${cy}px`
     this.root.appendChild(mono)
     this.monogram = mono
+    const rx = Math.min(mono.offsetWidth / 2 + clamp(v.w * 0.045, 30, 84), v.w / 2 - 14)
+    const ry = mono.offsetHeight / 2 + clamp(v.h * 0.075, 40, 74)
 
-    const R = Math.min(v.w, 900) * 0.09 + 34
+    // The crew rides a tilted ring around the name. The lower half of the
+    // ring is "in front" (larger, brighter, above the letters) and the upper
+    // half passes behind them, which reads as depth without any 3D.
+    const n = this.agents.length
     this.agents.forEach((a, i) => {
-      a.cluster = i % 2
-      a.phase = rand(-0.45, 0.45)
-      a.rr = R + rand(-16, 22)
-      this.place(a, a.cluster ? v.x + v.w + 40 : v.x - 40, cy + rand(-180, 180))
+      a.ang0 = (i / n) * Math.PI * 2 + rand(-0.12, 0.12)
+      a.band = 1 + rand(-0.06, 0.12)
+      a.bob = rand(0, Math.PI * 2)
+      this.place(a, i % 2 ? v.x + v.w + 40 : v.x - 40, cy + rand(-v.h * 0.3, v.h * 0.3))
       this.setVisible(a, true)
       this.setTool(a, "arrow")
     })
-    const orbit = (a, ang) => {
-      const base = ang + a.cluster * Math.PI + a.phase
-      return [cx + Math.cos(base) * a.rr * 1.35, cy + Math.sin(base) * a.rr * 0.85]
+    const ring = (a, spin, t) => {
+      const ang = a.ang0 + spin
+      const wob = 1 + Math.sin(t * 7 + a.bob) * 0.025
+      return [cx + Math.cos(ang) * rx * a.band * wob, cy + Math.sin(ang) * ry * a.band * wob, Math.sin(ang)]
     }
+    const setDepth = (a, d, k) => {
+      // d: -1 behind … 1 in front; k blends the effect in and out.
+      a.el.style.zIndex = d > 0 ? "3" : "1"
+      a.el.style.opacity = String(1 - k * (0.55 - 0.55 * ((d + 1) / 2)))
+      a.el.style.setProperty("--depth", String(1 + k * d * 0.18))
+    }
+    const clearDepth = () =>
+      this.agents.forEach((a) => {
+        a.el.style.zIndex = ""
+        a.el.style.opacity = ""
+        a.el.style.removeProperty("--depth")
+      })
 
+    // Arrival: a staggered procession from both edges onto the ring.
     await Promise.all(
       this.agents.map((a, i) =>
-        this.wait(i * 22).then(() => {
+        this.wait(i * 45).then(() => {
           if (!ok()) return
-          const [x, y] = orbit(a, 0)
-          return this.moveTo(a, x, y, { dur: 620 + rand(0, 160), arc: 0.12 })
+          const [x, y] = ring(a, 0, 0)
+          return this.moveTo(a, x, y, { dur: 760 + rand(0, 200), arc: 0.28 })
         }),
       ),
     )
     if (!ok()) return
+    // Orbit about 1.3 turns while the gleam crosses the name.
     mono.classList.add("is-live")
-    await this.tween(950, (p) => {
-      const ang = easeInOut(p) * Math.PI * 1.15
+    await this.tween(1800, (p) => {
+      const spin = easeInOut(p) * Math.PI * 1.3
+      const k = clamp(p * 5, 0, 1) * clamp((1 - p) * 6, 0, 1)
       this.agents.forEach((a) => {
-        const [x, y] = orbit(a, ang)
+        const [x, y, d] = ring(a, spin, p)
         a.x = x
         a.y = y
+        setDepth(a, d, k)
       })
     })
+    clearDepth()
     if (!ok()) return
-    // Layers are measured from here on: make sure web fonts have settled (max 1.2 s extra).
-    if (document.fonts?.status !== "loaded") {
-      await Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1200))])
-      if (!ok()) return
-    }
 
     // Tool switch + scatter: the cue that construction has started.
     this.agents.forEach((a) => this.setTool(a, "cross"))
     mono.classList.add("is-out")
-    setTimeout(() => mono.remove(), 500)
+    setTimeout(() => mono.remove(), 700)
     this.monogram = null
     this.buildStart = performance.now()
     this.set({ mode: "build" })
+    if (this.state.touring) this.beginTourScroll()
     for (const l of this.layers.values()) if (l.inView && l.state === "pending") this.enqueue(l)
     this.assign()
     for (const a of this.agents) {
@@ -969,7 +1004,6 @@ export class Director {
     this.assign()
     this.checkFinale()
     this.ambient(now)
-    if (this.state.touring) this.tourStep(now)
   }
 
   visibleBuiltLayers(maxArea = 0.35) {
@@ -1234,37 +1268,68 @@ export class Director {
 
   /* -------------------------------------------------------------- tour */
 
-  tourStep(now) {
-    if (now < this.tourNextAt || this.activeTasks > 0 || this.hasQueued()) return
-    const v = this.viewport()
-    const secs = [...document.querySelectorAll("[data-section]")]
-    const next = secs.find((s) => this.rect(s) && this.rect(s).top > v.y + 40)
-    if (!next) {
+  /*
+   * Tour: jump to the top, replay the build, then scroll the page at one
+   * steady pace all the way to the end. There are no stops between
+   * sections: the agents build each section as it scrolls in (and MAX_WAIT
+   * reveals anything they miss). Wheel, touch or a scroll key hands control
+   * back to the visitor.
+   */
+
+  tourSpeed() {
+    // About a third of a screen per second: each section is on screen for a
+    // few seconds while the crew builds it.
+    return clamp(this.win.h * 0.3, 190, 300)
+  }
+
+  startTour() {
+    if (!this.mounted || !this.started || this.mode === "off") return
+    window.scrollTo({ top: 0, behavior: "instant" })
+    this.readWindow()
+    // replay() stops any running tour, resets every layer and runs the intro;
+    // the intro starts the scroll when it hands over to the build.
+    this.replay()
+    this.set({ touring: true })
+    window.addEventListener("wheel", this.onUserScrollIntent, { passive: true })
+    window.addEventListener("touchstart", this.onUserScrollIntent, { passive: true })
+    window.addEventListener("keydown", this.onUserScrollIntent)
+  }
+
+  beginTourScroll() {
+    cancelAnimationFrame(this.tourRaf)
+    this.tourY = window.scrollY
+    this.tourT0 = 0
+    this.tourLast = 0
+    this.tourRaf = requestAnimationFrame(this.tourFrame)
+  }
+
+  tourFrame = (ts) => {
+    if (!this.state.touring) return
+    if (!this.tourT0) this.tourT0 = ts
+    const dt = this.tourLast ? Math.min(ts - this.tourLast, 64) : 0
+    this.tourLast = ts
+    // Hold briefly while the hero builds, then ease up to cruising speed.
+    const since = ts - this.tourT0 - 1200
+    if (since > 0) this.tourY += (this.tourSpeed() * clamp(since / 1200, 0, 1) * dt) / 1000
+    const max = document.documentElement.scrollHeight - window.innerHeight
+    if (this.tourY >= max) {
+      window.scrollTo({ top: max, behavior: "instant" })
       this.stopTour()
       return
     }
-    this.tourNextAt = now + 2600 / this.state.speed
-    const top = next.getBoundingClientRect().top + window.scrollY - 40
-    this.programmaticScroll = true
-    window.scrollTo({ top, behavior: "smooth" })
+    window.scrollTo({ top: this.tourY, behavior: "instant" })
+    this.tourRaf = requestAnimationFrame(this.tourFrame)
   }
 
   onUserScrollIntent = (e) => {
+    // Taps and key presses on the dock's own buttons are not scroll intent.
+    if (e.target?.closest?.(".dock")) return
     if (e.type === "keydown" && !["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Home", "End"].includes(e.key)) return
     this.stopTour()
   }
 
-  startTour() {
-    if (this.mode !== "build") return
-    this.set({ touring: true })
-    this.tourNextAt = 0
-    window.addEventListener("wheel", this.onUserScrollIntent, { passive: true })
-    window.addEventListener("touchstart", this.onUserScrollIntent, { passive: true })
-    window.addEventListener("keydown", this.onUserScrollIntent)
-    this.wake()
-  }
-
   stopTour() {
+    cancelAnimationFrame(this.tourRaf)
     if (this.state.touring) this.set({ touring: false })
     window.removeEventListener("wheel", this.onUserScrollIntent)
     window.removeEventListener("touchstart", this.onUserScrollIntent)
@@ -1295,7 +1360,7 @@ export class Director {
 
   complete() {
     if (this.mode !== "build") return
-    this.stopTour()
+    // A running tour keeps going to the end of the page.
     this.set({ mode: "done", elapsed: (performance.now() - this.buildStart) / 1000 })
     // Let any staggered reveals finish before un-hiding the remaining layers.
     setTimeout(() => {

@@ -42,7 +42,7 @@ Ganesh has built the following projects:
 2. **Tourist Guardian Safety Platform (ResQ AI)** — A comprehensive safety ecosystem for the Smart India Hackathon, featuring a tourist mobile app and a police dashboard with AI anomaly detection and blockchain backend. Technologies: Flutter, React, Node.js, Blockchain, Python. Timeline: Smart India Hackathon 2025.
 3. **Alertica — AI Women's Safety App** — A personal safety application providing immediate assistance in emergencies using voice anomaly detection, silent SOS activation, geofencing, and emergency API integration. Technologies: Flutter, Firebase, Node.js, REST APIs. Timeline: October 2025 – November 2025.
 4. **LearnSphere** — A secure Learning Management System with REST APIs for course management, student enrollment, and assessments with role-based authentication. Technologies: Spring Boot, PostgreSQL, REST APIs. Timeline: August 2025 – December 2025.
-6. **IntervAI** — A voice-first AI interview platform built during the Boomlet internship: résumé parsing, a real-time voice interviewer and transcript-based evaluation for HR. Technologies: React, TypeScript, Java 21, Spring Boot, FastAPI, MongoDB, Firebase Auth, Deepgram Voice Agent, LLM APIs. Timeline: August – September 2026.
+6. **IntervAI** — A voice-first AI interview platform built during the Boomlet internship: résumé parsing, a real-time voice interviewer, and evaluation by both the AI voice model (performance, behaviour and tone) and the system, with an HR dashboard. Used internally at the company; not public yet. Technologies: React, TypeScript, Java 21, Spring Boot, FastAPI, MongoDB, Firebase Auth, Deepgram Voice Agent, LLM APIs. Timeline: August – September 2026.
 7. **College RAG Assistant** — A private, fully local retrieval-augmented assistant that answers college staff questions from internal documents. Technologies: Python, FastAPI, LangChain, LlamaIndex, ChromaDB, BM25, BGE-M3 embeddings, BGE reranker, Ollama (Llama 3.1 8B, Mistral 7B). Timeline: March 2026.
 5. **Exoplanet Detection & Habitability Classifier** — An AI/ML-powered system using NASA's Kepler & TESS datasets to detect and classify potentially habitable exoplanets. Technologies: Python (Flask), XGBoost, Scikit-Learn, Plotly. Timeline: October 2025 – November 2025.
 
@@ -57,7 +57,7 @@ Ganesh has built the following projects:
 - Period: July 2026 – September 2026
 - Technologies: Java 21, Spring Boot, FastAPI, React, TypeScript, PHP, MySQL, MongoDB, Firebase Auth, Deepgram Voice Agent, LLM APIs, WebSockets
 - Achievements:
-  - Built IntervAI, an end-to-end voice-first AI interview platform: résumé parsing, a real-time conversational voice interviewer, and transcript-based evaluation that checks answers against the résumé, with an HR review dashboard. Took it from research to an MVP demo in five days and then to a production release.
+  - Built IntervAI, an end-to-end voice-first AI interview platform: résumé parsing, a real-time conversational voice interviewer, and an evaluation where the AI voice model judges the candidate's performance, behaviour and tone during the call and the system checks answers against the résumé, with an HR review dashboard. Took it from research to an MVP demo in five days and then to a release that is used internally at the company (not public yet).
   - Built core modules of an internal operations and productivity suite: Kanban and table task views with nested subtasks and drag-and-drop buckets, milestone tracking, team spaces and OKR integration.
   - Built an organisation-wide messenger with slash commands to update tasks from chat, a three-channel notification engine (email, in-app, webhook) and HR ticketing.
   - Added an RBAC-aware AI middleware that enforces role context before prompts reach the LLM, and hardened RBAC/ABAC access control across modules.
@@ -176,7 +176,7 @@ Ganesh has built the following projects:
 
 ## Project: S.C.O.P.E. — Overview
 
-S.C.O.P.E. (Secure Competitive Online Platform for Examinations) is Ganesh's final-year project and a full-stack exam platform built for the Training & Placement department at Thakur College of Engineering and Technology (TCET), Mumbai. It is a self-hosted, on-premise system that runs inside the college LAN. TCET uses it to conduct online exams for all its students at scale; the platform supports 1,000+ concurrent students with role-based access for students, teachers, T&P faculty, and super administrators. It includes live code execution via Judge0 across 10 distributed nodes, MCQ testing with aptitude and technical sections, real-time exam monitoring via WebSockets, and anti-cheat enforcement via Safe Exam Browser (SEB). Built by Anuj Singh, Ganesh Singh, and Aniket Bhaskar.
+S.C.O.P.E. (Secure Competitive Online Platform for Examinations) is Ganesh's final-year project and a full-stack exam platform built for the Training & Placement department at Thakur College of Engineering and Technology (TCET), Mumbai. It is a self-hosted, on-premise system that runs inside the college LAN. TCET uses it to conduct online exams for all its students at scale; the platform supports 1,000+ concurrent students with role-based access for students, teachers, T&P faculty, and super administrators. It includes live code execution via Judge0 across 10 distributed nodes, MCQ testing with aptitude and technical sections, real-time exam monitoring via WebSockets, and anti-cheat enforcement via Safe Exam Browser (SEB). Built by Anuj Singh, Ganesh Singh, and Aniket Bhaskar. Ganesh designed the system architecture and built the backend and the distributed infrastructure (code execution across Judge0 nodes, the Redis queue, Nginx load balancing and real-time exam sync).
 
 - Project Name: S.C.O.P.E.
 - Full Name: Secure Competitive Online Platform for Examinations
@@ -902,14 +902,14 @@ This section describes the tech stack and metrics of the Exoplanet Detection & H
 
 ## Project: IntervAI — Overview
 
-IntervAI is a voice-first AI interview platform Ganesh built end to end during his software developer internship at Boomlet (July – September 2026). Candidates sign in, upload a résumé for a role, and take a timed, real-time voice interview with an AI interviewer. Afterwards the system evaluates the transcript — scoring answers, checking them against the résumé, noting evidence and contradictions — and gives HR a review dashboard with pass/fail decisions and interview configuration.
+IntervAI is a voice-first AI interview platform Ganesh built end to end during his software developer internship at Boomlet (July – September 2026). Candidates sign in, upload a résumé for a role, and take a timed, real-time voice interview with an AI interviewer. The candidate is evaluated in two ways: the AI voice model judges performance, behaviour and tone during the live conversation, and the system scores the answers afterwards — checking them against the résumé and noting evidence and contradictions. HR gets a review dashboard with pass/fail decisions and interview configuration. It is used internally at the company and is not public yet.
 
 - Project Name: IntervAI
 - Context: Boomlet internship (company project; code is private)
 - Technologies: React, TypeScript, Java 21, Spring Boot 3, FastAPI, MongoDB Atlas, Firebase Authentication, Deepgram Voice Agent, OpenAI-compatible LLM
 - Architecture: React frontend · Spring Boot API with a WebSocket voice proxy · FastAPI AI service for résumé parsing and evaluation · MongoDB
-- Highlights: real-time voice over WebSockets with API keys and prompts kept server-side; résumé-aware interviews; mid-session resume after a dropped connection; admin-configurable interview length; transcript-first evaluation; CI with GitHub Actions; deployed on Vercel and Render
-- Timeline: research to MVP demo in five days (August 2026), production release September 2026
+- Highlights: real-time voice over WebSockets with API keys and prompts kept server-side; résumé-aware interviews; mid-session resume after a dropped connection; admin-configurable interview length; evaluation from both the voice model and the transcript; CI with GitHub Actions; deployed on Vercel and Render
+- Timeline: research to MVP demo in five days (August 2026), internal release September 2026 (used inside the company, not public yet)
 
 ---
 
@@ -984,5 +984,4 @@ The College RAG Assistant is a private AI assistant that answers college staff q
 - 1st Runner-up: IIT Kanpur CredTech 2025 National Hackathon
 - 2nd Runner-up: TCET Codethon 2024
 - Finalist: DIPEX 2025 (state level, COEP Pune) — cleared 3 rounds with Alertica
-- Research: paper on S.C.O.P.E. as a multimodal AI proctoring ecosystem, under review at ICICN 2026
 - Offer: TCS Prime

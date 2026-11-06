@@ -30,14 +30,14 @@ export default function App() {
       </a>
       <Nav />
       <main>
-        <Hero onAsk={openChat} />
+        <Hero />
         <SelectedWork />
         <ProjectIndex onAsk={openChat} />
         <Architecture />
         <Experience />
         <Recognition />
         <About />
-        <Contact onAsk={openChat} />
+        <Contact />
       </main>
       <Footer />
       <AgentDock onAsk={openChat} />

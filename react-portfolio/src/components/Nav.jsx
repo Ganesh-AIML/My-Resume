@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react"
-import { useAgentState, useDirector } from "../agents/AgentProvider"
 import { nav, person } from "../content/site"
 import { RollText, ease, variants } from "../motion/primitives"
 import { Icon } from "./Icon"
@@ -26,19 +25,6 @@ function useActiveSection(ids) {
 }
 
 const ids = nav.map((n) => n.id)
-const selMode = (s) => s.mode
-
-/** Mirrors the reference nav's "Motion off" switch: turns the agents off or back on. */
-function MotionToggle() {
-  const d = useDirector()
-  const off = useAgentState(selMode) === "off"
-  return (
-    <button type="button" className="nav-motion" aria-pressed={!off} onClick={off ? d.turnOn : d.turnOff}>
-      <Icon name="motion" size={14} />
-      {off ? "Motion on" : "Motion off"}
-    </button>
-  )
-}
 
 export function Nav() {
   const [hidden, setHidden] = useState(false)
@@ -73,7 +59,7 @@ export function Nav() {
         transition={{ duration: 0.55, ease: ease.out }}
       >
         <div className="nav-inner">
-          <a href="#top" className="nav-mark" aria-label={`${person.first} ${person.last} — back to top`}>
+          <a href="#top" className="nav-mark" aria-label={`${person.first} ${person.last}, back to top`}>
             {person.first}
             <span className="nav-dot" />
           </a>
@@ -97,7 +83,6 @@ export function Nav() {
             </ul>
           </nav>
           <div className="nav-right">
-            <MotionToggle />
             <motion.a href="#contact" className="nav-cta" initial="rest" animate="rest" whileHover="hover">
               <RollText text="Let's talk" />
               <Icon name="arrowUpRight" size={14} />
@@ -133,7 +118,6 @@ export function Nav() {
               <a className="menu-mail" href={`mailto:${person.email}`}>
                 {person.email}
               </a>
-              <MotionToggle />
             </motion.div>
           </motion.div>
         )}

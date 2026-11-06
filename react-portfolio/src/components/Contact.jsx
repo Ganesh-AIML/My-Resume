@@ -1,7 +1,7 @@
 import { Layer } from "../agents/AgentProvider"
 import { contact, person } from "../content/site"
 import { Magnetic } from "../motion/primitives"
-import { Art } from "./Art"
+import { ThinkCard } from "./ThinkCard"
 import { Eyebrow, Headline } from "./Headline"
 import { Icon } from "./Icon"
 
@@ -12,7 +12,7 @@ const ROWS = [
   { icon: "file", label: "Résumé", value: "PDF download", href: person.resume, download: true },
 ]
 
-export function Contact({ onAsk }) {
+export function Contact() {
   return (
     <section className="contact" id="contact" data-section>
       <div className="wrap contact-grid">
@@ -55,18 +55,7 @@ export function Contact({ onAsk }) {
         </ul>
 
         <Layer kind="block" label="Card / build something" crew={3} finale className="contact-card">
-          <div className="contact-card-art" aria-hidden="true">
-            <Art seed={2} letter="G" label="" />
-          </div>
-          <p className="display contact-card-title">
-            Build something
-            <br />
-            <span className="is-red">that thinks.</span>
-          </p>
-          <button type="button" className="contact-card-play" onClick={onAsk} aria-label="Ask the AI assistant about Ganesh">
-            <Icon name="chat" size={22} />
-          </button>
-          <p className="contact-card-note">Ask my AI assistant anything about my projects and experience.</p>
+          <ThinkCard />
         </Layer>
       </div>
     </section>

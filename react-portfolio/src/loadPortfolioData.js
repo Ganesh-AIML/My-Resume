@@ -30,7 +30,7 @@ export const EXPERIENCES = [
     ],
     achievements: [
       "Built a full-stack AI-proctored examination platform (React 19 + FastAPI + MongoDB) for secure remote assessments",
-      "Implemented client-side AI proctoring using TensorFlow.js COCO-SSD and MediaPipe FaceLandmarker for real-time face, object, and environment detection — zero video streams sent to server",
+      "Implemented client-side AI proctoring using TensorFlow.js COCO-SSD and MediaPipe FaceLandmarker for real-time face, object, and environment detection, with no video streamed to the server",
       "Designed secure exam lifecycle with JWT-bound sessions, start/end password gates, and auto-revocation at 3 violations",
       "Developed faculty evaluation workflow with module-scoped access, admin context switching, and legacy fallback",
       "Architected MongoDB-only data layer with repository abstraction, transactional exam CRUD, and 150-test pytest suite",
@@ -148,8 +148,8 @@ export const EXPERIENCES = [
 
 export const PROJECTS = [
   {
-    title: "S.C.O.P.E. — Distributed Assessment Platform",
-    desc: "A 4-role distributed assessment platform replacing third-party tools like HackerRank for institutional placement drives. Architected with Nginx least-conn load balancing, Redis async queuing, and Dockerized Judge0 execution nodes — validated at 0% failure rate across 40,000 requests at 200 concurrent connections, supporting 1,000+ concurrent users.",
+    title: "S.C.O.P.E.: Distributed Assessment Platform",
+    desc: "A 4-role distributed assessment platform replacing third-party tools like HackerRank for institutional placement drives. Architected with Nginx least-conn load balancing, Redis async queuing, and Dockerized Judge0 execution nodes. Validated at 0% failure rate across 40,000 requests at 200 concurrent connections, supporting 1,000+ concurrent users.",
     tech: ["React", "Node.js", "PostgreSQL", "Linux", "Redis", "Nginx", "Docker", "Judge0"],
   },
   {

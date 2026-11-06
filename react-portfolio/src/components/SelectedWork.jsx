@@ -3,7 +3,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { Layer } from "../agents/AgentProvider"
 import { caseStudies } from "../content/site"
 import { ease, useFollowLabel } from "../motion/primitives"
-import { Art } from "./Art"
+import { ProjectArt } from "./ProjectArt"
 import { Eyebrow, Headline } from "./Headline"
 import { Icon } from "./Icon"
 
@@ -25,7 +25,7 @@ function WorkCard({ project, index, open, onToggle }) {
           onPointerLeave={() => setHover(false)}
         >
           <span className="work-art">
-            <Art seed={project.art} letter={project.title.slice(0, 1)} label={project.category} />
+            <ProjectArt kind={project.visual} seed={project.art} label={`${project.title}: ${project.summary}`} />
           </span>
           <span className="sr-only">{open ? "Close" : "Open"} the {project.title} case study</span>
           <motion.span

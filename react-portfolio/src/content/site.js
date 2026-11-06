@@ -29,7 +29,7 @@ export const nav = [
 export const hero = {
   greeting: "Hello, I'm",
   backdrop: "Portfolio",
-  intro: "I design and ship AI-powered software end to end — from the model to the product people actually use.",
+  intro: "I design and ship AI-powered software end to end, from the model to the product people actually use.",
   stats: [
     { value: "3", label: "Industry internships" },
     { value: "9.74", label: "CGPA · B.Tech AI & ML" },
@@ -45,9 +45,9 @@ export const caseStudies = [
     meta: "Final-year project · Team of 3 · 2026",
     category: "Full-stack · Distributed systems",
     summary: "The self-hosted exam platform TCET uses to run online exams for all its students.",
-    problem: "TCET needed its own exam platform for placement and college tests — on the campus network, with no data leaving campus.",
+    problem: "TCET needed its own exam platform for placement and college tests. It had to run on the campus network, with no data leaving campus.",
     built: "A four-role assessment platform for MCQ and live coding tests, with distributed code execution, live monitoring and analytics.",
-    role: "Co-architected and built with Anuj Singh and Aniket Bhaskar. My areas: authentication and role-based access, the super-admin console, bulk onboarding and the T&P test workflows.",
+    role: "Built with Anuj Singh and Aniket Bhaskar. I designed the system architecture and built the backend and the distributed infrastructure: code execution, queueing, load balancing and real-time exam sync.",
     highlights: [
       "Dockerized Judge0 nodes behind Nginx least-connections load balancing",
       "Redis async queue for code submissions",
@@ -62,6 +62,7 @@ export const caseStudies = [
     stack: ["React", "Node.js", "Express", "PostgreSQL", "Prisma", "Redis", "Nginx", "Docker", "Judge0", "Socket.io"],
     links: [{ label: "GitHub (public modules)", href: "https://github.com/Ganesh-AIML/SCOPE" }],
     art: 3,
+    visual: "scope",
   },
   {
     id: "intervai",
@@ -70,23 +71,25 @@ export const caseStudies = [
     category: "GenAI · Voice AI",
     summary: "A voice-first AI interviewer that screens candidates in a live conversation and writes the evaluation for HR.",
     problem: "First-round technical screens take hours of recruiter time and follow the same pattern every time.",
-    built: "Candidates upload a résumé and take a timed voice interview with an AI interviewer. The system scores the transcript and gives HR a review dashboard.",
-    role: "Built end to end during my internship at Boomlet — from research to a production release.",
+    built: "Candidates upload a résumé and take a timed voice interview with an AI interviewer. The AI voice model and the system score the candidate and give HR a review dashboard.",
+    role: "Built end to end during my internship at Boomlet, from research to a release now used inside the company.",
     highlights: [
       "Real-time voice agent over WebSockets, with keys and prompts kept server-side",
       "Résumé parsing that tailors each interview to the candidate",
-      "Transcript-based evaluation that checks answers against the résumé",
+      "The voice model judges performance, behaviour and tone during the call, not just the transcript",
+      "Answers checked against the résumé after the interview",
       "Admin dashboard for HR review, interview settings and re-scoring",
     ],
     metrics: [
       { value: "5 days", label: "Research to MVP demo" },
       { value: "3", label: "Services: web, API, AI" },
-      { value: "Live", label: "In production" },
+      { value: "Internal", label: "In use at the company" },
     ],
     stack: ["React", "TypeScript", "Java 21", "Spring Boot", "FastAPI", "MongoDB", "Firebase Auth", "Deepgram", "LLM APIs"],
     links: [],
-    note: "Company project — code is private.",
+    note: "Company project, so the code is private.",
     art: 1,
+    visual: "intervai",
   },
   {
     id: "exo",
@@ -96,7 +99,7 @@ export const caseStudies = [
     summary: "Classifies exoplanet candidates from NASA Kepler and TESS data with 95% accuracy.",
     problem: "NASA's exoplanet catalogues are huge, and hard to read without specialist tools.",
     built: "A classification pipeline and an interactive dashboard that flags likely planets and maps their habitability.",
-    role: "Built the ML pipeline and Flask app with Team Pioneer — named a Global Nominee at NASA Space Apps 2025.",
+    role: "Built the ML pipeline and Flask app with Team Pioneer. We were named a Global Nominee at NASA Space Apps 2025.",
     highlights: [
       "11,436 observations across 11 stellar and orbital features",
       "XGBoost model with SHAP and LIME explanations",
@@ -113,6 +116,7 @@ export const caseStudies = [
       { label: "GitHub", href: "https://github.com/Ganesh-AIML/Exoplanet-Classifier" },
     ],
     art: 0,
+    visual: "exo",
   },
 ]
 
@@ -126,7 +130,7 @@ export const projects = [
 
 /** Under the hood: how a coding submission moves through S.C.O.P.E. */
 export const pipeline = {
-  note: "How one coding submission travels through S.C.O.P.E. — from the locked exam browser to a worker in the execution cluster and back.",
+  note: "How one coding submission travels through S.C.O.P.E., from the locked exam browser to a worker in the execution cluster and back.",
   steps: [
     { title: "Exam browser", text: "Students sit the test in Safe Exam Browser; the editor runs in React." },
     { title: "API", text: "Express checks the session token and role, then records the attempt in PostgreSQL." },
@@ -141,11 +145,11 @@ export const journey = {
   entries: [
     {
       id: "boomlet",
-      period: "Jul — Sep 2026",
+      period: "Jul - Sep 2026",
       role: "Software Developer Intern",
       org: "Boomlet · Mumbai",
       points: [
-        "Built IntervAI, a voice-first AI interview platform, from research to production.",
+        "Built IntervAI, a voice-first AI interview platform, from research to internal use at the company.",
         "Built modules of an internal operations suite: task boards, milestones, team spaces, messaging and notifications.",
         "Hardened role-based access control and cut database round-trips by over 60%.",
       ],
@@ -153,34 +157,34 @@ export const journey = {
     },
     {
       id: "lias",
-      period: "Jun — Jul 2026",
+      period: "Jun - Jul 2026",
       role: "Forward Deployed AI Engineer · Freelance",
       org: "LIAS · Remote, UK",
       points: [
         "Built an AI-proctored exam platform with React, FastAPI and MongoDB.",
-        "Proctoring runs in the browser — no video is sent to the server.",
+        "Proctoring runs in the browser, so no video is sent to the server.",
         "Secure exam sessions that revoke access after repeated violations, covered by a 150-test suite.",
       ],
       stack: ["React", "FastAPI", "MongoDB", "TensorFlow.js", "MediaPipe"],
     },
     {
       id: "liferythem",
-      period: "Feb — Jun 2026",
+      period: "Feb - Jun 2026",
       role: "Software Development Intern",
       org: "LifeRythem Healthcare · Mumbai",
       points: [
         "Shipped a React Native clinical app with native modules that stream data from IoT health devices.",
-        "Trained a CNN on noisy stethoscope audio — 90% detection accuracy on edge devices.",
+        "Trained a CNN on noisy stethoscope audio that reached 90% detection accuracy on edge devices.",
       ],
       stack: ["React Native", "Kotlin", "TensorFlow", "Python"],
     },
     {
       id: "drsga",
-      period: "Dec 2025 — Jan 2026",
+      period: "Dec 2025 - Jan 2026",
       role: "AI & ML Intern",
       org: "DRSGA · Mumbai",
       points: [
-        "Built a NABH compliance dashboard with 20+ KPIs and automated PDF reports — 80% less manual audit time.",
+        "Built a NABH compliance dashboard with 20+ KPIs and automated PDF reports, cutting manual audit time by 80%.",
         "Built an NLP sentiment-analysis service for client feedback.",
       ],
       stack: ["JavaScript", "Chart.js", "Python", "NLP"],
@@ -190,7 +194,7 @@ export const journey = {
       period: "Jul 2025",
       role: "Web Developer · Freelance",
       org: "Jacob Classes · Mumbai",
-      points: ["Built the institute's website with a small team and owned the Toppers page — earned a letter of recommendation."],
+      points: ["Built the institute's website with a small team and owned the Toppers page, which earned me a letter of recommendation."],
       stack: ["HTML", "CSS", "JavaScript"],
     },
     {
@@ -204,8 +208,8 @@ export const journey = {
   ],
   beyond: [
     { title: "Technical Lead", org: "ACM SIG AI, TCET", year: "" },
-    { title: "Secretary", org: "Super-AI Community, TCET", year: "2025 — 26" },
-    { title: "Core Committee, Technical", org: "Super-AI Community, TCET", year: "2024 — 25" },
+    { title: "Secretary", org: "Super-AI Community, TCET", year: "2025-26" },
+    { title: "Core Committee, Technical", org: "Super-AI Community, TCET", year: "2024-25" },
   ],
 }
 
@@ -214,19 +218,18 @@ export const awards = {
   countLabel: "Hackathons & competitions",
   note: "Selected results from hackathons, research and competitions.",
   rows: [
-    { id: "nasa", year: "2025", title: "NASA Space Apps Challenge — Global Nominee", detail: "Team Pioneer · Exo-Classifier" },
-    { id: "credtech", year: "2025", title: "CredTech Hackathon, IIT Kanpur — 1st Runner-up", detail: "Team Nerdz · explainable credit-risk tool" },
-    { id: "icicn", year: "2026", title: "ICICN 2026 — research paper, under review", detail: "Multimodal AI proctoring (S.C.O.P.E.)" },
-    { id: "aavishkar", year: "2025", title: "Aavishkar Research Convention — 2nd of 48", detail: "Institute round, then zonal finalist · ResQ AI" },
-    { id: "dipex", year: "2025", title: "DIPEX, COEP Pune — State-level finalist", detail: "Cleared 3 rounds · Alertica", cert: "assests/DIPEX_Certificate(1).jpeg" },
-    { id: "codehathon", year: "2024", title: "CodeHathon 2.0, TCET ACM SIGAI — 3rd place", detail: "Competitive programming", cert: "assests/Codethon.png" },
-    { id: "multicon", year: "2025", title: "MULTICON-W 2025 — poster presentation", detail: "AI platform to improve athletic performance", cert: "assests/multicon.png" },
+    { id: "nasa", year: "2025", title: "Global Nominee at NASA Space Apps Challenge", detail: "Team Pioneer · Exo-Classifier" },
+    { id: "credtech", year: "2025", title: "1st Runner-up at CredTech Hackathon, IIT Kanpur", detail: "Team Nerdz · explainable credit-risk tool", cert: "assests/Credtech certificate.png" },
+    { id: "aavishkar", year: "2025", title: "2nd of 48 at Aavishkar Research Convention", detail: "Institute round, then zonal finalist · ResQ AI" },
+    { id: "dipex", year: "2025", title: "State-level finalist at DIPEX, COEP Pune", detail: "Cleared 3 rounds · Alertica", cert: "assests/DIPEX_Certificate(1).jpeg" },
+    { id: "codehathon", year: "2024", title: "3rd place at CodeHathon 2.0, TCET ACM SIGAI", detail: "Competitive programming", cert: "assests/Codethon.png" },
+    { id: "multicon", year: "2025", title: "Poster presentation at MULTICON-W 2025", detail: "AI platform to improve athletic performance", cert: "assests/multicon.png" },
   ],
 }
 
 export const about = {
   education: [
-    { title: "B.Tech, Artificial Intelligence & Machine Learning", detail: "Thakur College of Engineering & Technology · 2023 — 2027 · CGPA 9.74" },
+    { title: "B.Tech, Artificial Intelligence & Machine Learning", detail: "Thakur College of Engineering & Technology · 2023-2027 · CGPA 9.74" },
   ],
   toolkit: [
     { label: "Daily drivers", items: ["Python", "JavaScript", "React", "Node.js", "Java · Spring Boot", "PostgreSQL"] },
@@ -240,9 +243,9 @@ export const about = {
     { title: "Fix the slow paths", detail: "Batch queries, load lazily, measure the gain." },
     { title: "Document and hand off", detail: "Guides others can run without me." },
   ],
-  quote: ["Code is not", "just logic —", "it's intent made", "executable."],
+  quote: ["Code is not", "just logic.", "It's intent made", "executable."],
 }
 
 export const contact = {
-  lead: "Open to AI/ML and software engineering roles — internships, and full-time from 2027.",
+  lead: "Open to AI/ML and software engineering internships, and to full-time roles from 2027.",
 }
