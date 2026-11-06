@@ -26,6 +26,7 @@ const ATTEMPTS = [
 
 let history = [] // [{ role: "user" | "model", parts: [{ text }] }]
 let startAt = 0 // first ATTEMPTS step worth trying
+let busyUntil = 0 // main model overloaded until this time (ms)
 
 export function resetChat() {
   history = []
@@ -52,6 +53,7 @@ TRUTH (non-negotiable)
 - Every fact about Ganesh must come from the KNOWLEDGE below. Never invent projects, numbers, employers, dates, skills, opinions, hobbies or personal details.
 - If something isn't covered, say so lightly in one line and point to his email (${EMAIL}).
 - Keep each project's stack, numbers and team separate. Never blend projects.
+- Be exact with numbers and timelines. Never merge separate milestones (for example an MVP demo and a later release) into one claim.
 - Team projects: credit the team and describe only the role the knowledge gives him.
 - IntervAI is an internal company tool at Boomlet and its code is private: don't speculate about company internals.
 - Contact: share email and LinkedIn freely. Share his phone number only if someone explicitly asks for a phone number.
@@ -152,7 +154,10 @@ export async function ChatEngine(query, { onText = () => {}, signal } = {}) {
 
   const contents = [...history, { role: "user", parts: [{ text: query }] }]
   let lastErr
-  for (let i = startAt; i < ATTEMPTS.length; i++) {
+  // While the main model is overloaded, go straight to the backup.
+  const from = Date.now() < busyUntil ? ATTEMPTS.findIndex((a) => a.model !== PRIMARY) : startAt
+  for (let i = from; i < ATTEMPTS.length; i++) {
+    if (lastErr && (lastErr.status === 429 || lastErr.status >= 500) && ATTEMPTS[i].model === ATTEMPTS[i - 1].model) continue
     try {
       const reply = await streamOnce(ATTEMPTS[i], contents, onText, signal)
       if (!reply) throw new ChatError(0, "empty reply")
@@ -164,6 +169,7 @@ export async function ChatEngine(query, { onText = () => {}, signal } = {}) {
       if (signal?.aborted) throw err
       lastErr = err
       const s = err.status
+      if ((s === 429 || s >= 500) && ATTEMPTS[i].model === PRIMARY) busyUntil = Date.now() + 120000
       // Thinking setting or model rejected (400/404), overloaded (429/5xx), or an empty stream: try the next step.
       const retry = s === 400 || s === 404 || s === 429 || s >= 500 || s === 0
       if (!retry || /api key/i.test(err.message)) break
